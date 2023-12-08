@@ -1,0 +1,41 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+      {% block page_title %}
+
+      {% endblock %}
+    </title>
+    {% include 'ppdb/snippets/style.html' %}
+  </head>
+  <body>
+    <!-- loader Start -->
+    <div id="loading">
+      <div class="loader simple-loader">
+        <div class="loader-body"></div>
+      </div>
+    </div>
+    <!-- loader END -->
+
+    {% include 'ppdb/snippets/sidebar.html' %}
+
+    <main class="main-content">
+      {% include 'ppdb/snippets/navbar.html' %}
+
+      {% block content %}
+
+      {% endblock %}
+
+      {% include 'ppdb/snippets/footer.html' %}
+    </main>
+
+    {% include 'ppdb/snippets/setting-side.html' %}
+
+    {% include 'ppdb/snippets/scripts.html' %}
+  </body>
+</html>

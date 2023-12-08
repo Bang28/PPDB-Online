@@ -1,0 +1,381 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page_title }}</title>
+    <link rel="shortcut icon" href="{% static 'ppdb/img/logo.png' %}" type="image/x-icon" />
+    <link rel="stylesheet" href="{% static 'ppdb/css/front.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'ppdb/css/1.css' %}" />
+    <link rel="stylesheet" href="{% static 'ppdb/css/2.css' %}" />
+    <link rel="stylesheet" href="{% static 'ppdb/css/3.css' %}" />
+    <link rel="stylesheet" href="{% static 'ppdb/css/components2.css' %}" />
+    <link rel="stylesheet" href="{% static 'ppdb/font-awesome-4/css/font-awesome.min.css' %}" />
+  </head>
+  <body data-spy="scroll" data-target="#menu" data-offset="100">
+    <div class="home-wraper" id="home">
+      <div class="home-header">
+        <div class="container p-0">
+          <!-- navigation bar -->
+          <nav class="navbar navbar-expand-lg navbar-light" id="navbar-header">
+            <a class="navbar-brand" href="#">
+              <img src="{% static 'ppdb/img/logo.png' %}" height="75" />
+              <div class="home-header-text d-none d-sm-block">
+                <h5>PENERIMAAN PESERTA DIDIK BARU</h5>
+                <h6>SMP MIFTAHUL FALAH GANDRUNGMANGU</h6>
+                <h6>Tahun Pelajaran {{ ppdb.tahun_ajaran }}</h6>
+              </div>
+              <span class="logo-mini-unbk d-block d-sm-none">PPDB&nbsp;</span>
+              <span class="logo-mini-tahun d-block d-sm-none">ONLINE</span>
+            </a>
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="menu">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'ppdb:index' %}" id="link-home">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'admin:index' %}" id="link-persyaratan">Login Admin</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <!-- end of navigation bar -->
+        </div>
+      </div>
+
+      <!-- messages -->
+      <center>
+        {% if messages %}
+          {% for message in messages %}
+            {% if message.tags == 'success' %}
+              <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>{{ message|safe|escape }}</strong>
+              </div>
+            {% endif %} {% if message.tags == 'error' %}
+              <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>{{ message|safe|escape }}</strong>
+              </div>
+            {% endif %} {% if message.tags == 'info' %}
+              <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>{{ message|safe|escape }}</strong>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </center>
+      <!-- end messages -->
+
+      <!-- content -->
+      <div class="home-banner">
+        <div class="home-banner-bg home-banner-bg-color"></div>
+        <div class="home-banner-bg home-banner-bg-img"></div>
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-sm-8">
+              <div id="carousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel" data-slide-to="1"></li>
+                  <li data-target="#carousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                  {% if ppdb.status == 'Ditutup' %}
+                    <div class="carousel-item active">
+                      <div>
+                        <h5 data-animation="animated fadeInDownBig">Selamat Datang Di web PPDB Online</h5>
+                        <ul>
+                          <li data-animation="animated fadeInDownBig" data-delay="1s">Aplikasi Penerimaan Peserta didik baru Tahun Pelajaran
+                            {{ ppdb.tahun_ajaran }}</li>
+                          <li data-animation="animated flipInX" data-delay="3s">Pendaftaran Siswa dan Siswi Baru Tahun {{ ppdb.tahun_ajaran }} ini Belum Dibuka.</li>
+                        </ul>
+                        <p data-animation="animated flipInX" data-delay="4s">
+                          <a href="#" class="btn btn-warning nav-link">Pendaftaran Dibuka pada Tanggal {{ ppdb.tanggal_mulai|date:'d F Y' }}</a>
+                        </p>
+                      </div>
+                    </div>
+                  {% elif ppdb.status == 'Ditutup' %}
+                    <div class="carousel-item active">
+                      <div>
+                        <h5 data-animation="animated fadeInDownBig">Selamat Datang Di web PPDB Online</h5>
+                        <ul>
+                          <li data-animation="animated fadeInDownBig" data-delay="1s">Aplikasi Penerimaan Peserta didik baru Tahun Pelajaran
+                            {{ ppdb.tahun_ajaran }}</li>
+                          <li data-animation="animated flipInX" data-delay="3s">Pendaftaran Siswa dan Siswi Baru Tahun {{ ppdb.tahun_ajaran }} ini telah Di Tutup. Silahkan Tunggu Gelombang Berikutnya.</li>
+                        </ul>
+
+                        <p data-animation="animated flipInX" data-delay="4s">
+                          <a href="#" class="btn btn-warning nav-link">Pendaftaran Sudah Di Tutup Tanggal {{ ppdb.tanggal_selesai|date:'d F Y' }}</a>
+                        </p>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="carousel-item active">
+                      <div>
+                        <h5 data-animation="animated fadeInDownBig">Selamat Datang Di web PPDB Online</h5>
+                        <ul>
+                          <li data-animation="animated fadeInDownBig" data-delay="1s">Aplikasi Penerimaan Peserta didik baru Tahun Pelajaran
+                            {{ ppdb.tahun_ajaran }}</li>
+                          <li data-animation="animated flipInX" data-delay="3s">Pendaftaran Siswa dan Siswi Baru Tahun {{ ppdb.tahun_ajaran }} ini telah dibuka. Silahkan Segera Daftar dan lengkapi Formulir</li>
+                        </ul>
+
+                        <p data-animation="animated flipInX" data-delay="4s">
+                          <a href="#alur" class="btn btn-warning nav-link">Lihat Alur Pendaftaran</a>
+                        </p>
+                      </div>
+                    </div>
+                  {% endif %}
+                  <div class="carousel-item">
+                    <div>
+                      <h5 data-animation="animated fadeInDownBig">Syarat Pendaftaran Peserta Didik Baru</h5>
+                      <h5 data-animation="animated fadeInDownBig">Tahun Pelajaran {{ ppdb.tahun_ajaran }}</h5>
+                      <ul>
+                        <li data-animation="animated fadeInDownBig" data-delay="1s">Surat Keterangan Lulus</li>
+                        <li data-animation="animated flipInX" data-delay="2s">Ijazah Jenjang Sebelumnya</li>
+                        <li data-animation="animated flipInX" data-delay="3s">Kartu Keluarga</li>
+                        <li data-animation="animated flipInX" data-delay="4s">Akta Kelahiran</li>
+                        <li data-animation="animated flipInX" data-delay="5s">Scan Raport</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div>
+                      <h5 data-animation="animated fadeInDownBig">Alur Pendaftaran Peserta Didik Baru</h5>
+                      <h5 data-animation="animated fadeInDownBig">Tahun Pelajaran {{ ppdb.tahun_ajaran }}</h5>
+                      <ul>
+                        <li data-animation="animated fadeInDownBig" data-delay="1s">Daftar Akun</li>
+                        <li data-animation="animated flipInX" data-delay="2s">Lengkapi Formulir</li>
+                        <li data-animation="animated flipInX" data-delay="3s">Upload Berkas</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- form login -->
+            <div class="col-sm-4">
+              <div class="card card-login bg-light">
+                <div class="card-body">
+                  <center>
+                    <img src="{% static 'ppdb/img/logo.png' %}" alt="" width="15%" />
+                  </center>
+                  <center>
+                    <p>Silahkan login menggunakan Username/NISN dan kata sandi anda.</p>
+                  </center>
+                  <br />
+                  <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <span class="fa fa-user"></span>
+                      <input type="text" maxlength="10" class="form-control" name="username" placeholder="Masukkan NISN" required autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                      <span class="fa fa-key"></span>
+                      <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+                    </div>
+                    {% if ppdb.status == 'Dibuka' %}
+                      <button type="submit" class="btn btn-primary btn-block btn-login" id="btnsimpan">Masuk</button>
+                    {% else %}
+                      <button disabled type="submit" class="btn btn-primary btn-block btn-login" id="btnsimpan">Masuk</button>
+                    {% endif %}
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- end form login -->
+          </div>
+        </div>
+      </div>
+      <!-- home content -->
+      <div class="home-content">
+        <section id="alur">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6 d-flex align-items-center">
+                <div class="col-md-12 animated bounceInLeft">
+                  <div class="card mt-5">
+                    <div class="card-header text-white" style="background-color: #224820">
+                      <h4>Alur Proses Pendaftaran</h4>
+                    </div>
+                    <div class="card-body">
+                      <div class="col-12 animated bounceIn">
+                        <p>Silahkan Simak Alur Pendaftaran sebelum Melakukan Pendaftaran di PPDB Online</p>
+                        <div class="activities">
+                          <div class="activity">
+                            <div class="activity-icon bg-warning text-white shadow-primary">1</div>
+                            <div class="activity-detail">
+                              {% if ppdb.status == 'Ditutup' %}
+                                <p>Calon Siswa mendaftar di web pendaftaran.</p>
+                                <p>
+                                  <a href="#" class="btn btn-warning btn-block btn-login">Belum Dibuka</a>
+                                </p>
+                                <p>Calon Siswa mendaftar di web pendaftaran.</p>
+                                <p>
+                                  <a href="#" class="btn btn-danger btn-block btn-login">Sudah Tutup</a>
+                                </p>
+                              {% else %}
+                                <p>Calon Siswa mendaftar di web pendaftaran.</p>
+                                <p>
+                                  <a href="{% url 'ppdb:register' %}" class="btn btn-primary btn-block btn-login">Daftar Sekarang</a>
+                                </p>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="activities">
+                          <div class="activity">
+                            <div class="activity-icon bg-warning text-white shadow-primary">2</div>
+                            <div class="activity-detail">
+                              <p>Jika selesai pendaftaran silahkan login dengan username dan password saat pendaftaran</p>
+                              {% if ppdb.status == 'Dibuka' %}
+                                <p>
+                                  <a href="{% url 'ppdb:login' %}" class="btn btn-success btn-block btn-login">Login</a>
+                                </p>
+                              {% else %}
+                                <p>
+                                  <button disabled class="btn btn-success btn-block btn-login">Login</button>
+                                </p>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="activities">
+                          <div class="activity">
+                            <div class="activity-icon bg-warning text-white shadow-primary">3</div>
+                            <div class="activity-detail">
+                              <p>Lengkapi Formulir yang diberikan dengan data yang benar.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="container">
+                  <div class="row mt-5">
+                    <div class="col-sm-12">
+                      <div class="card">
+                        <div class="card-header text-white" style="background-color: #224820">
+                          <h4>Informasi Pendaftaran</h4>
+                        </div>
+                        <div class="card-body">
+                          <div class="activities">
+                            <div class="activity">
+                              <div class="activity-icon bg-warning text-white shadow-primary">
+                                <i class="fa fa-bullhorn"></i>
+                              </div>
+                              <div class="activity-detail">
+                                <h5>Info PPDB Online {{ ppdb.tahun_ajaran }}</h5>
+                                <p>
+                                  Assalamualikum wr wb.. <br />
+                                  Segera daftarkan diri anda sebelum tanggal {{ ppdb.tanggal_selesai|date:'d F Y' }}. <br />
+                                  Berkas yang harus dibawa ke sekolah saat daftar Ulang diantaranya:
+                                </p>
+                                <ol>
+                                  <li>Photocopy Kartu Keluarga</li>
+                                  <li>Photocopy Akta Kelahiran</li>
+                                  <li>Photocopy Raport Terakhir</li>
+                                  <li>Photocopy KIP, PKH (jika ada)</li>
+                                  <li>Photocopy Surat Keterangan Lulus atau Ijazah (Jika sudah ada)</li>
+                                </ol>
+                                <p>Demikian kami infokan untuk sama sama di maklumi.</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-light statistik" id="data">
+          <div class="container">
+            <div class="row mt-5 mb-3">
+              <div class="col-sm-12">
+                <div class="card">
+                  <div class="card-header text-white" style="background-color: #224820">
+                    <h4>Data Statistik Pendaftar</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table style="font-size: 12px" class="table table-striped table-sm" id="mytable">
+                        <thead>
+                          <tr>
+                            <th class="text-center">NO</th>
+                            <th>NAMA</th>
+                            <th>STATUS</th>
+                            <th>ASAL SEKOLAH</th>
+                            <th class="text-center">KETERANGAN</th>
+                          </tr>
+                        </thead>
+                        <tbody class="ui-sortable">
+                          {% for p in peserta %}
+                            <tr>
+                              <td class="row">{{ forloop.counter }}</td>
+                              <td>{{ p.nama }}</td>
+                              <td>{{ p.status }}</td>
+                              <td>{{ p.asal_sekolah }}</td>
+                              <td class="text-center">
+                                <div class="badge 
+                                  {% if p.Keterangan == "Pending" %} badge-secondary 
+                                  {% elif p.Keterangan == "Diterima" %} badge-success
+                                  {% else %} badge-danger
+                                  {% endif %}" >
+                                    {{ p.Keterangan }}
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- end home content -->
+      <!-- end content -->
+    </div>
+
+    <!-- footer -->
+    <div class="home-footer">
+      <div class="container">
+        <div class="row pt-1 pb-1">
+          <div class="col-md-6 col-xs-12 text-md-left text-center">
+            Copyright &copy;&nbsp;{% now 'Y' %}&nbsp;SMP Miftahul Falah Gandrungmangu All right reserved
+          </div>
+          <div class="col-md-6 col-xs-12 text-md-right text-center">Power by <a style="color: white;" target="_blank" href="https://github.com/Bang28">Bang28</a></div>
+        </div>
+      </div>
+    </div>
+    <!-- end footer -->
+
+    <!-- scripts -->
+    <script src="{% static 'ppdb/jquery/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/bootstrap.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/popper.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/wow.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/front.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/dataTables.bootstrap.min.js' %}"></script>
+    <script type="text/javascript">
+      $('#mytable').DataTable()
+    </script>
+    <!-- end scripts -->
+  </body>
+</html>

@@ -1,0 +1,145 @@
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <meta name="google" content="notranslate" />
+    <meta name="theme-color" content="#317EFB" />
+    <title>{{ page_title }}</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'ppdb/img/logo.png' %}" />
+    <link rel="stylesheet" href="{% static 'ppdb/font-awesome-4/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'ppdb/css/login.bundle.1.0.3.min.css' %}" />
+    <script src="{% static 'ppdb/jquery/login.bundle.1.0.3.min.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'ppdb/css/main.css' %}" />
+  </head>
+  <body style="background-color: #666666;">
+    <div class="limiter">
+      <div class="container-login100">
+        <div class="wrap-login100" style="height:100vh">
+          <div style="overflow-y: auto; height: 100vh;">
+            <form method="POST" id="form-daftar" class="login100-form validate-form">
+              {% csrf_token %}
+              <div class="card p-4">
+                <div class="card-body">
+                  <div class="d-lg mb-3 text-center">
+                    <img width="110px" height="110px" src="{% static 'ppdb/img/logo.png' %}" alt="Logo" />
+                  </div>
+                  <center>
+                    <h5>{{ heading }}</h5>
+                  </center>
+                  <center>
+                    <h4 style="font-weight:bold;">{{ sub_title }}</h4>
+                  </center>
+                  {% if request.resolver_match.url_name == 'register' %}
+                    {% if ppdb.status == 'Dibuka' %}
+                      <p>
+                        <a href="#" class="btn btn-success btn-block btn-login">Pendaftaran dibuka mulai {{ ppdb.tanggal_mulai|date:'d F Y' }}</a>
+                      </p>
+                      <p>
+                        <a href="#" class="btn btn-warning btn-block btn-login">Pendaftaran terakhir pada {{ ppdb.tanggal_selesai|date:'d F Y' }}</a>
+                      </p>
+                    {% else %}
+                      <p>
+                        <a href="#" class="btn btn-danger btn-block btn-login">Pendaftaran ditutup</a>
+                      </p>
+                    {% endif %}
+                  {% endif %}
+                  <!-- messages -->
+                  <center>
+                    {% if messages %}
+                      {% for message in messages %}
+                        {% if message.tags == 'success' %}
+                          <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>{{ message|safe|escape }}</strong>
+                          </div>
+                        {% endif %}
+                        {% if message.tags == 'error' %}
+                          <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>{{ message|safe|escape }}</strong>
+                          </div>
+                        {% endif %}
+                        {% if message.tags == 'info' %}
+                          <div class="alert alert-info alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>{{ message|safe|escape }}</strong>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    {% endif %}
+                  </center>
+                  <!-- end messages -->
+                  {% if request.resolver_match.url_name == 'login' %}
+                    <!-- form login -->
+                    <div class="card-body">
+                      <div class="input-group mb-3">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        </div>
+                        <input class="form-control" type="text" name="username" placeholder="Masukkan Username/NISN" required />
+                      </div>
+                      <div class="input-group mb-3">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fa fa-key"></i></span>
+                        </div>
+                        <input class="form-control" type="password" name="password" placeholder="Password" required />
+                      </div>
+                      <div class="row">
+                        <div class="col-md-8 col-lg-8">
+                          <a href="{% url 'ppdb:index' %}">Kembali ke halaman PPDB</a>
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                          <button type="submit" id="btnsimpan" class="btn btn-primary btn-block">Masuk</button>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end form login -->
+                  {% else %}
+                    <!-- form registration -->
+                    <div class="card-body">
+                      <div class="form-group">
+                        <div>{{ form.username|as_crispy_field }}</div>
+                        <div class="row">
+                          <div class="col-md-6">{{ form.first_name|as_crispy_field }}</div>
+                          <div class="col-md-6">{{ form.last_name|as_crispy_field }}</div>
+                        </div>
+                        <div>{{ form.email|as_crispy_field }}</div>
+                        <div>{{ form.password1|as_crispy_field }}</div>
+                        <div>{{ form.password2|as_crispy_field }}</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 col-lg-8">
+                        <a href="{% url 'ppdb:index' %}">Kembali ke halaman PPDB</a>
+                      </div>
+                      <div class="col-md-4 col-lg-4">
+                          <button type="submit" id="btnsimpan" class="btn btn-primary btn-block">Buat Akun</button>
+                        {% comment %} {% if ppdb.status == 'Dibuka' %}
+                        {% else %}
+                          <button disabled type="submit" id="btnsimpan" class="btn btn-primary btn-block">Buat Akun</button>
+                        {% endif %} {% endcomment %}
+                      </div>
+                    </div>
+                    <!-- end form registration -->
+                  {% endif %}
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="login100-more" style="background-image: url('{% static 'ppdb/img/bg-reg.jpg' %}');height: 100vh;position: absolute;top: 0px;left: 0px;"></div>
+        </div>
+      </div>
+    </div>
+    <!-- scripts -->
+    <script src="{% static 'ppdb/jquery/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/bootstrap.min.js' %}"></script>
+    <script src="{% static 'ppdb/jquery/popper.min.js' %}"></script>
+    <!-- end scripts -->
+  </body>
+</html>

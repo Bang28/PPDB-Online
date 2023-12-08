@@ -1,0 +1,24 @@
+<!-- messages -->
+{% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+      <div class="alert alert-top alert-success alert-dismissible fade show mb-3" role="alert">
+        <span>{{ message|safe|escape }}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+    {% if message.tags == 'error' %}
+      <div class="alert alert-top alert-danger alert-dismissible fade show mb-3" role="alert">
+        <span>{{ message|safe|escape }}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+    {% if message.tags == 'info' %}
+      <div class="alert alert-top alert-info alert-dismissible fade show mb-3" role="alert">
+        <span>{{ message|safe|escape }}</span>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+<!-- end messages -->
