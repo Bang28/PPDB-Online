@@ -119,11 +119,11 @@
                         <a href="{% url 'ppdb:index' %}">Kembali ke halaman PPDB</a>
                       </div>
                       <div class="col-md-4 col-lg-4">
-                          <button type="submit" id="btnsimpan" class="btn btn-primary btn-block">Buat Akun</button>
-                        {% comment %} {% if ppdb.status == 'Dibuka' %}
+                        {% if ppdb.status == 'Dibuka' %}
+                        <button type="submit" id="btnsimpan" class="btn btn-primary btn-block">Buat Akun</button>
                         {% else %}
                           <button disabled type="submit" id="btnsimpan" class="btn btn-primary btn-block">Buat Akun</button>
-                        {% endif %} {% endcomment %}
+                        {% endif %}
                       </div>
                     </div>
                     <!-- end form registration -->

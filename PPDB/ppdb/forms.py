@@ -125,3 +125,15 @@ class UpdatePesertaForm(forms.ModelForm):
             'alamat_ibu': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
             'alamat_wali': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
         }
+
+
+class UserProfileForm(forms.ModelForm):
+    email = forms.EmailField()
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            
+        ]

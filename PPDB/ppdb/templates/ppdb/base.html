@@ -27,15 +27,20 @@
     <main class="main-content">
       {% include 'ppdb/snippets/navbar.html' %}
 
-      {% block content %}
+      <div class="conatiner-fluid content-inner mt-n5 py-0">
+        {% block content %}
 
-      {% endblock %}
+        {% endblock %}
+      </div>
 
       {% include 'ppdb/snippets/footer.html' %}
     </main>
 
+    
+    
     {% include 'ppdb/snippets/setting-side.html' %}
 
     {% include 'ppdb/snippets/scripts.html' %}
+
   </body>
 </html>

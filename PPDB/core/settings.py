@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'import_export',
     # django-cleanup
     'django_cleanup.apps.CleanupConfig',
-
 ]
 
 # template pack bootstrap untuk crispy-forms

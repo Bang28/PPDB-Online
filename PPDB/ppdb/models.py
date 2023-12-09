@@ -3,7 +3,7 @@ from django.utils.text import slugify
 import os
 import datetime
 from django.utils.html import mark_safe
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 # Create your models here.
 class Pengaturan_PPDB(models.Model):
@@ -352,3 +352,16 @@ class Peserta(models.Model):
     class Meta:
         verbose_name = "Peserta PPDB"
         verbose_name_plural = "Peserta PPDB"
+
+
+class CustomUser(AbstractUser):
+    def image_upload_to(self, instance=None):
+        if instance:
+            return os.path.join("user", self.username, instance)
+        return None
+
+    description = models.TextField('Deskripsi Profil', max_length=600, default="", blank=True)
+    image       = models.ImageField('Foto Profil', default='default/user.png', upload_to=image_upload_to)    
+
+    def __str__(self):
+        return self.username

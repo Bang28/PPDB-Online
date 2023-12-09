@@ -7,6 +7,13 @@ from . views import (
     logout_user,
     formulir,
     datamaster,
+    datapendaftar,
+    dataditerima,
+    viewdata,
+    hapusdata,
+    markdata,
+    tolak,
+    userList,
 )
 
 app_name = "ppdb"
@@ -21,5 +28,14 @@ urlpatterns = [
     path('logout/', logout_user, name="logout"),
     path('dashboard/', dashboard, name="dashboard"),
     path('formulir/', formulir, name="form"),
-    path('datamaster/<pk>', datamaster, name="data"), #regular expression
+    path('datamaster/<pk>', datamaster, name="data"),
+    path('data_pendaftar/', datapendaftar, name="dpendaftar"),
+    path('data_diterima/', dataditerima, name="dditerima"),
+    path('peserta/<id>', viewdata, name="viewdata"),
+    path('hapusdata/<id>', hapusdata, name="hapusdata"),
+    path('markformulir/', markdata, name="markdata"),
+    path('tolakformulir/', tolak, name="tolak"),
+
+    # path to users
+    path('userlist/', userList, name="user-list"),
 ]

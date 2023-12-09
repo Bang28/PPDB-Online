@@ -1,13 +1,100 @@
 from django.shortcuts import render, redirect
-from . forms import UserRegistraionForm, PesertaForm, UpdatePesertaForm
+from . forms import UserRegistraionForm, PesertaForm, UpdatePesertaForm, UserProfileForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control #destroy the section after logout
+from . decorators import user_is_superuser
+from django.contrib.auth.models import User
 from . models import Pengaturan_PPDB, Peserta
+from datetime import datetime
 
 # Create your views here.
 # ============== BACKEND ==============|
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def userList(request):
+    user = User.objects.all().order_by('date_joined')
+    return render(request, 'ppdb/users/userList.html', {'users': user})
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def userProfile(request):
+    pass
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def userAdd(request):
+    pass
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def hapusdata(request, id):
+    peserta = Peserta.objects.get(id=id)
+    peserta.delete()
+    messages.success(request, "Data berhasil dihapus")
+    return redirect("ppdb:dpendaftar")
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def tolak(request):
+    if request.method == "POST":
+        peserta = Peserta.objects.get(id = request.POST.get('id'))
+        if peserta != None:
+            peserta.Keterangan = request.POST.get('Keterangan')
+            peserta.save()
+            messages.success(request, "Formulir ditolak, silahkan kirim balasan ke peserta")
+            return redirect("pppdb:viewdata")
+        
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def markdata(request):
+    if request.method == "POST":
+        peserta = Peserta.objects.get(id = request.POST.get('id'))
+        if peserta != None:
+            peserta.Keterangan = request.POST.get('Keterangan')
+            peserta.save()
+            messages.success(request, "Formulir diterima, silahkan kirim balasan ke peserta")
+            return redirect("pppdb:viewdata")
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def viewdata(request, id):
+    peserta = Peserta.objects.get(id=id)
+    if peserta != None:
+        return render(request, 'ppdb/viewdata.html', {'peserta': peserta})
+
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def dataditerima(request):
+    peserta = Peserta.objects.filter(Keterangan="Diterima")
+    print(peserta)
+    context = {
+        'peserta': peserta,
+    }
+    return render(request, 'ppdb/tables/dataDiterima.html', context)
+
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def datapendaftar(request):
+    peserta = Peserta.objects.all().order_by('-tgl_daftar')
+    print(peserta)
+    context = {
+        'peserta': peserta,
+    }
+    return render(request, 'ppdb/tables/dataPendaftar.html', context)
+
+
 @login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def datamaster(request, pk):
@@ -64,8 +151,19 @@ def formulir(request):
 def dashboard(request):
     '''fungsi menampilkan dashboard'''
 
+    total = Peserta.objects.all().count()
+    terima = Peserta.objects.filter(Keterangan="Diterima").count()
+    pending = Peserta.objects.filter(Keterangan="Pending").count()
+    date = datetime.now().date()
+    hari = Peserta.objects.filter(tgl_daftar__gt = date).count()
+
+
     context = {
         'page_title': 'Dashboard PPDB | SMP Miftahul Falah Gandrungmangu',
+        'total': total,
+        'terima': terima,
+        'pending': pending,
+        'today': hari,
     }
     return render(request, 'ppdb/dashboard.html', context)
 
@@ -105,6 +203,8 @@ def login_user(request):
 def register(request):
     '''fungsi untuk registrasi akun ppdb peserta'''
 
+    ppdb_info = Pengaturan_PPDB.objects.all().order_by('-pk').first()
+
     if request.method == "POST":
         form = UserRegistraionForm(request.POST)
         if form.is_valid():
@@ -121,7 +221,8 @@ def register(request):
         'form': form,
         'page_title': 'Daftar Akun PPDB | SMP Miftahul Falah Gandrungmangu',
         'sub_title': 'PPDB Online | SMP Miftahul Falah Gandrungmangu',
-        'heading': 'Form Pendaftaran Akun'
+        'heading': 'Form Pendaftaran Akun',
+        'ppdb': ppdb_info,
     }
     return render(request, 'auth.html', context)
 
