@@ -50,7 +50,7 @@ class UserRegistraionForm(UserCreationForm):
     
 
 class PesertaForm(forms.ModelForm):
-    # override field
+    # override field in Peserta Model
     nik = forms.CharField(
         validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
         widget = forms.TextInput(attrs={'maxlength':'16'}),
@@ -127,13 +127,9 @@ class UpdatePesertaForm(forms.ModelForm):
         }
 
 
-class UserProfileForm(forms.ModelForm):
+class EmailForm(forms.Form):
     email = forms.EmailField()
-    class Meta:
-        model = get_user_model()
-        fields = [
-            'first_name',
-            'last_name',
-            'email',
-            
-        ]
+    cc = forms.EmailField(required=False)
+    subject = forms.CharField(max_length=100)
+    attach = forms.FileField(required=False, widget=forms.ClearableFileInput())
+    message = forms.CharField(widget=forms.Textarea())

@@ -3,7 +3,7 @@ from django.utils.text import slugify
 import os
 import datetime
 from django.utils.html import mark_safe
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Pengaturan_PPDB(models.Model):
@@ -46,8 +46,8 @@ class Peserta(models.Model):
         ('WNA', 'WNA'),
     )
     JENIS_KELAMIN = (
-        ('Laki-laki', 'Laki-laki'),
-        ('Perempuan', 'Perempuan'),
+        ('L', 'Laki-laki'),
+        ('P', 'Perempuan'),
     )
     AGAMA_SISWA_CHOICES = (
         ('','Pilih agama'),
@@ -146,7 +146,7 @@ class Peserta(models.Model):
     thn_ajaran              = models.ForeignKey(Pengaturan_PPDB, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Tahun Ajaran")
     nisn                    = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="NISN")
     no_pendaftaran          = models.CharField('No Pendaftaran', max_length=15, unique=True, null=True, blank=True, editable=True)
-    nama                    = models.CharField('Nama Lengkap', max_length=60)
+    nama                    = models.CharField('Nama Lengkap', max_length=55)
     asal_sekolah            = models.CharField('Asal Sekolah', max_length=60)
     status                  = models.CharField('Status', max_length=10, choices=STATUS_PESERTA_CHOICES, default=1)
     warga_siswa             = models.CharField('Warna Negara', max_length=3, choices=STATUS_WARGA_NEGARA, default=1)
@@ -352,16 +352,3 @@ class Peserta(models.Model):
     class Meta:
         verbose_name = "Peserta PPDB"
         verbose_name_plural = "Peserta PPDB"
-
-
-class CustomUser(AbstractUser):
-    def image_upload_to(self, instance=None):
-        if instance:
-            return os.path.join("user", self.username, instance)
-        return None
-
-    description = models.TextField('Deskripsi Profil', max_length=600, default="", blank=True)
-    image       = models.ImageField('Foto Profil', default='default/user.png', upload_to=image_upload_to)    
-
-    def __str__(self):
-        return self.username

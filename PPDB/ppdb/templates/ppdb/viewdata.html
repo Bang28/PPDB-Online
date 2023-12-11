@@ -50,7 +50,7 @@
             </div>
           </div>
           <div class="card-body">
-            <form action="{% url 'ppdb:markdata' %}" method="POST" id="form-wizard1" class="mt-3 text-center" enctype="multipart/form-data">
+            <form action="{% url 'ppdb:terima' %}" method="POST" id="form-wizard1" class="mt-3 text-center" enctype="multipart/form-data">
               {% csrf_token %}
               <ul id="top-tab-list" class="p-0 row list-inline">
                 <li class="mb-2 col-lg-3 col-md-6 text-start active" id="datadiri">
@@ -769,8 +769,6 @@
                     <div class="col-md-12 col-lg-8">
                       {% if peserta.Keterangan == "Pending" %}
                       <input type="hidden" class="form-control txt-sm" name="Keterangan" value="Diterima">
-                      {% else %}
-                      <input type="hidden" class="form-control txt-sm" name="Keterangan" value="Ditolak">
                       {% endif %}
                     </div>
                   </div>
@@ -783,7 +781,7 @@
                   <div class="col-md-12">
                     <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-start me-1" value="Previous">Previous</button>
                     <button type="submit" class="btn btn-success float-end">Terima</button>
-                    <button type="submit" class="btn btn-danger float-end me-1">Tolak</button>
+                    <button type="button" class="btn btn-danger float-end me-1">Tolak</button>
                   </div>
                 </div>
               </fieldset>

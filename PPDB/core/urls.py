@@ -18,7 +18,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
 
-
+# custom django admin
 admin.site.site_header = "Dashboard Admin"
 admin.site.site_title = "SMP Miftahul Falah Gandrungmangu"
 admin.site.index_title = "Dashboard Admin"

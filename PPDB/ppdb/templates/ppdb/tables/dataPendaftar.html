@@ -5,7 +5,7 @@
 {% block table-title %}Data Pendaftar{% endblock table-title %}
 
 {% block table-content %}
-<table id="datatable" class="table table-striped" data-toggle="data-table">
+<table id="datatable" class="table table-striped-columns table-sm" data-toggle="data-table">
     <thead>
     <tr>
         <th>No</th>
@@ -33,7 +33,7 @@
                 <td class="text-danger text-center">{{p.Keterangan}}</td>
             {% endif %}
             <td>
-                <a href="{% url 'ppdb:viewdata' p.id %}" class="btn btn-info btn-sm" title="Detail data"><i class="fa-solid fa-eye"></i></a>
+                <a href="{% url 'ppdb:view-data' p.id %}" class="btn btn-info btn-sm" title="Detail data"><i class="fa-solid fa-eye"></i></a>
                 <button class="btn btn-warning btn-sm" title="Ubah data"><i class="fa solid fa-pen-to-square"></i></button>
                 <button data-bs-toggle="modal" data-bs-target="#hapusModal{{p.id}}" class="btn btn-danger btn-sm" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
             </td>

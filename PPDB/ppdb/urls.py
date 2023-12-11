@@ -2,18 +2,19 @@ from django.urls import path
 from . views import (
     index, 
     register, 
-    login_user, 
+    loginUser, 
     dashboard,
-    logout_user,
+    logoutUser,
     formulir,
-    datamaster,
-    datapendaftar,
-    dataditerima,
-    viewdata,
-    hapusdata,
-    markdata,
-    tolak,
+    dataMaster,
+    dataPendaftar,
+    dataDiterima,
+    viewData,
+    hapusData,
+    terimaForm,
+    tolakForm,
     userList,
+    email,
 )
 
 app_name = "ppdb"
@@ -21,21 +22,20 @@ urlpatterns = [
     # ====== PATH FRONTEND ======|
     path('', index, name="index"),
     path('register/', register, name="register"),
-    path('login/', login_user, name="login"),
+    path('login/', loginUser, name="login"),
 
 
     # ====== PATH BACKEND ======|
-    path('logout/', logout_user, name="logout"),
+    path('logout/', logoutUser, name="logout"),
     path('dashboard/', dashboard, name="dashboard"),
     path('formulir/', formulir, name="form"),
-    path('datamaster/<pk>', datamaster, name="data"),
-    path('data_pendaftar/', datapendaftar, name="dpendaftar"),
-    path('data_diterima/', dataditerima, name="dditerima"),
-    path('peserta/<id>', viewdata, name="viewdata"),
-    path('hapusdata/<id>', hapusdata, name="hapusdata"),
-    path('markformulir/', markdata, name="markdata"),
-    path('tolakformulir/', tolak, name="tolak"),
-
-    # path to users
-    path('userlist/', userList, name="user-list"),
+    path('datamaster/<pk>', dataMaster, name="data-master"),
+    path('data_pendaftar/', dataPendaftar, name="data-pendaftar"),
+    path('data_diterima/', dataDiterima, name="data-diterima"),
+    path('lihat_data/<id>', viewData, name="view-data"),
+    path('hapus_data/<id>', hapusData, name="hapus-data"),
+    path('terima_formulir/', terimaForm, name="terima"),
+    path('tolak_formulir/', tolakForm, name="tolak"),
+    path('user_list/', userList, name="user-list"),
+    path('email', email, name="email"),
 ]

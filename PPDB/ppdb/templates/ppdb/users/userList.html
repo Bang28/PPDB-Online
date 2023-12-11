@@ -1,5 +1,7 @@
 {% extends 'ppdb/tables/baseTable.html' %}
 
+{% load static %}
+
 {% block page_title %}User List{% endblock page_title %}
 
 {% block table-content %}
@@ -17,7 +19,7 @@
     <tbody>
     {% for user in users %}
     <tr>
-        <td class="text-center"><img class="bg-soft-primary rounded img-fluid avatar-40 me-3" src="" alt="profile"></td>
+        <td class="text-center"><img class="bg-soft-primary rounded img-fluid avatar-40 me-3" src="{% static 'media/default/user.png' %}" alt="profile"></td>
         <td>{{user.first_name}} {{user.last_name}}</td>
         <td>{{user.email}}</td>
         {% if user.is_superuser %}

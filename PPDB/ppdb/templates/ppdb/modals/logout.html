@@ -1,0 +1,18 @@
+{% extends 'ppdb/modals/baseModal.html' %}
+
+{% block modal-id %} id="logoutModal" {% endblock modal-id %}
+
+{% block modal-title %}
+<i class="fas fa-power-off"></i>&nbsp;&nbsp;Log Out
+{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="text-center">
+    <span class="text-danger txt-sm2"><i class="fas fa-power-off fa-3x"></i></span>
+</div>
+<div class="text-danger text-center mb-3 mt-4">Lanjut untuk keluar aplikasi?</div>
+{% endblock modal-body %}
+
+{% block modal-footer %}
+<a href="{% url 'ppdb:logout' %}" type="button" class="btn btn-primary">Ya</a>
+{% endblock modal-footer %}
