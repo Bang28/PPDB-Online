@@ -44,7 +44,7 @@ def email(request):
 @login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
-def userList(request):
+def userAll(request):
     '''fungsi menampilkan semua data user'''
 
     user = User.objects.all().order_by('date_joined')
@@ -191,6 +191,17 @@ def formulir(request):
         'form': form,
     }
     return render(request, 'ppdb/form.html', context)
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def pengaturanPPDB(request):
+    pengaturan = Pengaturan_PPDB.objects.all().order_by('-pk')
+
+    context = {
+        'pengaturan': pengaturan,
+    }
+    return render(request, 'ppdb/pengaturanPpdb.html', context)
 
 @login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

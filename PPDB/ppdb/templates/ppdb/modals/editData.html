@@ -1,0 +1,41 @@
+{% extends 'ppdb/modals/baseModal.html' %}
+
+{% block modal-id %} id="editModal" {% endblock modal-id %}
+
+{% block modal-title %}
+<i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;Edit Data
+{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="form-label" for="exampleInputText1">Tahun Ajaran </label>
+                <input type="text" class="form-control" id="exampleInputText1" placeholder="2024/2025">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="choices-single-default">Status</label>
+                <select class="form-select" data-trigger name="choices-single-default" id="choices-single-default">
+                    <option value="">Pilih Status</option>
+                    <option value="Ditutup">Ditutup</option>
+                    <option value="Dibuka">Dibuka</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="exampleInputdate">Tanggal Mulai</label>
+                <input type="date" class="form-control" id="exampleInputdate" >
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="exampleInputmonth">Tanggal Selesai</label>
+                <input type="date" class="form-control" id="exampleInputmonth" >
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock modal-body %}
+
+{% block modal-footer %}
+<a href="{% url 'ppdb:hapus-data' p.id %}" type="button" class="btn btn-primary">Simpan</a>
+{% endblock modal-footer %}

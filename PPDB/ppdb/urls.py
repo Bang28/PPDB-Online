@@ -6,6 +6,7 @@ from . views import (
     dashboard,
     logoutUser,
     formulir,
+    pengaturanPPDB,
     dataMaster,
     dataPendaftar,
     dataDiterima,
@@ -13,7 +14,7 @@ from . views import (
     hapusData,
     terimaForm,
     tolakForm,
-    userList,
+    userAll,
     email,
 )
 
@@ -29,6 +30,7 @@ urlpatterns = [
     path('logout/', logoutUser, name="logout"),
     path('dashboard/', dashboard, name="dashboard"),
     path('formulir/', formulir, name="form"),
+    path('pengaturan_ppdb/', pengaturanPPDB, name="pengaturan-ppdb"),
     path('datamaster/<pk>', dataMaster, name="data-master"),
     path('data_pendaftar/', dataPendaftar, name="data-pendaftar"),
     path('data_diterima/', dataDiterima, name="data-diterima"),
@@ -36,6 +38,6 @@ urlpatterns = [
     path('hapus_data/<id>', hapusData, name="hapus-data"),
     path('terima_formulir/', terimaForm, name="terima"),
     path('tolak_formulir/', tolakForm, name="tolak"),
-    path('user_list/', userList, name="user-list"),
+    path('pengguna/', userAll, name="user-all"),
     path('email', email, name="email"),
 ]

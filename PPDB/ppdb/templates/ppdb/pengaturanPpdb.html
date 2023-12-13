@@ -1,0 +1,53 @@
+{% extends 'ppdb/base.html' %}
+
+{% block page_title %}Pengaturan PPDB | SMP Miftahul Falah Gandrungmangu{% endblock page_title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        {% include 'ppdb/messages.html' %}
+        <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <div class="header-title">
+                <h4 class="card-title">Pengaturan PPDB</h4>
+            </div>
+            <button data-bs-toggle="modal" data-bs-target="#tambahModal" class="btn btn-info btn-sm float-end" title="Tambah data"><i class="fa-solid fa-square-plus"></i>&nbsp;Tambah Data</button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="datatable" class="table table-striped-columns table-sm" data-toggle="data-table">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Status</th>
+                        <th>Tanggal Mulai</th>
+                        <th>Tanggal Selesai</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in pengaturan %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{p.tahun_ajaran}}</td>
+                            <td>{{p.status}}</td>
+                            <td>{{p.tanggal_mulai}}</td>
+                            <td>{{p.tanggal_selesai}}</td>
+                            <td>
+                                <button data-bs-toggle="modal" data-bs-target="#editModal" class="btn btn-warning btn-sm" title="Edit data"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button data-bs-toggle="modal" data-bs-target="#hapusModal{{p.id}}" class="btn btn-danger btn-sm" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        </tr>
+                        {% include 'ppdb/modals/hapus.html' %}
+                        {% include 'ppdb/modals/tambahData.html' %}
+                        {% include 'ppdb/modals/editData.html' %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
