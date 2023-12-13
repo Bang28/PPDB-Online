@@ -40,11 +40,6 @@ class Peserta(models.Model):
         ('Siswa Baru', 'Siswa Baru'),
         ('Pindahan', 'Pindahan'),
     )
-    STATUS_WARGA_NEGARA = (
-        ('', 'Warga negara'),
-        ('WNI', 'WNI'),
-        ('WNA', 'WNA'),
-    )
     JENIS_KELAMIN = (
         ('L', 'Laki-laki'),
         ('P', 'Perempuan'),
@@ -99,14 +94,6 @@ class Peserta(models.Model):
         ('Tanggung Sendiri', 'Tanggung Sendiri'),
         ('Lainnya', 'Lainnya'),
     )
-    KEBUTUHAN_KHUSUS = (
-        ('', 'Kebutuhan khusus'),
-        ('Tidak Ada', 'Tidak Ada'),
-        ('Lamban Belajar', 'Lamban Belajar'),
-        ('Kesulitan Belajar Spesifik', 'Kesulitan Belajar Spesifik'),
-        ('Gangguan Komunikasi', 'Gangguan Komunikasi'),
-        ('Lainnya', 'Lainnya'),
-    )
     KEBUTUHAN_DISABILITAS = (
         ('', 'Kebutuhan disabilitas'),
         ('Tidak Ada', 'Tidak Ada'),
@@ -149,7 +136,6 @@ class Peserta(models.Model):
     nama                    = models.CharField('Nama Lengkap', max_length=55)
     asal_sekolah            = models.CharField('Asal Sekolah', max_length=60)
     status                  = models.CharField('Status', max_length=10, choices=STATUS_PESERTA_CHOICES, default=1)
-    warga_siswa             = models.CharField('Warna Negara', max_length=3, choices=STATUS_WARGA_NEGARA, default=1)
     jenis_kelamin           = models.CharField('Jenis Kelamin', max_length=15, choices=JENIS_KELAMIN, default="")
     nik                     = models.CharField('NIK', max_length=16)
     tempat_lahir            = models.CharField('Tempat Lahir', max_length=30)
@@ -157,10 +143,8 @@ class Peserta(models.Model):
     anak_ke                 = models.CharField('Anak Ke', max_length=2, null=True, blank=True)
     saudara                 = models.CharField('Jumlah Saudara', max_length=2, null=True, blank=True)
     agama                   = models.CharField('Agama', max_length=10, choices=AGAMA_SISWA_CHOICES)
-    cita                    = models.CharField('Cita-cita', max_length=20, null=True, blank=True)
     no_hp                   = models.CharField('No Telp/Wa', max_length=13, null=True, blank=True, help_text='Pastikan nomer aktif dan dapat dihubungi.')
     email                   = models.CharField('Email', max_length=35, null=True, blank=True)
-    hobi                    = models.CharField('Hobi', max_length=15, null=True, blank=True)
     status_tinggal_siswa    = models.CharField('Status Tinggal', max_length=50, choices=STATUS_TINGGAL_SISWA)
     alamat_siswa            = models.TextField('Alamat')
     kodepos_siswa           = models.CharField('Kode POS', max_length=6, null=True, blank=True)
@@ -168,7 +152,6 @@ class Peserta(models.Model):
     jarak                   = models.CharField('Jarak Tempuh', max_length=20, choices=JARAK_TEMPUH, null=True, blank=True)
     waktu                   = models.CharField('Waktu Tempuh', max_length=20, choices=WAKTU_TEMPUH, null=True, blank=True)
     biaya_sekolah           = models.CharField('Biaya Sekolah', max_length=30, choices=BIAYA_SEKOLAH)
-    keb_khusus              = models.CharField('Kebutuhan Khusus', max_length=30, choices=KEBUTUHAN_KHUSUS)
     keb_disabilitas         = models.CharField('Kebutuhan Disabilitas', max_length=20, choices=KEBUTUHAN_DISABILITAS)
     pra_sekolah             = models.CharField('Pra Sekolah', max_length=20, choices=PRA_SEKOLAH, null=True, blank=True)
     gol_darah               = models.CharField('Golongan Darah', max_length=2, choices=GOL_DARAH, null=True, blank=True)
@@ -238,11 +221,6 @@ class Peserta(models.Model):
         ('4000-5000k', '4.000.000-5.000.000'),
         ('>5000k', 'Lebih dari 5.000.000'),
     )
-    DOMISILI_ORTU = (
-        ('', 'Domisili'),
-        ('Dalam Negri', 'Dalam Negri'),
-        ('Luar Negri', 'Luar Negri'),
-    )
     STATUS_TINGGAL_ORTU = (
         ('', 'Status tinggal'),
         ('Milik Sendiri', 'Milik Sendiri'),
@@ -255,7 +233,6 @@ class Peserta(models.Model):
     # ayah
     nama_ayah               = models.CharField('Nama Lengkap Ayah', max_length=30, null=True, blank=True)
     status_ayah             = models.CharField('Status Ayah', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
-    warga_ayah              = models.CharField('Warga Negara Ayah', max_length=20, choices=STATUS_WARGA_NEGARA, null=True, blank=True)
     nik_ayah                = models.CharField('NIK Ayah', max_length=30, null=True, blank=True)
     tempat_lahir_ayah       = models.CharField('Tempat Lahir Ayah', max_length=20, null=True, blank=True)
     tgl_lahir_ayah          = models.DateField('Tanggal Lahir Ayah', null=True, blank=True)
@@ -263,14 +240,10 @@ class Peserta(models.Model):
     pekerjaan_ayah          = models.CharField('Pekerjaan Ayah', max_length=50, choices=PEKERJAAN_ORTU, null=True, blank=True)
     penghasilan_ayah        = models.CharField('Penghasilan Ayah', max_length=30, choices=PENGHASILAN_ORTU, null=True, blank=True)
     no_hp_ayah              = models.CharField('No Telp/Wa', max_length=13, null=True, blank=True, help_text='Pastikan nomer aktif dan dapat dihubungi.')
-    domisili_ayah           = models.CharField('Domisili Ayah', max_length=25, choices=DOMISILI_ORTU, null=True, blank=True)
     status_tmp_tinggal_ayah = models.CharField('Status Tempat Tinggal Ayah', max_length=25, choices=STATUS_TINGGAL_ORTU, null=True, blank=True)
-    alamat_ayah             = models.TextField('Alamat Ayah', null=True, blank=True)
-    kodepos_ayah            = models.CharField('Kode POS', max_length=8, null=True, blank=True)
     # ibu
     nama_ibu                = models.CharField('Nama Lengkap Ibu', max_length=30, null=True, blank=True)
     status_ibu              = models.CharField('Status Ibu', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
-    warga_ibu               = models.CharField('Warna Negara Ibu', max_length=20, choices=STATUS_WARGA_NEGARA, null=True, blank=True)
     nik_ibu                 = models.CharField('NIK Ibu', max_length=30,  null=True, blank=True)
     tempat_lahir_ibu        = models.CharField('Tempat Lahir Ibu', max_length=20, null=True, blank=True)
     tgl_lahir_ibu           = models.DateField('Tanggal Lahir Ibu', null=True, blank=True)
@@ -278,13 +251,9 @@ class Peserta(models.Model):
     pekerjaan_ibu           = models.CharField('Pekerjaan Ibu', max_length=30, choices=PEKERJAAN_ORTU, null=True, blank=True)
     penghasilan_ibu         = models.CharField('Penghasilan Ibu', max_length=25, choices=PENGHASILAN_ORTU, null=True, blank=True)
     no_hp_ibu               = models.CharField('No Telp/Wa', max_length=13, null=True, blank=True, help_text='Pastikan nomer aktif dan dapat dihubungi.')
-    domisili_ibu            = models.CharField('Domisili Ibu', max_length=25, choices=DOMISILI_ORTU, null=True, blank=True)
-    alamat_ibu              = models.TextField('Alamat Ibu', null=True, blank=True)
-    kodepos_ibu             = models.CharField('Kode POS', max_length=8, null=True, blank=True)
     # wali
     nama_wali               = models.CharField('Nama Wali', max_length=30, null=True, blank=True)
     status_wali             = models.CharField('Status Wali', max_length=25, choices=STATUS_WALI, default="")
-    warga_wali              = models.CharField('Warga Negara Wali', max_length=25, choices=STATUS_WARGA_NEGARA, null=True, blank=True)
     nik_wali                = models.CharField('NIK Wali', max_length=30, null=True, blank=True)
     tempat_lahir_wali       = models.CharField('Tempat Lahir Wali', max_length=30, null=True, blank=True)
     tgl_lahir_wali          = models.DateField('Tanggal Lahir Wali', null=True, blank=True)
@@ -292,9 +261,6 @@ class Peserta(models.Model):
     pekerjaan_wali          = models.CharField('Pekerjaan Wali', max_length=30, choices=PEKERJAAN_ORTU, null=True, blank=True)
     penghasilan_wali        = models.CharField('Penghasilan Wali', max_length=25, choices=PENGHASILAN_ORTU, null=True, blank=True)
     no_hp_wali              = models.CharField('No Telp/Wa Wali', max_length=15, null=True, blank=True)
-    domisili_wali           = models.CharField('Domisili Wali', max_length=25, choices=DOMISILI_ORTU, null=True, blank=True)
-    alamat_wali             = models.TextField('Alamat Wali', null=True, blank=True)
-    kodepos_wali            = models.CharField('Kode POS', max_length=8, null=True, blank=True)
     # dokumen pendukung
     file_kip                = models.FileField('Kartu Indonesia Pintar', max_length=255, upload_to=file_upload_to, help_text='(Jika ada). Mendukung format file dan gambar.', null=True, blank=True)
     file_pkh                = models.FileField('Kartu PKH/KKS', max_length=255, upload_to=file_upload_to, help_text='(Jika ada). Mendukung format file dan gambar.', null=True, blank=True)
@@ -350,5 +316,4 @@ class Peserta(models.Model):
         super(Peserta, self).save()
 
     class Meta:
-        verbose_name = "Peserta PPDB"
         verbose_name_plural = "Peserta PPDB"

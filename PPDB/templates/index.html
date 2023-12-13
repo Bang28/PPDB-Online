@@ -210,20 +210,20 @@
                           <div class="activity">
                             <div class="activity-icon bg-warning text-white shadow-primary">1</div>
                             <div class="activity-detail">
-                              {% if ppdb.status == 'Ditutup' %}
-                                <p>Calon Siswa mendaftar di web pendaftaran.</p>
-                                <p>
-                                  <a href="#" class="btn btn-warning btn-block btn-login">Belum Dibuka</a>
-                                </p>
-                                <p>Calon Siswa mendaftar di web pendaftaran.</p>
-                                <p>
-                                  <a href="#" class="btn btn-danger btn-block btn-login">Sudah Tutup</a>
-                                </p>
-                              {% else %}
-                                <p>Calon Siswa mendaftar di web pendaftaran.</p>
+                              {% if ppdb.status == 'Dibuka' %}
+                              <p>Calon Siswa mendaftar di web pendaftaran.</p>
                                 <p>
                                   <a href="{% url 'ppdb:register' %}" class="btn btn-primary btn-block btn-login">Daftar Sekarang</a>
                                 </p>
+                              {% else %}
+                              <p>Calon Siswa mendaftar di web pendaftaran.</p>
+                              <p>
+                                <a href="#" class="btn btn-warning btn-block btn-login">Belum Dibuka</a>
+                              </p>
+                              <p>Calon Siswa mendaftar di web pendaftaran.</p>
+                              <p>
+                                <a href="#" class="btn btn-danger btn-block btn-login">Sudah Tutup</a>
+                              </p>
                               {% endif %}
                             </div>
                           </div>

@@ -94,9 +94,6 @@ class PesertaForm(forms.ModelForm):
             'nisn': forms.TextInput(attrs={'type':'hidden'}),
             'thn_ajaran': forms.TextInput(attrs={'type':'hidden'}),
             'alamat_siswa': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
-            'alamat_ayah': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
-            'alamat_ibu': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
-            'alamat_wali': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
             'kip': forms.RadioSelect(attrs={'class':'btn-check'}),
             'pkh_kks': forms.RadioSelect(attrs={'class':'btn-check'}),
             'jenis_kelamin': forms.RadioSelect(attrs={'class':'btn-check'}),
@@ -121,13 +118,11 @@ class UpdatePesertaForm(forms.ModelForm):
             'Keterangan': forms.TextInput(attrs={'readonly':'readonly'}),
             'no_pendaftaran': forms.TextInput(attrs={'readonly':'readonly'}),
             'alamat_siswa': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
-            'alamat_ayah': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
-            'alamat_ibu': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
-            'alamat_wali': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
         }
 
 
 class EmailForm(forms.Form):
+    # override file
     email = forms.EmailField()
     cc = forms.EmailField(required=False)
     subject = forms.CharField(max_length=100)

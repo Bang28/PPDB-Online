@@ -118,7 +118,6 @@ def dataDiterima(request):
     '''fungsi menampilkan data peserta berdasarkan data peserta diterima'''
 
     peserta = Peserta.objects.filter(Keterangan="Diterima")
-    print(peserta)
     context = {
         'peserta': peserta,
     }
@@ -132,7 +131,6 @@ def dataPendaftar(request):
     '''fungsi menampilkan semua data pendaftar'''
 
     peserta = Peserta.objects.all().order_by('-tgl_daftar')
-    print(peserta)
     context = {
         'peserta': peserta,
     }
@@ -297,3 +295,13 @@ def index(request):
         'peserta': peserta,
     }
     return render(request, 'index.html', context)
+
+
+# ============== ERRORS HANDLER ==============|
+def error_404(request, exception):
+    '''fungsi menampilkan template error 404'''
+    return render(request, 'ppdb/404.html')
+
+def error_505(request, exception):
+    '''fungsi menampilkan template error 505'''
+    return render(request, 'ppdb/505.html')
