@@ -10,12 +10,32 @@
 <div class="text-center text-danger txt-sm"><i class="far fa-trash-alt fa-5x mb-4 mt-2"></i></div>
 <div class="text-center text-danger txt-sm">
     <span>Data akan dihapus, apakah anda yakin?</span>
-    <div class="text-dark mt-3 mb-2">
+    {% if request.resolver_match.url_name == "data-pendaftar" %}
+    <div class="text-dark mt-3 mb-2">Peserta: 
         <strong>{{p.nama}}</strong>
     </div>
+    {% elif request.resolver_match.url_name == "data-diterima" %}
+    <div class="text-dark mt-3 mb-2">Peserta: 
+        <strong>{{p.nama}}</strong>
+    </div>
+    {% elif request.resolver_match.url_name == "pengaturan-ppdb" %}
+    <div class="text-dark mt-3 mb-2">Tahun Ajaran: 
+        <strong>{{p.tahun_ajaran}}</strong>
+    </div>
+    {% elif request.resolver_match.url_name == "pengguna" %}
+    <div class="text-dark mt-3 mb-2">Pengguna: 
+        <strong>{{p.first_name}} {{p.last_name}}</strong>
+    </div>
+    {% endif %}
 </div>
 {% endblock modal-body %}
 
 {% block modal-footer %}
-<a href="{% url 'ppdb:hapus-data' p.id %}" type="button" class="btn btn-primary">Ya</a>
+{% if request.resolver_match.url_name == "data-pendaftar" %}
+<a href="{% url 'ppdb:hapus-data' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% elif request.resolver_match.url_name == "pengaturan-ppdb" %}
+<a href="{% url 'ppdb:hapus-periode-ppdb' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% elif request.resolver_match.url_name == "pengguna" %}
+<a href="{% url 'ppdb:hapus-pengguna' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% endif %}
 {% endblock modal-footer %}

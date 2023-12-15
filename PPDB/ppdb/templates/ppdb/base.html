@@ -2,48 +2,149 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>
-      {% block page_title %}
+    {% block page_title %}
 
-      {% endblock %}
+    {% endblock %}
     </title>
     {% include 'ppdb/snippets/style.html' %}
-  </head>
-  <body>
+</head>
+<body>
     <!-- loader Start -->
     <div id="loading">
-      <div class="loader simple-loader">
+    <div class="loader simple-loader">
         <div class="loader-body"></div>
-      </div>
+    </div>
     </div>
     <!-- loader END -->
 
     {% include 'ppdb/snippets/sidebar.html' %}
 
     <main class="main-content">
-      {% include 'ppdb/snippets/navbar.html' %}
+    {% include 'ppdb/snippets/navbar.html' %}
 
-      <div class="conatiner-fluid content-inner mt-n5 py-0">
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
         {% block content %}
 
         {% endblock %}
-      </div>
+    </div>
 
-      {% include 'ppdb/snippets/footer.html' %}
+    {% include 'ppdb/snippets/footer.html' %}
 
-      <!--modals-->
-      {% include 'ppdb/modals/logout.html' %}
+    <!--modals include-->
+    {% include 'ppdb/modals/logout.html' %}
+    {% include 'ppdb/modals/tambahPeriode.html' %}
     </main>
-    
     
     
     {% include 'ppdb/snippets/settingSide.html' %}
 
     {% include 'ppdb/snippets/scripts.html' %}
 
-  </body>
+    <!--datatables script-->
+    <script>
+        // new DataTable('#tbpengguna'); // default datatables configurations
+
+        // custom datatables configurations
+        $("#mytable").DataTable({
+            paging: true, // pagination
+            pageLength: 10, //data per page
+            lengthChange: true, //show entries per page
+            autoWidth: true, //control the auto width on columns
+            searching: true, //input search
+            bInfo: true, //info in footer
+            bSort: true, //filter A to Z and Z to A (and numbers)
+       
+            // disable columns with specific filter A to Z, Z to A
+            //"columnDefs":[
+            //        {
+                    //"targets": 5, //single column
+            //        "targets": [5, 6], //multiple column
+            //        "orderable": false
+            //   },
+            //],
+
+            // buttons
+            dom: 'lBfrtip',
+            buttons: [
+                {   //copy
+                    extend: 'copy',
+                    text: '<i class="fas fa-clone"></i>',
+                    className: 'btn btn-info',
+                    titleAttr: 'Copy',
+
+                    //choose the coloumns you with to copy
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
+                },
+                {   //excel
+                    extend: 'excel',
+                    text: '<i class="fas fa-file-excel"></i>',
+                    className: 'btn btn-info',
+                    titleAttr: 'Excel',
+
+                    //choose the coloumns you with to export excel
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
+                },
+                {   //print
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i>',
+                    className: 'btn btn-info',
+                    titleAttr: 'Print',
+
+                    //choose the coloumns you with to export print
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
+                    //font size (when export to print)
+                    customize: function(win){
+                        $(win.document.body).css('font-size', '10pt')
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                },
+                {   //pdf
+                    extend: 'pdf',
+                    text: '<i class="fas fa-file-pdf"></i>',
+                    className: 'btn btn-info',
+                    titleAttr: 'PDF',
+
+                    //choose the coloumns you with to export pdf
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
+                    //center the table
+                    tableHeader: {
+                        alignment: 'center'
+                    },
+                    //font size and optimization
+                    customize: function(doc){
+                        doc.styles.tableHeader.alignment = 'center'; //header position
+                        doc.styles.tableBodyOdd.alignment = 'center'; //body position one (grey color)
+                        doc.styles.tableBodyEven.alignment = 'center'; //body position two (white color)
+                        doc.styles.tableHeader.fontSize = 7; //header font size
+                        doc.defaultStyle.fontSize = 6; //body font size
+                        //to get 100% width of the table
+                        doc.content[1].table.widths = Array(doc.content[1].table.body[1].length + 1).join('*').split('');
+                    }
+                },
+            ]
+
+         });
+         // Enable searchBox outside
+         var newSearch = $("#mytable").DataTable();
+         $('#search').keyup(function(){
+            newSearch.search($(this).val()).draw();
+         })
+    </script>
+
+</body>
 </html>

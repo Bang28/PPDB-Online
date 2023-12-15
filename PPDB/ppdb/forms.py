@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
-from . models import Peserta
+from . models import Peserta, PeriodePPDB
 
 
 # create your class here
@@ -128,3 +128,37 @@ class EmailForm(forms.Form):
     subject = forms.CharField(max_length=100)
     attach = forms.FileField(required=False, widget=forms.ClearableFileInput())
     message = forms.CharField(widget=forms.Textarea())
+
+
+class PengaturanPPDBForm(forms.ModelForm):
+    class Meta:
+        model = PeriodePPDB
+        fields = "__all__"
+
+        labels = {
+            'tahun_ajaran': 'Tahun Ajaran',
+            'status': 'Status',
+            'tanggal_mulai': 'Tanggal Mulai',
+            'tanggal_selesai': 'Tanggal Selesai',
+        }
+        
+        widgets = {
+            'tahun_ajaran': forms.TextInput(attrs={'class':'form-control form-control-sm', 'placeholder':'2024/2025'}),
+            'status': forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'tanggal_mulai': forms.DateInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
+            'tanggal_selesai': forms.DateInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
+        }
+
+
+class PenggunaForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'is_active',
+            'is_superuser',
+            'password',
+        ]

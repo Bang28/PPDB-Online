@@ -1,10 +1,10 @@
 from django.contrib import admin
-from . models import Pengaturan_PPDB, Peserta
+from . models import PeriodePPDB, Peserta
 from django.utils.html import format_html
 from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
-@admin.register(Pengaturan_PPDB)
+@admin.register(PeriodePPDB)
 class PengaturanPPDBAdmin(admin.ModelAdmin):
     list_display = [
         'tahun_ajaran',
@@ -37,7 +37,7 @@ class PesertaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         ('pra_sekolah', 'gol_darah'),
         ('kip', 'no_kip'),
         ('pkh_kks', 'no_pkh_kks'),
-        ('foto_peserta_didik', 'foto_peserta'),
+        ('foto', 'foto_peserta'),
         # ayah 
         ('nama_ayah', 'nik_ayah'),
         ('status_ayah'),

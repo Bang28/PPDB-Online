@@ -4,14 +4,22 @@
 
 {% block table-title %}Data Pendaftar{% endblock table-title %}
 
+{% block search %}
+<div class="d-flex" style="margin-right: 25px;">
+    <div class="input-group">
+        <input type="search" class="form-control" id="search" placeholder="Search..." aria-label="search">
+    </div>
+</div>
+{% endblock search %}
+
 {% block table-content %}
-<table id="datatable" class="table table-striped-columns table-sm" data-toggle="data-table">
+<table id="mytable" class="table table-striped-columns table-sm">
     <thead>
     <tr>
         <th>No</th>
         <th>No Pendaftaran</th>
         <th>NISN</th>
-        <th>Jenis Kelamin</th>
+        <th>JK</th>
         <th>Keterangan</th>
         <th>Status Pendaftaran</th>
         <th>Action</th>
@@ -33,9 +41,9 @@
                 <td class="text-danger text-center">{{p.Keterangan}}</td>
             {% endif %}
             <td>
-                <a href="{% url 'ppdb:view-data' p.id %}" class="btn btn-info btn-sm" title="Detail data"><i class="fa-solid fa-eye"></i></a>
-                <button class="btn btn-warning btn-sm" title="Ubah data"><i class="fa solid fa-pen-to-square"></i></button>
-                <button data-bs-toggle="modal" data-bs-target="#hapusModal{{p.id}}" class="btn btn-danger btn-sm" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
+                <a href="{% url 'ppdb:view-data' p.id %}" class="btn btn-info btn-sm btn-icon" title="Detail data"><i class="fa-solid fa-eye"></i></a>
+                <button class="btn btn-warning btn-sm btn-icon" title="Ubah data"><i class="fa solid fa-pen-to-square"></i></button>
+                <button data-bs-toggle="modal" data-bs-target="#hapusModal{{p.id}}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
             </td>
         </tr>
         {% include 'ppdb/modals/hapus.html' %}

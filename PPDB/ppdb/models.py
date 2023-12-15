@@ -6,13 +6,14 @@ from django.utils.html import mark_safe
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Pengaturan_PPDB(models.Model):
+class PeriodePPDB(models.Model):
     tahun_ajaran    = models.CharField(max_length=20) 
     STATUS_CHOICES = (
+        ('', 'Status PPDB'),
         ('Dibuka', 'Dibuka'),
         ('Ditutup', 'Ditutup'),
     )
-    status          = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    status          = models.CharField(max_length=10, choices=STATUS_CHOICES)   
     tanggal_mulai   = models.DateField()
     tanggal_selesai = models.DateField()
 
@@ -20,7 +21,7 @@ class Pengaturan_PPDB(models.Model):
         return self.tahun_ajaran
 
     class Meta:
-        verbose_name_plural = "Pengaturan PPDB"
+        verbose_name_plural = "Periode PPDB"
 
 
 class Peserta(models.Model):
@@ -130,7 +131,7 @@ class Peserta(models.Model):
         ('Ya', 'Ya'),
         ('No', 'Tidak'),
     )
-    thn_ajaran              = models.ForeignKey(Pengaturan_PPDB, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Tahun Ajaran")
+    thn_ajaran              = models.ForeignKey(PeriodePPDB, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Tahun Ajaran")
     nisn                    = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="NISN")
     no_pendaftaran          = models.CharField('No Pendaftaran', max_length=15, unique=True, null=True, blank=True, editable=True)
     nama                    = models.CharField('Nama Lengkap', max_length=55)
@@ -159,7 +160,7 @@ class Peserta(models.Model):
     no_kip                  = models.CharField('No KIP', max_length=20, null=True, blank=True, help_text='Isi jika ada.')
     pkh_kks                 = models.CharField('PKH/KKS', max_length=5, choices=PKH_KKS, default="", help_text='Jika ada.')
     no_pkh_kks              = models.CharField('No PKH/KKS', max_length=20, null=True, blank=True, help_text='Isi jika ada.')
-    foto_peserta_didik      = models.ImageField('Foto Peserta', max_length=255, upload_to=image_upload_to, help_text='foto 3x4 dengan background merah')
+    foto                    = models.ImageField('Foto Peserta', max_length=255, upload_to=image_upload_to, help_text='foto 3x4 dengan background merah')
     Keterangan              = models.CharField('Keterangan', max_length=10, null=True, choices=KETERANGAN, default="Pending")
     tgl_daftar              = models.DateTimeField('Tanggal Daftar', auto_now_add=True, null=True, blank=True, editable=False)
 
@@ -275,7 +276,7 @@ class Peserta(models.Model):
     # preview image/file
     def foto_peserta(self):
         try:
-            return mark_safe(f'<img src = "{self.foto_peserta_didik.url}" width = "75"/>')
+            return mark_safe(f'<img src = "{self.foto.url}" width = "75"/>')
         except:
             pass
     
