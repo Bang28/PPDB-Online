@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     # ====== PATH TO APP ======|
     path('', include('ppdb.urls', namespace="ppdb")),
+    path('pengguna/', include('users.urls', namespace="users")),
 
     # ====== PATH TO DJANGO ADMIN ======|
     path('admin/', admin.site.urls),

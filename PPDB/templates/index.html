@@ -213,7 +213,7 @@
                               {% if ppdb.status == 'Dibuka' %}
                               <p>Calon Siswa mendaftar di web pendaftaran.</p>
                                 <p>
-                                  <a href="{% url 'ppdb:register' %}" class="btn btn-primary btn-block btn-login">Daftar Sekarang</a>
+                                  <a href="{% url 'users:register' %}" class="btn btn-primary btn-block btn-login">Daftar Sekarang</a>
                                 </p>
                               {% else %}
                               <p>Calon Siswa mendaftar di web pendaftaran.</p>
@@ -235,7 +235,7 @@
                               <p>Jika selesai pendaftaran silahkan login dengan username dan password saat pendaftaran</p>
                               {% if ppdb.status == 'Dibuka' %}
                                 <p>
-                                  <a href="{% url 'ppdb:login' %}" class="btn btn-success btn-block btn-login">Login</a>
+                                  <a href="{% url 'users:login' %}" class="btn btn-success btn-block btn-login">Login</a>
                                 </p>
                               {% else %}
                                 <p>

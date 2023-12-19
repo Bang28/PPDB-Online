@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     # myapp
     'ppdb.apps.PpdbConfig',
+    'users.apps.UsersConfig',
     # crispy-forms
     'crispy_forms',
     'crispy_bootstrap4',

@@ -149,9 +149,9 @@
                         </a>
                         <ul class="sub-nav collapse" id="sidebar-pengaturan" data-bs-parent="#sidebar-menu">
                             <li class="nav-item">
-                                <a class="nav-link {% if request.resolver_match.url_name == "pengaturan-ppdb" %}
+                                <a class="nav-link {% if request.resolver_match.url_name == "periode-ppdb" %}
                                     active
-                                {% endif %} " href="{% url 'ppdb:pengaturan-ppdb' %}">
+                                {% endif %} " href="{% url 'ppdb:periode-ppdb' %}">
                                     <i class="icon">
                                         <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -159,14 +159,14 @@
                                             </g>
                                         </svg>
                                     </i>
-                                    <i class="sidenav-mini-icon fa-regular fa-circle-right" title="Pengaturan PPDB"></i>
-                                    <span class="item-name">Pengaturan PPDB</span>
+                                    <i class="sidenav-mini-icon fa-regular fa-circle-right" title="Periode PPDB"></i>
+                                    <span class="item-name">Periode PPDB</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {% if request.resolver_match.url_name == "pengguna" %}
                                     active
-                                {% endif %} " href="{% url 'ppdb:pengguna' %}">
+                                {% endif %} " href="{% url 'users:pengguna' %}">
                                     <i class="icon">
                                         <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
