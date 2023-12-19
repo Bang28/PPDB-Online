@@ -11,7 +11,7 @@
 
     {% endblock %}
     </title>
-    {% include 'ppdb/snippets/style.html' %}
+    {% include 'snippets/style.html' %}
 </head>
 <body>
     <!-- loader Start -->
@@ -22,10 +22,10 @@
     </div>
     <!-- loader END -->
 
-    {% include 'ppdb/snippets/sidebar.html' %}
+    {% include 'snippets/sidebar.html' %}
 
     <main class="main-content">
-    {% include 'ppdb/snippets/navbar.html' %}
+    {% include 'snippets/navbar.html' %}
 
     <div class="conatiner-fluid content-inner mt-n5 py-0">
         {% block content %}
@@ -33,7 +33,7 @@
         {% endblock %}
     </div>
 
-    {% include 'ppdb/snippets/footer.html' %}
+    {% include 'snippets/footer.html' %}
 
     <!--modals include-->
     {% include 'users/modals/logout.html' %}
@@ -41,9 +41,9 @@
     </main>
     
     
-    {% include 'ppdb/snippets/settingSide.html' %}
+    {% include 'snippets/settingSide.html' %}
 
-    {% include 'ppdb/snippets/scripts.html' %}
+    {% include 'snippets/scripts.html' %}
 
     <!--datatables script-->
     <script>

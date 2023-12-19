@@ -244,7 +244,7 @@ def periodePPDB(request):
         'button': 'Tambah',
         'form': form
     }
-    return render(request, 'ppdb/pengaturanPpdb.html', context)
+    return render(request, 'ppdb/periodePpdb.html', context)
 
 @login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

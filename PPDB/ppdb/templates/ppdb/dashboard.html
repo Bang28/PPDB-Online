@@ -1,4 +1,4 @@
-{% extends 'ppdb/base.html' %} <!-- template ini mewarisi style dari base.html di tempates ppdb -->
+{% extends 'base.html' %} <!-- template ini mewarisi style dari base.html di tempates ppdb -->
 
 
 {% block page_title %}
@@ -7,7 +7,7 @@
 
 
 {% block content %}
-  {% include 'ppdb/messages.html' %}
+  {% include 'alert/messages.html' %}
   <div class="row">
     {% if request.user.is_superuser %}
     <div class="col-lg-3 col-md-6">
