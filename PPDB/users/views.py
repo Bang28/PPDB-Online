@@ -4,16 +4,40 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.contrib import messages
-from . forms import UserRegistraionForm, PenggunaForm
+from . forms import UserRegistraionForm, UserProfileForm, UserAddForm
 from . decorators import user_is_superuser
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 # ============== BACKEND ==============|
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def userProfile(request):
-    pass
+def userProfile(request, username):
+    '''fungsi update profile user'''
+
+    # logic buat update profile user
+    if request.method == "POST":
+        user =  request.user
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            user_form = form.save()
+            messages.success(request, f"{user_form.username}, Profil anda berhasil diperbarui!")
+            return redirect('users:profile', user_form.username)
+        
+        for error in list(form.errors.values()):
+            messages.error(request, error)
+
+    user = get_user_model().objects.filter(username=username).first()
+    if user:
+        form = UserProfileForm(instance=user)
+
+        context = {
+            'form':form,
+        }
+        return render(request, 'users/userProfile.html', context)
+
+    return redirect('ppdb:dashboard')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -53,26 +77,41 @@ def tambahPengguna(request):
     '''fungsi menambahkan data pengguna'''
 
     if request.method == "POST":
-        if request.POST.get('username') \
-            and request.POST.get('first_name') \
-            and request.POST.get('last_name') \
-            and request.POST.get('email') \
-            and request.POST.get('is_active') \
-            and request.POST.get('is_superuser') \
-            or request.POST.get('password'):
-            pengguna = PenggunaForm(request.POST or None)
-            pengguna.username = request.POST.get('username') 
-            pengguna.first_name = request.POST.get('first_name') 
-            pengguna.last_name = request.POST.get('last_name') 
-            pengguna.email = request.POST.get('email') 
-            pengguna.is_active = request.POST.get('is_active') 
-            pengguna.is_superuser = request.POST.get('is_superuser') 
-            pengguna.password = request.POST.get('password')
-            pengguna.save()
-            messages.success(request, "Pengguna baru berhasil ditambahan!")
+        form = UserAddForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, f"akun berhasil di tambahkan {user.username}") 
             return redirect('users:pengguna')
-    else:
-        return render(request, 'users/modals/tambahPengguna.html')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+
+    
+    elif request.method == "GET":
+        form = UserAddForm()
+        context = {
+            'forms': form
+        }
+        return render(request, 'users/modals/tambah.html', context)
+
+    # if request.method == "POST":
+    #     if request.POST.get('username') \
+    #         and request.POST.get('email') \
+    #         and request.POST.get('is_active') \
+    #         and request.POST.get('is_superuser') \
+    #         or request.POST.get('password'):
+    #         pengguna = UserAddForm(request.POST or None)
+    #         pengguna.username = request.POST.get('username') 
+    #         pengguna.email = request.POST.get('email') 
+    #         pengguna.is_active = request.POST.get('is_active') 
+    #         pengguna.is_superuser = request.POST.get('is_superuser') 
+    #         pengguna.password = request.POST.get('password')
+    #         if pengguna.is_valid():
+    #             pengguna.save()
+    #             messages.success(request, "Pengguna baru berhasil ditambahan!")
+    #             return redirect('users:pengguna')
+    # else:
+    #     return render(request, 'users/modals/tambah.html')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -80,7 +119,7 @@ def tambahPengguna(request):
 def pengguna(request):
     '''fungsi menampilkan semua data pengguna'''
 
-    user = User.objects.all().order_by('date_joined')
+    user = get_user_model().objects.all().order_by('date_joined')
     return render(request, 'users/pengguna.html', {'users': user})
 
 @login_required(login_url="users:login")

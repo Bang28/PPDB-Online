@@ -91,7 +91,7 @@
                     <a href="#" class="iq-sub-card">
                       <div class="d-flex align-items-center">
                         <div class="">
-                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'HopeUI/assets/images/shapes/01.png' %}" alt="" />
+                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'assets/images/shapes/01.png' %}" alt="" />
                         </div>
                         <div class="ms-3">
                           <h6 class="mb-0">Bni Emma Watson</h6>
@@ -102,7 +102,7 @@
                     <a href="#" class="iq-sub-card">
                       <div class="d-flex align-items-center">
                         <div class="">
-                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'HopeUI/assets/images/shapes/02.png' %}" alt="" />
+                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'assets/images/shapes/02.png' %}" alt="" />
                         </div>
                         <div class="ms-3">
                           <h6 class="mb-0">Lorem Ipsum Watson</h6>
@@ -113,7 +113,7 @@
                     <a href="#" class="iq-sub-card">
                       <div class="d-flex align-items-center">
                         <div class="">
-                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'HopeUI/assets/images/shapes/03.png' %}" alt="" />
+                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'assets/images/shapes/03.png' %}" alt="" />
                         </div>
                         <div class="ms-3">
                           <h6 class="mb-0">Why do we use it?</h6>
@@ -124,7 +124,7 @@
                     <a href="#" class="iq-sub-card">
                       <div class="d-flex align-items-center">
                         <div class="">
-                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'HopeUI/assets/images/shapes/04.png' %}" alt="" />
+                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'assets/images/shapes/04.png' %}" alt="" />
                         </div>
                         <div class="ms-3">
                           <h6 class="mb-0">Variations Passages</h6>
@@ -135,7 +135,7 @@
                     <a href="#" class="iq-sub-card">
                       <div class="d-flex align-items-center">
                         <div class="">
-                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'HopeUI/assets/images/shapes/05.png' %}" alt="" />
+                          <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'assets/images/shapes/05.png' %}" alt="" />
                         </div>
                         <div class="ms-3">
                           <h6 class="mb-0">Lorem Ipsum generators</h6>
@@ -150,15 +150,15 @@
           {% endif %}
           <li class="nav-item dropdown">
             <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="{% static 'HopeUI/assets/images/avatars/01.png' %}" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded" />
+              <img src="{% static 'assets/images/avatars/01.png' %}" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded" />
               <div class="caption ms-3 d-none d-md-block">
                 <h6 class="mb-0 caption-title">{{ user.first_name }} {{ user.last_name }}</h6>
-                <p class="mb-0 caption-sub-title">{{ user.email }}</p>
+                <p class="mb-0 caption-sub-title">{{ user.status }}</p>
               </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item" href="#">Profile</a>
+                <a class="dropdown-item" href="{% url 'users:profile' user.username %}">Profile</a>
               </li>
               <li>
                 <hr class="dropdown-divider" />
@@ -187,7 +187,7 @@
       </div>
     </div>
     <div class="iq-header-img">
-      <img src="{% static 'HopeUI/assets/images/dashboard/top-header.png' %}" alt="header" class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX" />
+      <img src="{% static 'assets/images/dashboard/top-header.png' %}" alt="header" class="theme-color-default-img img-fluid w-100 h-100 animated-scaleX" />
     </div>
   </div>
   <!-- Nav Header Component End -->

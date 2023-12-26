@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
 ]
 
+# custom user
+AUTH_USER_MODEL = 'users.CustomUser'
+
 # template pack bootstrap untuk crispy-forms
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 
 
-def user_is_superuser(function=None, redirect_url="ppdb:login"):
+def user_is_superuser(function=None, redirect_url="users:login"):
 
     def decorator(view_func):
         

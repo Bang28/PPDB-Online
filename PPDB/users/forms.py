@@ -47,15 +47,28 @@ class UserRegistraionForm(UserCreationForm):
         return user
     
 
-class PenggunaForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):
+    email = forms.EmailField()
+    
+    class Meta:
+        model = get_user_model()
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'image',
+            'description',
+        ]
+
+
+class UserAddForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = [
             'username',
-            'first_name',
-            'last_name',
             'email',
-            'is_active',
             'is_superuser',
+            'is_active',
+            'level',
             'password',
         ]

@@ -1,0 +1,17 @@
+<!-- Modal -->
+<div class="modal fade" {% block modal-id %} id="tambah-penggunaModal" {% endblock modal-id %} tabindex="-1" aria-labelledby="tambah-penggunaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="tambah-penggunaModalLabel">
+                {% block modal-title %} <i class="fa-solid fa-user-plus"></i>&nbsp;&nbsp;Tambah Pengguna {% endblock modal-title %}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST" {% block action %} action="{% url 'users:tambah-pengguna' %}" {% endblock action %}>
+            {% csrf_token %}
+            {{forms.as_p}}
+        </form>
+        </div>
+    </div>
+</div>

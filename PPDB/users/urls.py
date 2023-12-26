@@ -5,6 +5,7 @@ from . views import (
     loginUser,
     logoutUser,
     pengguna,
+    userProfile,
     hapusPengguna,
     tambahPengguna,
     editPengguna,
@@ -20,6 +21,7 @@ urlpatterns = [
     # ====== PATH TO BACKEND ======|
     path('logout/', logoutUser, name="logout"),
     path('', pengguna, name="pengguna"),
+    path('profile/<username>', userProfile, name="profile"),
     path('tambah_pengguna/', tambahPengguna, name="tambah-pengguna"),
     path('edit_pengguna/<pengguna_id>', editPengguna, name="edit-pengguna"),
     path('hapus_pengguna/<pengguna_id>', hapusPengguna, name="hapus-pengguna"),

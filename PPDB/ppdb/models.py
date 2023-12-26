@@ -4,6 +4,8 @@ import os
 import datetime
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
 
 # Create your models here.
 class PeriodePPDB(models.Model):
@@ -131,8 +133,8 @@ class Peserta(models.Model):
         ('Ya', 'Ya'),
         ('No', 'Tidak'),
     )
-    thn_ajaran              = models.ForeignKey(PeriodePPDB, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Tahun Ajaran")
-    nisn                    = models.OneToOneField(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="NISN")
+    thn_ajaran              = models.ForeignKey(PeriodePPDB, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Tahun Ajaran")
+    nisn                    = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, blank=True, null=True, verbose_name="NISN")
     no_pendaftaran          = models.CharField('No Pendaftaran', max_length=15, unique=True, null=True, blank=True, editable=True)
     nama                    = models.CharField('Nama Lengkap', max_length=55)
     asal_sekolah            = models.CharField('Asal Sekolah', max_length=60)
