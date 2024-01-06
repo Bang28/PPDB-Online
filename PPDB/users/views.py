@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from ppdb.models import PeriodePPDB, Peserta
+from ppdb.models import TahunAjaran
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
@@ -158,7 +158,7 @@ def loginUser(request):
 def register(request):
     '''fungsi untuk registrasi akun ppdb peserta'''
 
-    ppdb_info = PeriodePPDB.objects.all().order_by('-pk').first()
+    ppdb_info = TahunAjaran.objects.all().order_by('-id_thn_ajaran').first()
 
     if request.method == "POST":
         form = UserRegistraionForm(request.POST)

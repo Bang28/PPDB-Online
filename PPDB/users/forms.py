@@ -57,7 +57,6 @@ class UserProfileForm(forms.ModelForm):
             'last_name',
             'email',
             'image',
-            'description',
         ]
 
 

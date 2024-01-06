@@ -4,10 +4,10 @@ import os
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    def image_upload_to(self, instance=None):
-        if instance:
-            return os.path.join("Users", self.username, instance)
-        return None
+    def image_upload_to(instance, filename):
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (instance.username, ext)
+        return os.path.join('users', filename)
     
     LEVEL = (
         ('', 'Pilih level'),
@@ -17,7 +17,6 @@ class CustomUser(AbstractUser):
     
     email       = models.EmailField(unique=True)
     level       = models.CharField(max_length=7, choices=LEVEL, default="Peserta")
-    description = models.TextField("Deskripsi", max_length=300, default="", blank=True)
     image       = models.ImageField("Foto Profil", default='default/user.png', upload_to=image_upload_to)    
 
     def __str__(self):

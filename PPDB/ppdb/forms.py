@@ -1,37 +1,19 @@
 from django import forms
 from django.core.validators import RegexValidator
-from . models import Peserta, PeriodePPDB
+from . models import Formulir, TahunAjaran, DataAyah, DataIbu, DataWali, Berkas
 
 
 # create your class here
-class PesertaForm(forms.ModelForm):
-    # override field in Peserta Model
+class FormulirForm(forms.ModelForm):
+    # override field
     nik = forms.CharField(
-        validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
-        label= 'NIK',
-    )
-    nik_ayah = forms.CharField(
-        required=False,
-        validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
-        label= 'NIK',
-    )
-    nik_ibu = forms.CharField(
-        required=False,
-        validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
-        label= 'NIK',
-    )
-    nik_wali = forms.CharField(
-        required=False,
         validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
         widget = forms.TextInput(attrs={'maxlength':'16'}),
         label= 'NIK',
     )
 
     class Meta:
-        model = Peserta
+        model = Formulir
         fields = '__all__'
 
         labels = {
@@ -41,36 +23,65 @@ class PesertaForm(forms.ModelForm):
 
         widgets = {
             'tgl_lahir': forms.DateInput(attrs={'type':'date'}),
-            'tgl_lahir_ayah': forms.DateInput(attrs={'type':'date'}),
-            'tgl_lahir_ibu': forms.DateInput(attrs={'type':'date'}),
-            'tgl_lahir_wali': forms.DateInput(attrs={'type':'date'}),
-            'Keterangan': forms.TextInput(attrs={'type':'hidden'}),
+            'verifikasi': forms.TextInput(attrs={'type':'hidden'}),
             'no_pendaftaran': forms.TextInput(attrs={'type':'hidden'}),
             'nisn': forms.TextInput(attrs={'type':'hidden'}),
             'thn_ajaran': forms.TextInput(attrs={'type':'hidden'}),
-            'alamat_siswa': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
-            'kip': forms.RadioSelect(attrs={'class':'btn-check'}),
-            'pkh_kks': forms.RadioSelect(attrs={'class':'btn-check'}),
+            'alamat': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
             'jenis_kelamin': forms.RadioSelect(attrs={'class':'btn-check'}),
         }
 
-    # super function
-    def __init__(self, *args, **kwargs):
-        super(PesertaForm, self).__init__(*args, **kwargs)
-        self.fields['agama'].choices = [("", "Pilih agama")] + list(self.fields['agama'].choices)[1:]
 
-
-class UpdatePesertaForm(forms.ModelForm):
+class DataAyahForm(forms.ModelForm):
+    nik_ayah = forms.CharField(
+        required=False,
+        validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
+        widget = forms.TextInput(attrs={'maxlength':'16'}),
+        label= 'NIK',
+    )
     class Meta:
-        model = Peserta
+        model = DataAyah
+        fields = "__all__"
+
+class DataIbuForm(forms.ModelForm):
+    nik_ibu = forms.CharField(
+        required=False,
+        validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
+        widget = forms.TextInput(attrs={'maxlength':'16'}),
+        label= 'NIK',
+    )
+    class Meta:
+        model = DataIbu
+        fields = "__all__"
+
+class DataWaliForm(forms.ModelForm):
+    nik_wali = forms.CharField(
+        required=False,
+        validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
+        widget = forms.TextInput(attrs={'maxlength':'16'}),
+        label= 'NIK',
+    )
+    class Meta:
+        model = DataWali
+        fields = "__all__"
+
+class BerkasForm(forms.ModelForm):
+    class Meta:
+        model = Berkas
+        fields = "__all__"
+
+
+class UpdateFormulirForm(forms.ModelForm):
+    class Meta:
+        model = Formulir
         fields = "__all__"
 
         labels = {
-            'Keterangan': 'Status Pendaftaran',
+            'verifikasi': 'Status Pendaftaran',
         }
 
         widgets = {
-            'Keterangan': forms.TextInput(attrs={'readonly':'readonly'}),
+            'verifikasi': forms.TextInput(attrs={'readonly':'readonly'}),
             'no_pendaftaran': forms.TextInput(attrs={'readonly':'readonly'}),
             'alamat_siswa': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
         }
@@ -85,9 +96,9 @@ class EmailForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea())
 
 
-class PeriodePPDBForm(forms.ModelForm):
+class TahunAjaranForm(forms.ModelForm):
     class Meta:
-        model = PeriodePPDB
+        model = TahunAjaran
         fields = "__all__"
 
         labels = {

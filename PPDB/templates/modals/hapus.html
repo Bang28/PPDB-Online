@@ -1,6 +1,15 @@
 {% extends 'modals/baseModal.html' %}
 
-{% block modal-id %} id="hapusModal{{p.id}}" {% endblock modal-id %}
+{% block modal-id %} 
+{% if request.resolver_match.url_name == "periode-ppdb" %}
+    id="hapusModal{{p.id_periode}}" 
+{% elif request.resolver_match.url_name == "data-pendaftar" %}
+    id="hapusModal{{p.id}}" 
+{% else %}
+    id="hapusModal{{p.id}}" 
+{% endif %}
+    
+{% endblock modal-id %}
 
 {% block modal-title %}
 <i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Hapus Data
@@ -34,7 +43,7 @@
 {% if request.resolver_match.url_name == "data-pendaftar" %}
 <a href="{% url 'ppdb:hapus-data' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
 {% elif request.resolver_match.url_name == "periode-ppdb" %}
-<a href="{% url 'ppdb:hapus-periode-ppdb' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+<a href="{% url 'ppdb:hapus-periode-ppdb' p.id_periode %}" type="button" class="btn btn-primary btn-sm">Ya</a>
 {% elif request.resolver_match.url_name == "pengguna" %}
 <a href="{% url 'users:hapus-pengguna' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
 {% endif %}

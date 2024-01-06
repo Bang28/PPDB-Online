@@ -1,15 +1,71 @@
 from django.shortcuts import render, redirect
-from . forms import PesertaForm, UpdatePesertaForm, EmailForm, PeriodePPDBForm
+from . forms import FormulirForm, UpdateFormulirForm, EmailForm, TahunAjaranForm, DataAyahForm, DataIbuForm, DataWaliForm, BerkasForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.views.decorators.cache import cache_control #destroy the section after logout
 from . decorators import user_is_superuser
-from . models import PeriodePPDB, Peserta
+from . models import TahunAjaran, Formulir
 from datetime import datetime
 from django.core.mail import EmailMessage
 
+
 # Create your views here.
+def singleForm(request):
+    '''fungsi menampilkan template formulir datadiri'''
+
+    nisn = request.user 
+    thn = TahunAjaran.objects.filter(status="Dibuka").last()
+
+    if request.method == "POST":
+        form = FormulirForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Datadiri disimpan, silahkan lengkapi data berikut!")
+            return redirect('ppdb:form')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+            return redirect('ppdb:multi')
+    
+    form = FormulirForm(initial={'nisn':nisn, 'thn_ajaran':thn})
+    context = {
+        'page_title': 'Formulir PPDB | SMP Miftahul Falah Gandrungmangu',
+        'form': form,
+    }
+    return render(request, 'ppdb/formulir.html', context)
+
+def multiForm(request):
+    '''fungsi untuk menampilkan formulir Data & Berkas'''
+    id_form = Formulir.objects.last()
+    
+    forms = [
+        DataAyahForm(request.POST or None),
+        DataWaliForm(request.POST or None),
+        DataIbuForm(request.POST or None),
+        BerkasForm(request.POST, request.FILES or None),
+    ]
+
+    if request.method == "POST":
+        if all(forms[i].is_valid() for i in range(len(forms))):
+            for form in forms:
+                form.save()
+            messages.success(request, 'berhasil')
+            return redirect('ppdb:dashboard')
+    
+    forms = [
+        DataAyahForm(initial={'peserta': id_form}),
+        DataWaliForm(initial={'peserta': id_form}),
+        DataIbuForm(initial={'peserta': id_form}),
+        BerkasForm(initial={'peserta': id_form}),
+    ]
+    context = {
+        'page_title': 'Formulir PPDB | SMP Miftahul Falah Gandrungmangu',
+        'forms': forms,
+    }
+    return render(request, 'ppdb/multiform.html', context)
+
+
 # ============== BACKEND ==============|
 @login_required(login_url="login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -46,7 +102,7 @@ def email(request):
 def hapusData(request, id):
     '''fungsi hapus data peserta ppdb'''
 
-    peserta = Peserta.objects.get(id=id)
+    peserta = Formulir.objects.get(id=id)
     peserta.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:data-pendaftar")
@@ -58,7 +114,7 @@ def tolakForm(request):
     '''fungsi menginput nilai dari template viewData'''
 
     if request.method == "POST":
-        peserta = Peserta.objects.get(id = request.POST.get('id'))
+        peserta = Formulir.objects.get(id = request.POST.get('id'))
         if peserta != None:
             peserta.Keterangan = request.POST.get('Keterangan')
             peserta.save()
@@ -72,7 +128,7 @@ def terimaForm(request):
     '''fungsi menginput nilai dari template viewData'''
 
     if request.method == "POST":
-        peserta = Peserta.objects.get(id = request.POST.get('id'))
+        peserta = Formulir.objects.get(id = request.POST.get('id'))
         if peserta != None:
             peserta.Keterangan = request.POST.get('Keterangan')
             peserta.save()
@@ -85,7 +141,7 @@ def terimaForm(request):
 def viewData(request, id):
     '''fungsi menampilkan detail data peserta'''
 
-    peserta = Peserta.objects.get(id=id)
+    peserta = Formulir.objects.get(id=id)
     if peserta != None:
         return render(request, 'ppdb/viewData.html', {'peserta': peserta})
 
@@ -96,7 +152,7 @@ def viewData(request, id):
 def dataDiterima(request):
     '''fungsi menampilkan data peserta berdasarkan data peserta diterima'''
 
-    peserta = Peserta.objects.filter(Keterangan="Diterima")
+    peserta = Formulir.objects.filter(Keterangan="Diterima")
     context = {
         'peserta': peserta,
     }
@@ -109,7 +165,7 @@ def dataDiterima(request):
 def dataPendaftar(request):
     '''fungsi menampilkan semua data pendaftar'''
 
-    peserta = Peserta.objects.all().order_by('-tgl_daftar')
+    peserta = Formulir.objects.all().order_by('-tgl_daftar')
     context = {
         'peserta': peserta,
     }
@@ -122,14 +178,14 @@ def dataMaster(request, pk):
     '''fungsi view data dan edit data master peserta berdasarkan request user'''
 
     try:
-        data = Peserta.objects.filter(nisn=request.user).get(nisn=pk)
-    except Peserta.DoesNotExist:
+        data = Formulir.objects.filter(nisn=request.user).get(nisn=pk)
+    except Formulir.DoesNotExist:
         data = None
         messages.info(request, f"Tidak ada data yang cocok, silahkan isi data terlebih dahulu di <b>Form Pendaftaran</b>")
         return redirect('ppdb:form')
     
     if request.method == "POST":
-        form = UpdatePesertaForm(request.POST, request.FILES, instance=data)
+        form = UpdateFormulirForm(request.POST, request.FILES, instance=data)
         if form.is_valid():
             form.save()
             messages.success(request, "Data berhasil diperbarui")
@@ -139,37 +195,37 @@ def dataMaster(request, pk):
                 messages.error(request, error)
 
     else:
-        form = UpdatePesertaForm(instance=data)
+        form = UpdateFormulirForm(instance=data)
         context = {
             'form': form,
         }
     return render(request, 'ppdb/form.html', context)
 
-@login_required(login_url="ppdb:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def formulir(request):
-    '''fungsi menampilkan template formulir pendaftaran'''
+# @login_required(login_url="ppdb:login")
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# def formulir(request):
+#     '''fungsi menampilkan template formulir pendaftaran'''
 
-    nisn = request.user 
-    thn = PeriodePPDB.objects.filter(status="Dibuka").last()
+#     nisn = request.user 
+#     thn = TahunAjaran.objects.filter(status="Dibuka").last()
 
-    if request.method == "POST":
-        form = PesertaForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Formulir berhasil diajukan, silahkan tunggu verifikasi data")
-            return redirect('ppdb:form')
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
-            return redirect('ppdb:form')
+#     if request.method == "POST":
+#         form = FormulirForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Formulir berhasil diajukan, silahkan tunggu verifikasi data")
+#             return redirect('ppdb:form')
+#         else:
+#             for error in list(form.errors.values()):
+#                 messages.error(request, error)
+#             return redirect('ppdb:form')
     
-    form = PesertaForm(initial={'nisn':nisn, 'thn_ajaran':thn})
-    context = {
-        'page_title': 'Formulir PPDB | SMP Miftahul Falah Gandrungmangu',
-        'form': form,
-    }
-    return render(request, 'ppdb/form.html', context)
+#     form = FormulirForm(initial={'nisn':nisn, 'thn_ajaran':thn})
+#     context = {
+#         'page_title': 'Formulir PPDB | SMP Miftahul Falah Gandrungmangu',
+#         'form': form,
+#     }
+#     return render(request, 'ppdb/form.html', context)
 
 @login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -177,7 +233,7 @@ def formulir(request):
 def hapusDataPPDB(request, periode_id):
     '''fungsi hapus data periode ppdb'''
 
-    pengaturan = PeriodePPDB.objects.get(id=periode_id)
+    pengaturan = TahunAjaran.objects.get(id_periode = periode_id)
     pengaturan.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:periode-ppdb")
@@ -190,7 +246,7 @@ def editPeriode(request, periode_id):
     '''fungsi untuk merubah data periode ppdb'''
 
     if request.method == "POST":
-        periode = PeriodePPDB.objects.get(id = periode_id)
+        periode = TahunAjaran.objects.get(id_periode = periode_id)
         if periode != None:
             periode.tahun_ajaran = request.POST.get('tahun_ajaran')
             periode.tanggal_mulai = request.POST.get('tanggal_mulai')
@@ -211,7 +267,7 @@ def tambahPeriode(request):
             and request.POST.get('tanggal_mulai') \
             and request.POST.get('tanggal_selesai') \
             or request.POST.get('status'):
-            periode = PeriodePPDB()
+            periode = TahunAjaran()
             periode.tahun_ajaran = request.POST.get('tahun_ajaran')
             periode.tanggal_mulai = request.POST.get('tanggal_mulai')
             periode.tanggal_selesai = request.POST.get('tanggal_selesai')
@@ -225,37 +281,37 @@ def tambahPeriode(request):
 @login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
-def periodePPDB(request):
+def tahunAjaran(request):
     '''fungsi untuk menampilkan semua data periode ppdb'''
 
-    pengaturan = PeriodePPDB.objects.all().order_by('-pk')
+    pengaturan = TahunAjaran.objects.all().order_by('-id_thn_ajaran')
 
     if request.method == "POST":
-        form = PeriodePPDBForm(request.POST)
+        form = TahunAjaranForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "PPDB periode berhasil ditambahkan.")
             return redirect("ppdb:periode-ppdb")
 
-    form = PeriodePPDBForm()
+    form = TahunAjaranForm()
     context = {
         'pengaturan': pengaturan,
         'heading': 'Tambah Periode PPDB',
         'button': 'Tambah',
         'form': form
     }
-    return render(request, 'ppdb/periodePpdb.html', context)
+    return render(request, 'ppdb/TahunAjaran.html', context)
 
 @login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def dashboard(request):
     '''fungsi menampilkan template dashboard'''
 
-    total = Peserta.objects.all().count()
-    terima = Peserta.objects.filter(Keterangan="Diterima").count()
-    pending = Peserta.objects.filter(Keterangan="Pending").count()
+    total = Formulir.objects.all().count()
+    terima = Formulir.objects.filter(verifikasi="Diterima").count()
+    pending = Formulir.objects.filter(verifikasi="Pending").count()
     date = datetime.now().date()
-    hari = Peserta.objects.filter(tgl_daftar__gt = date)
+    hari = Formulir.objects.filter(tgl_daftar__gt = date)
 
 
     context = {
@@ -273,8 +329,8 @@ def dashboard(request):
 def index(request):
     '''fungsi menampilkan halaman index'''
 
-    peserta = Peserta.objects.all().order_by('-tgl_daftar')
-    info_ppdb = PeriodePPDB.objects.all().order_by('-pk').first()
+    peserta = Formulir.objects.all().order_by('-tgl_daftar')
+    info_ppdb = TahunAjaran.objects.all().order_by('-pk').first()
 
     if request.method == "POST":
         username = request.POST['username']

@@ -2,8 +2,8 @@ from django.urls import path
 from . views import (
     index, 
     dashboard,
-    formulir,
-    periodePPDB,
+    # formulir,
+    tahunAjaran,
     tambahPeriode,
     editPeriode,
     hapusDataPPDB,
@@ -15,6 +15,9 @@ from . views import (
     terimaForm,
     tolakForm,
     email,
+
+    singleForm,
+    multiForm,
 )
 
 app_name = "ppdb"
@@ -25,10 +28,10 @@ urlpatterns = [
 
     # ====== PATH TO BACKEND ======|
     path('dashboard/', dashboard, name="dashboard"),
-    path('formulir/', formulir, name="form"),
+    # path('formulir/', formulir, name="form"),
     path('datamaster/<pk>', dataMaster, name="data-master"),
 
-    path('periode_ppdb/', periodePPDB, name="periode-ppdb"),    
+    path('periode_ppdb/', tahunAjaran, name="periode-ppdb"),    
     path('tambah_periode/', tambahPeriode, name="tambah-periode"),
     path('edit_periode/<periode_id>', editPeriode, name="edit-periode"),
     path('hapus_periode_ppdb/<periode_id>', hapusDataPPDB, name="hapus-periode-ppdb"),
@@ -41,4 +44,8 @@ urlpatterns = [
     path('tolak_formulir/', tolakForm, name="tolak"),
     
     path('email', email, name="email"),
+
+
+    path('data_diri/', singleForm, name="single"),
+    path('multi_forms/', multiForm, name="multi"),
 ]

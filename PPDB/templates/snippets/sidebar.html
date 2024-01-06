@@ -73,9 +73,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == "form" %}
+                        <a class="nav-link {% if request.resolver_match.url_name == "single" %}
                             active
-                        {% endif %}  " href="{% url 'ppdb:form' %}">
+                        {% endif %}  " href="{% url 'ppdb:single' %}">
                             <i class="icon">
                                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path opacity="0.4" d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z" fill="currentColor"></path>
