@@ -25,5 +25,5 @@ admin.site.site_title = "SMP Miftahul Falah Gandrungmangu"
 admin.site.index_title = "Dashboard Admin"
 
 # ERROR HANDLER
-handler404 = "ppdb.views.error_404"
-handler505 = "ppdb.views.error_505"
+handler404 = "ppdb.views.handler.error_404"
+handler505 = "ppdb.views.handler.error_505"

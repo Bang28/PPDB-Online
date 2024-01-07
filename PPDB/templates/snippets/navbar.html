@@ -55,13 +55,13 @@
                   </div>
                   {% for notif in today %}
                     <div class="p-0 card-body">
-                      <a href="{% url 'ppdb:view-data' notif.id %}" class="iq-sub-card">
+                      <a href="{% url 'ppdb:view-data' notif.id_siswa %}" class="iq-sub-card">
                         <div class="d-flex align-items-center">
                           <img class="p-1 avatar-40 rounded-pill bg-soft-primary" src="{% static 'media/default/user.png' %}" alt="User" />
                           <div class="ms-3 w-100">
                             <h6 class="mb-0">{{ notif.nama }}</h6>
                             <div class="d-flex justify-content-between align-items-center">
-                              <p class="mb-0">{{ notif.Keterangan }}</p>
+                              <p class="mb-0">{{ notif.verifikasi }}</p>
                               <small class="float-end font-size-12">{{ notif.tgl_daftar|date }}</small>
                             </div>
                           </div>

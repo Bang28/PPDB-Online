@@ -1,10 +1,10 @@
 from django import forms
 from django.core.validators import RegexValidator
-from . models import Formulir, TahunAjaran, DataAyah, DataIbu, DataWali, Berkas
+from . models import Siswa, TahunAjaran, DataAyah, DataIbu, DataWali, Berkas
 
 
 # create your class here
-class FormulirForm(forms.ModelForm):
+class SiswaForm(forms.ModelForm):
     # override field
     nik = forms.CharField(
         validators = [RegexValidator(r'^[\d]*$', message="NIK, hanya angka yg diizinkan")],
@@ -13,7 +13,7 @@ class FormulirForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Formulir
+        model = Siswa
         fields = '__all__'
 
         labels = {
@@ -41,7 +41,11 @@ class DataAyahForm(forms.ModelForm):
     )
     class Meta:
         model = DataAyah
-        fields = "__all__"
+        fields = '__all__'
+
+        widgets = {
+            'tgl_lahir_ayah': forms.DateInput(attrs={'type':'date'}),
+        }
 
 class DataIbuForm(forms.ModelForm):
     nik_ibu = forms.CharField(
@@ -52,7 +56,11 @@ class DataIbuForm(forms.ModelForm):
     )
     class Meta:
         model = DataIbu
-        fields = "__all__"
+        fields = '__all__'
+
+        widgets = {
+            'tgl_lahir_ibu': forms.DateInput(attrs={'type':'date'}),
+        }
 
 class DataWaliForm(forms.ModelForm):
     nik_wali = forms.CharField(
@@ -63,17 +71,21 @@ class DataWaliForm(forms.ModelForm):
     )
     class Meta:
         model = DataWali
-        fields = "__all__"
+        fields = '__all__'
+
+        widgets = {
+            'tgl_lahir_wali': forms.DateInput(attrs={'type':'date'}),
+        }
 
 class BerkasForm(forms.ModelForm):
     class Meta:
         model = Berkas
-        fields = "__all__"
+        fields = '__all__'
 
 
-class UpdateFormulirForm(forms.ModelForm):
+class UpdateSiswaForm(forms.ModelForm):
     class Meta:
-        model = Formulir
+        model = Siswa
         fields = "__all__"
 
         labels = {

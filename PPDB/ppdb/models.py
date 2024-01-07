@@ -42,11 +42,11 @@ class TahunAjaran(models.Model):
         verbose_name_plural = "Tahun Ajaran"
 
 
-class Formulir(models.Model):
+class Siswa(models.Model):
     def image_upload_to(instance, filename):
         ext = filename.split('.')[-1]
         filename = "%s_%s.%s" % (instance.no_pendaftaran, instance.nama, ext)
-        return os.path.join('formulir/foto peserta', filename)
+        return os.path.join('formulir/foto siswa', filename)
     
     # enum
     STATUS = (
@@ -105,7 +105,7 @@ class Formulir(models.Model):
         ('Diterima', 'Diterima'),
         ('Ditolak', 'Ditolak'),
     )
-    id_formulir             = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
+    id_siswa                = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
     no_pendaftaran          = models.CharField('No Pendaftaran', max_length=12, unique=True, blank=True, editable=False)
     status                  = models.CharField('Status', max_length=10, choices=STATUS, default=1)
     nama                    = models.CharField('Nama Lengkap', max_length=55)
@@ -125,13 +125,13 @@ class Formulir(models.Model):
     transportasi            = models.CharField('Mode Transportasi', max_length=30, choices=TRANSPOSTASI, null=True, blank=True)
     biaya_sekolah           = models.CharField('Biaya Sekolah', max_length=30, choices=BIAYA_SEKOLAH)
     keb_disabilitas         = models.CharField('Kebutuhan Disabilitas', max_length=20, choices=KEBUTUHAN_DISABILITAS)
-    foto                    = models.ImageField('Foto Peserta', max_length=255, upload_to=image_upload_to, help_text='foto 3x4 dengan background merah')
+    foto                    = models.ImageField('Foto', max_length=255, upload_to=image_upload_to, help_text='foto 3x4 dengan background merah')
     verifikasi              = models.CharField('Status Pendaftaran', max_length=10, null=True, choices=KETERANGAN, default="Pending")
     tgl_daftar              = models.DateTimeField('Tanggal Daftar', auto_now_add=True, null=True, blank=True, editable=False)
     konfirmasi              = models.BooleanField('Ya, data sudah sesuai dan lengkap.')
 
     # # kata kunci asing
-    nisn                    = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, blank=True, null=True, verbose_name="NISN")
+    nisn                    = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, blank=True, null=True, verbose_name="NISN", related_name='siswa')
     thn_ajaran              = models.ForeignKey(TahunAjaran, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Tahun Ajaran")
     # ayah                    = models.OneToOneField(DataAyah, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Ayah")
     # ibu                     = models.OneToOneField(DataIbu, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Ibu")
@@ -148,14 +148,14 @@ class Formulir(models.Model):
     def save(self):
         '''fungsi untuk membuat no pendaftaran otomatis'''
         if not self.no_pendaftaran and self.pk is None:
-            last_daftar = Formulir.objects.all().order_by("-pk").first()
+            last_daftar = Siswa.objects.all().order_by("-pk").first()
             year = datetime.date.today().year
             last_pk = 0
             if last_daftar:
                 last_pk = last_daftar.pk
         
             self.no_pendaftaran = "PPDB-" + str(year) + str(last_pk+1).zfill(3)
-        super(Formulir, self).save()
+        super(Siswa, self).save()
 
     def __str__(self):
         return self.no_pendaftaran
@@ -241,13 +241,13 @@ class DataAyah(models.Model):
     status_tmp_tinggal_ayah = models.CharField('Status Tempat Tinggal Ayah', max_length=25, choices=STATUS_TINGGAL_ORTU, null=True, blank=True)
 
     # kata kunci asing
-    formulir                = models.OneToOneField(Formulir, on_delete=models.CASCADE, null=True, blank=True)
+    siswa                   = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='ayah')
 
     def __str__(self):
         return self.nama_ayah
 
     class Meta:
-        verbose_name_plural = "Data Ayah Peserta"
+        verbose_name_plural = "Data Ayah Siswa"
 
 
 class DataIbu(models.Model):
@@ -263,13 +263,13 @@ class DataIbu(models.Model):
     no_hp_ibu           = models.CharField('No Telp/Wa', max_length=13, null=True, blank=True, help_text='Pastikan nomer aktif dan dapat dihubungi.')
 
     # kata kunci asing
-    formulir            = models.OneToOneField(Formulir, on_delete=models.CASCADE, null=True, blank=True)
+    siswa            = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='ibu')
 
     def __str__(self):
         return self.nama_ibu
 
     class Meta:
-        verbose_name_plural = "Data Ibu Peserta"
+        verbose_name_plural = "Data Ibu Siswa"
 
 
 class DataWali(models.Model):
@@ -284,40 +284,40 @@ class DataWali(models.Model):
     no_hp_wali          = models.CharField('No Telp/Wa Wali', max_length=15, null=True, blank=True)
 
     # kata kunci asing
-    formulir            = models.OneToOneField(Formulir, on_delete=models.CASCADE, null=True, blank=True)
+    siswa               = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='wali')
 
     def __str__(self):
         return self.nama_wali
 
     class Meta:
-        verbose_name_plural = "Data Wali Peserta"
+        verbose_name_plural = "Data Wali Siswa"
 
 class Berkas(models.Model):
     # manage upload + rename file berkas
     def file_kk(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.formulir.no_pendaftaran, ext)
-        return os.path.join('formulir/berkas/kk', filename)
+        filename = "%s.%s" % (instance.siswa.no_pendaftaran, ext)
+        return os.path.join('siswa/berkas/kk', filename)
     def file_akta(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.formulir.no_pendaftaran, ext)
-        return os.path.join('formulir/berkas/akta', filename)
+        filename = "%s_%s.%s" % (instance.siswa.no_pendaftaran, instance.siswa.nisn, ext)
+        return os.path.join('siswa/berkas/akta', filename)
     def file_raport(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.formulir.no_pendaftaran, ext)
-        return os.path.join('formulir/berkas/raport', filename)
+        filename = "%s_%s.%s" % (instance.siswa.no_pendaftaran, instance.siswa.nisn, ext)
+        return os.path.join('siswa/berkas/raport', filename)
     def file_skl(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.formulir.no_pendaftaran, ext)
-        return os.path.join('formulir/berkas/skl', filename)
+        filename = "%s_%s.%s" % (instance.siswa.no_pendaftaran, instance.siswa.nisn, ext)
+        return os.path.join('siswa/berkas/skl', filename)
     def file_ijazah(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.formulir.no_pendaftaran, ext)
-        return os.path.join('formulir/berkas/ijazah', filename)
+        filename = "%s_%s.%s" % (instance.siswa.no_pendaftaran, instance.siswa.nisn, ext)
+        return os.path.join('siswa/berkas/ijazah', filename)
     def file_skhun(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.formulir.no_pendaftaran, ext)
-        return os.path.join('formulir/berkas/skhun', filename)
+        filename = "%s_%s.%s" % (instance.siswa.no_pendaftaran, instance.siswa.nisn, ext)
+        return os.path.join('siswa/berkas/skhun', filename)
     
     id_berkas       = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
     file_kk         = models.FileField('Kartu Keluarga', max_length=255, upload_to=file_kk, validators=[file_extension, file_size], help_text='File bisa berupa gambar atau pdf')
@@ -328,7 +328,7 @@ class Berkas(models.Model):
     file_skhun      = models.FileField('SKHUN', max_length=255, upload_to=file_skhun, validators=[file_extension, file_size], help_text='(Jika sudah ada). File bisa berupa gambar atau pdf', null=True, blank=True)
 
     # kata kunci asing
-    formulir        = models.OneToOneField(Formulir, on_delete=models.CASCADE, null=True, blank=True)
+    siswa           = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='berkas')
 
     # preview berkas
     def kk_preview(self):
@@ -350,4 +350,4 @@ class Berkas(models.Model):
         return mark_safe(f'<img src = "{self.file_skhun.url}" width = "275"/>')
 
     class Meta:
-        verbose_name_plural = "Berkas Peserta"
+        verbose_name_plural = "Berkas Siswa"

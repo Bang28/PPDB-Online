@@ -1,13 +1,13 @@
 {% extends 'ppdb/modals/tambahPeriode.html' %}
 
 <!--modal id-->
-{% block modal-id %} id="editModal{{p.id_periode}}" {% endblock modal-id %}
+{% block modal-id %} id="editModal{{p.id_thn_ajaran}}" {% endblock modal-id %}
 
 <!--modal title-->
 {% block modal-title %} <i class="fas fa-edit"></i>&nbsp;&nbsp; Edit Periode {% endblock modal-title %}
 
 <!--form action-->
-{% block action %} action="{% url 'ppdb:edit-periode' p.id_periode %}" {% endblock action %}
+{% block action %} action="{% url 'ppdb:edit-periode' p.id_thn_ajaran %}" {% endblock action %}
 
 <!--button action-->
 {% block btn-action %} <i class="fa-regular fa-floppy-disk"></i>&nbsp;&nbsp;Simpan {% endblock btn-action %}

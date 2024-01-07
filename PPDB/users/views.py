@@ -6,7 +6,6 @@ from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from . forms import UserRegistraionForm, UserProfileForm, UserAddForm
 from . decorators import user_is_superuser
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 # Create your views here.
@@ -45,7 +44,7 @@ def userProfile(request, username):
 def hapusPengguna(request, pengguna_id):
     '''fungsi hapus data pengguna'''
 
-    pengguna = User.objects.get(id=pengguna_id)
+    pengguna = get_user_model().objects.get(id=pengguna_id)
     pengguna.delete()
     messages.success(request, "Data pengguna berhasil dihapus!")
     return redirect('users:pengguna')
@@ -55,20 +54,20 @@ def hapusPengguna(request, pengguna_id):
 @user_is_superuser
 def editPengguna(request, pengguna_id):
     '''fungsi edit data pengguna'''
-
     if request.method == "POST":
-        pengguna = User.objects.get(id = pengguna_id)
+        pengguna = get_user_model().objects.get(id = pengguna_id)
         if pengguna != None:
             pengguna.username = request.POST.get('username')
-            pengguna.first_name = request.POST.get('first_name')
-            pengguna.last_name = request.POST.get('last_name')
             pengguna.email = request.POST.get('email')
             pengguna.is_active = request.POST.get('is_active')
-            pengguna.is_staff = request.POST.get('is_staff')
             pengguna.is_superuser = request.POST.get('is_superuser')
             pengguna.save()
-            messages.success(request, "Data pengguna berhasil diperbarui")
-            return redirect("users:pengguna")
+            messages.success(request, "Data pengguna berhasil di edit!")
+            return redirect('users:pengguna')
+        
+        
+    else:
+        return render(request, 'users/modals/tambah.html')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -77,41 +76,13 @@ def tambahPengguna(request):
     '''fungsi menambahkan data pengguna'''
 
     if request.method == "POST":
-        form = UserAddForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            messages.success(request, f"akun berhasil di tambahkan {user.username}") 
+        pengguna = UserAddForm(request.POST or None)
+        if pengguna.is_valid():
+            pengguna.save()
+            messages.success(request, "Pengguna baru berhasil ditambahan!")
             return redirect('users:pengguna')
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
-
-    
-    elif request.method == "GET":
-        form = UserAddForm()
-        context = {
-            'forms': form
-        }
-        return render(request, 'users/modals/tambah.html', context)
-
-    # if request.method == "POST":
-    #     if request.POST.get('username') \
-    #         and request.POST.get('email') \
-    #         and request.POST.get('is_active') \
-    #         and request.POST.get('is_superuser') \
-    #         or request.POST.get('password'):
-    #         pengguna = UserAddForm(request.POST or None)
-    #         pengguna.username = request.POST.get('username') 
-    #         pengguna.email = request.POST.get('email') 
-    #         pengguna.is_active = request.POST.get('is_active') 
-    #         pengguna.is_superuser = request.POST.get('is_superuser') 
-    #         pengguna.password = request.POST.get('password')
-    #         if pengguna.is_valid():
-    #             pengguna.save()
-    #             messages.success(request, "Pengguna baru berhasil ditambahan!")
-    #             return redirect('users:pengguna')
-    # else:
-    #     return render(request, 'users/modals/tambah.html')
+    else:
+        return render(request, 'users/modals/tambah.html')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

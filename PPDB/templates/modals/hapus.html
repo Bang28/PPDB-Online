@@ -2,9 +2,9 @@
 
 {% block modal-id %} 
 {% if request.resolver_match.url_name == "periode-ppdb" %}
-    id="hapusModal{{p.id_periode}}" 
+    id="hapusModal{{p.id_thn_ajaran}}" 
 {% elif request.resolver_match.url_name == "data-pendaftar" %}
-    id="hapusModal{{p.id}}" 
+    id="hapusModal{{p.id_siswa}}" 
 {% else %}
     id="hapusModal{{p.id}}" 
 {% endif %}
@@ -33,7 +33,7 @@
     </div>
     {% elif request.resolver_match.url_name == "pengguna" %}
     <div class="text-dark mt-3 mb-2">Pengguna: 
-        <strong>{{p.first_name}} {{p.last_name}}</strong>
+        <strong>{{p.username}}</strong>
     </div>
     {% endif %}
 </div>
@@ -41,9 +41,9 @@
 
 {% block modal-footer %}
 {% if request.resolver_match.url_name == "data-pendaftar" %}
-<a href="{% url 'ppdb:hapus-data' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+<a href="{% url 'ppdb:hapus-data' p.id_siswa %}" type="button" class="btn btn-primary btn-sm">Ya</a>
 {% elif request.resolver_match.url_name == "periode-ppdb" %}
-<a href="{% url 'ppdb:hapus-periode-ppdb' p.id_periode %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+<a href="{% url 'ppdb:hapus-periode-ppdb' p.id_thn_ajaran %}" type="button" class="btn btn-primary btn-sm">Ya</a>
 {% elif request.resolver_match.url_name == "pengguna" %}
 <a href="{% url 'users:hapus-pengguna' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
 {% endif %}

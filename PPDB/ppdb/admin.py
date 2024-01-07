@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import reverse
-from . models import TahunAjaran, Formulir, DataAyah, DataIbu, DataWali, Berkas
+from . models import TahunAjaran, Siswa, DataAyah, DataIbu, DataWali, Berkas
 from django.utils.html import format_html
 from import_export.admin import ImportExportModelAdmin
 
@@ -28,8 +28,8 @@ class BerkasAdmin(admin.StackedInline):
     model = Berkas
     
     
-@admin.register(Formulir)
-class FormulirAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+@admin.register(Siswa)
+class SiswaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('foto_peserta', 'nama', 'no_pendaftaran', 'nisn', 'status', 'keterangan', '_')
     readonly_fields = ['no_pendaftaran', 'tgl_daftar']
     radio_fields = {'jenis_kelamin': admin.VERTICAL}

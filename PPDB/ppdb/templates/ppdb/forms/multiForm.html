@@ -96,7 +96,9 @@
                       <h4 class="steps">Step 1 - 6</h4>
                     </div>
                   </div>
-                  {{forms|crispy}}
+                  {% for form in forms %}
+                    {{form|crispy}}
+                  {% endfor %}
                 </div>
                 {% comment %} <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">Next</button>  {% endcomment %}
                 <button type="submit" class="btn btn-primary float-end">Simpan</button>
