@@ -128,15 +128,10 @@ class Siswa(models.Model):
     foto                    = models.ImageField('Foto', max_length=255, upload_to=image_upload_to, help_text='foto 3x4 dengan background merah')
     verifikasi              = models.CharField('Status Pendaftaran', max_length=10, null=True, choices=KETERANGAN, default="Pending")
     tgl_daftar              = models.DateTimeField('Tanggal Daftar', auto_now_add=True, null=True, blank=True, editable=False)
-    konfirmasi              = models.BooleanField('Ya, data sudah sesuai dan lengkap.')
 
-    # # kata kunci asing
+    # kata kunci asing
     nisn                    = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, blank=True, null=True, verbose_name="NISN", related_name='siswa')
-    thn_ajaran              = models.ForeignKey(TahunAjaran, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Tahun Ajaran")
-    # ayah                    = models.OneToOneField(DataAyah, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Ayah")
-    # ibu                     = models.OneToOneField(DataIbu, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Ibu")
-    # wali                    = models.OneToOneField(DataWali, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Wali")
-    # berkas                  = models.OneToOneField(Berkas, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Berkas")
+    thn_ajaran              = models.ForeignKey(TahunAjaran, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Tahun Ajaran") # M - 1
         
     # preview image/file
     def foto_peserta(self):
@@ -227,8 +222,8 @@ STATUS_TINGGAL_ORTU = (
 )
 
 
-class DataAyah(models.Model):
-    id_ayah                 = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
+class OrangTua(models.Model):
+    id_ortu                 = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
     nama_ayah               = models.CharField('Nama Lengkap Ayah', max_length=30, null=True, blank=True)
     status_ayah             = models.CharField('Status Ayah', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
     nik_ayah                = models.CharField('NIK Ayah', max_length=16, null=True, blank=True)
@@ -237,11 +232,19 @@ class DataAyah(models.Model):
     pendidikan_ayah         = models.CharField('Pendidikan Ayah', max_length=25, choices=PENDIDIKAN_ORTU, null=True, blank=True)
     pekerjaan_ayah          = models.CharField('Pekerjaan Ayah', max_length=50, choices=PEKERJAAN_ORTU, null=True, blank=True)
     penghasilan_ayah        = models.CharField('Penghasilan Ayah', max_length=30, choices=PENGHASILAN_ORTU, null=True, blank=True)
-    no_hp_ayah              = models.CharField('No Telp/Wa', max_length=13, null=True, blank=True, help_text='Pastikan nomer aktif dan dapat dihubungi.')
-    status_tmp_tinggal_ayah = models.CharField('Status Tempat Tinggal Ayah', max_length=25, choices=STATUS_TINGGAL_ORTU, null=True, blank=True)
+    nama_ibu                = models.CharField('Nama Lengkap Ibu', max_length=30, null=True, blank=True)
+    status_ibu              = models.CharField('Status Ibu', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
+    nik_ibu                 = models.CharField('NIK Ibu', max_length=16,  null=True, blank=True)
+    tempat_lahir_ibu        = models.CharField('Tempat Lahir Ibu', max_length=20, null=True, blank=True)
+    tgl_lahir_ibu           = models.DateField('Tanggal Lahir Ibu', null=True, blank=True)
+    pendidikan_ibu          = models.CharField('Pendidikan Ibu', max_length=25, choices=PENDIDIKAN_ORTU, null=True, blank=True)
+    pekerjaan_ibu           = models.CharField('Pekerjaan Ibu', max_length=30, choices=PEKERJAAN_ORTU, null=True, blank=True)
+    penghasilan_ibu         = models.CharField('Penghasilan Ibu', max_length=25, choices=PENGHASILAN_ORTU, null=True, blank=True)
+    no_hp_ortu              = models.CharField('No Telp/Wa', max_length=13, null=True, blank=True, help_text='Pastikan nomer aktif dan dapat dihubungi.')
+    status_tmp_tinggal_ortu = models.CharField('Status Tempat Tinggal Orang Tua', max_length=25, choices=STATUS_TINGGAL_ORTU, null=True, blank=True)
 
     # kata kunci asing
-    siswa                   = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='ayah')
+    siswa                   = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='ortu')
 
     def __str__(self):
         return self.nama_ayah
@@ -250,29 +253,7 @@ class DataAyah(models.Model):
         verbose_name_plural = "Data Ayah Siswa"
 
 
-class DataIbu(models.Model):
-    id_ibu              = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
-    nama_ibu            = models.CharField('Nama Lengkap Ibu', max_length=30, null=True, blank=True)
-    status_ibu          = models.CharField('Status Ibu', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
-    nik_ibu             = models.CharField('NIK Ibu', max_length=16,  null=True, blank=True)
-    tempat_lahir_ibu    = models.CharField('Tempat Lahir Ibu', max_length=20, null=True, blank=True)
-    tgl_lahir_ibu       = models.DateField('Tanggal Lahir Ibu', null=True, blank=True)
-    pendidikan_ibu      = models.CharField('Pendidikan Ibu', max_length=25, choices=PENDIDIKAN_ORTU, null=True, blank=True)
-    pekerjaan_ibu       = models.CharField('Pekerjaan Ibu', max_length=30, choices=PEKERJAAN_ORTU, null=True, blank=True)
-    penghasilan_ibu     = models.CharField('Penghasilan Ibu', max_length=25, choices=PENGHASILAN_ORTU, null=True, blank=True)
-    no_hp_ibu           = models.CharField('No Telp/Wa', max_length=13, null=True, blank=True, help_text='Pastikan nomer aktif dan dapat dihubungi.')
-
-    # kata kunci asing
-    siswa            = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='ibu')
-
-    def __str__(self):
-        return self.nama_ibu
-
-    class Meta:
-        verbose_name_plural = "Data Ibu Siswa"
-
-
-class DataWali(models.Model):
+class Wali(models.Model):
     id_wali             = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
     nama_wali           = models.CharField('Nama Wali', max_length=30, null=True, blank=True)
     nik_wali            = models.CharField('NIK Wali', max_length=16, null=True, blank=True)

@@ -15,8 +15,8 @@
       <div class="col-sm-12 col-lg-12">
         <div class="card" data-aos="fade-up" data-aos-delay="600">
           <div class="card-header d-flex justify-content-between">
-            <div class="header-title">
-              <h4 class="card-title">Formulir Pendaftaran</h4>
+            <div class="header-title d-flex flex-wrap align-items-center">
+              <h4 class="card-title">Formulir Pendaftaran</h4><span>&nbsp;- tanda <span style="color: red;">*</span> (kolom wajib diisi)</span>
             </div>
           </div>
           <div class="card-body">
@@ -33,24 +33,14 @@
                     <span class="dark-wizard">Data Diri</span>
                   </a>
                 </li>
-                <li id="ayah" class="mb-2 col-lg-3 col-md-6 text-start {{ayah_active}} {% for i in ayah %} {{i}} {% endfor %}">
+                <li id="ayah" class="mb-2 col-lg-3 col-md-6 text-start {{ortu_active}} {% for i in ortu %} {{i}} {% endfor %}">
                   <a href="javascript:void(0);">
                     <div class="iq-icon me-3">
                       <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <span class="dark-wizard">Data Ayah</span>
-                  </a>
-                </li>
-                <li id="ibu" class="mb-2 col-lg-3 col-md-6 text-start {{ibu_active}} {% for i in ibu %} {{i}} {% endfor %} ">
-                  <a href="javascript:void(0);">
-                    <div class="iq-icon me-3">
-                      <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">Data Ibu</span>
+                    <span class="dark-wizard">Orang Tua</span>
                   </a>
                 </li>
                 <li id="wali" class="mb-2 col-lg-3 col-md-6 text-start {{wali_active}} {% for i in wali %} {{i}} {% endfor %}">
@@ -60,7 +50,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <span class="dark-wizard">Data wali</span>
+                    <span class="dark-wizard">Wali</span>
                   </a>
                 </li>
                 <li id="berkas" class="mb-2 col-lg-3 col-md-6 text-start {{berkas_active}} {% for i in berkas %} {{i}} {% endfor %}">
@@ -74,26 +64,16 @@
                     <span class="dark-wizard">Berkas</span>
                   </a>
                 </li>
-                <li id="confirm" class="mb-2 col-lg-3 col-md-6 text-start">
-                  <a href="javascript:void(0);">
-                    <div class="iq-icon me-3">
-                      <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">Konfirmasi</span>
-                  </a>
-                </li>
               </ul>
               <!-- fieldsets -->
               <fieldset>
                 <div class="form-card text-start">
                   <div class="row">
                     <div class="col-7">
-                      <h3 class="mb-4">Data Diri:</h3>
+                      <h3 class="mb-4">{{h3}}</h3>
                     </div>
                     <div class="col-5">
-                      <h4 class="steps">Step 1 - 6</h4>
+                      <h4 class="steps">{{step}}</h4>
                     </div>
                   </div>
                   {{form|crispy}}
@@ -108,3 +88,5 @@
     </div>
   </div>
 {% endblock %}
+
+

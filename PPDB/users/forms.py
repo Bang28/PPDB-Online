@@ -68,7 +68,6 @@ class UserAddForm(UserCreationForm):
             'email',
             'is_superuser',
             'is_active',
-            'level',
             'password1',
             'password2',
         ]

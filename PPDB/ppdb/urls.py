@@ -3,13 +3,8 @@ from .views.index import (
     index, 
     dashboard,
 )
-from .views.periode import (
-    tahunAjaran,
-    tambahPeriode,
-    editPeriode,
-    hapusDataPPDB,
-)
-from .views.peserta import (
+from .views.adminViews import (
+    # siswa/pendaftar
     dataPendaftar,
     dataDiterima,
     viewData,
@@ -17,14 +12,22 @@ from .views.peserta import (
     terimaForm,
     tolakForm,
     email,
+    # tahun ajaran
+    tahunAjaran,
+    tambahPeriode,
+    editPeriode,
+    hapusDataPPDB,
 )
-from .views.formulir import (
-    dataMaster,
+from .views.pesertaViews import (
     dataDiri,
-    dataAyah,
-    dataIbu,
-    dataWali,
-    berkas
+    orangTua,
+    wali,
+    berkas,
+    # update data
+    updateDatadiri,
+    updateOrangtua,
+    updateWali,
+    updateBerkas,
 )
 
 app_name = "ppdb"
@@ -35,13 +38,13 @@ urlpatterns = [
     # ====== PATH TO BACKEND ======|
     path('dashboard/', dashboard, name="dashboard"),
 
-    # ****Periode****
+    # ****Tahun Ajaran****
     path('periode_ppdb/', tahunAjaran, name="periode-ppdb"),    
     path('tambah_periode/', tambahPeriode, name="tambah-periode"),
     path('edit_periode/<periode_id>', editPeriode, name="edit-periode"),
     path('hapus_periode_ppdb/<periode_id>', hapusDataPPDB, name="hapus-periode-ppdb"),
 
-    # ****Peserta****
+    # ****Peserta PPDB****
     path('data_pendaftar/', dataPendaftar, name="data-pendaftar"),
     path('data_diterima/', dataDiterima, name="data-diterima"),
     path('lihat_data/<id>', viewData, name="view-data"),
@@ -50,11 +53,14 @@ urlpatterns = [
     path('tolak_formulir/', tolakForm, name="tolak"),
     path('email', email, name="email"),
 
-    # ****Formulir****
+    # ****Formulir Peserta (create)****
     path('formulir/data_diri', dataDiri, name="data-diri"),
-    path('formulir/data_ayah', dataAyah, name="data-ayah"),
-    path('formulir/data_ibu', dataIbu, name="data-ibu"),
-    path('formulir/data_wali', dataWali, name="data-wali"),
+    path('formulir/data_orang_tua', orangTua, name="data-ortu"),
+    path('formulir/data_wali', wali, name="data-wali"),
     path('formulir/berkas', berkas, name="data-berkas"),
-    path('datamaster/<pk>', dataMaster, name="data-master"),
+    # ****Formulir Peserta (UPDATE)****
+    path('formulir/<id_siswa>/update_data_diri', updateDatadiri, name="update-data-diri"),
+    path('formulir/<id_siswa>/update_data_orang_tua', updateOrangtua, name="update-data-ortu"),
+    path('formulir/<id_siswa>/update_data_wali', updateWali, name="update-data-wali"),
+    path('formulir/<id_siswa>/update_data_berkas', updateBerkas, name="update-berkas"),
 ]
