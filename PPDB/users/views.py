@@ -7,6 +7,7 @@ from django.contrib import messages
 from . forms import UserRegistraionForm, UserProfileForm, UserAddForm
 from . decorators import user_is_superuser
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
 # Create your views here.
 # ============== BACKEND ==============|
@@ -55,7 +56,8 @@ def hapusPengguna(request, pengguna_id):
 def editPengguna(request, pengguna_id):
     '''fungsi edit data pengguna'''
     if request.method == "POST":
-        pengguna = get_user_model().objects.get(id = pengguna_id)
+        pengguna = User.objects.get(id=request.POST.get('id'))
+        print(pengguna.__dict__)
         if pengguna != None:
             pengguna.username = request.POST.get('username')
             pengguna.email = request.POST.get('email')
@@ -64,10 +66,7 @@ def editPengguna(request, pengguna_id):
             pengguna.save()
             messages.success(request, "Data pengguna berhasil di edit!")
             return redirect('users:pengguna')
-        
-        
-    else:
-        return render(request, 'users/modals/tambah.html')
+
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
