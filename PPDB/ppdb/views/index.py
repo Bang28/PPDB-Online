@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from ppdb.models import Siswa, TahunAjaran
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from datetime import datetime
@@ -8,7 +8,7 @@ from django.contrib import messages
 
 
 # ============== BACKEND ==============|
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def dashboard(request):
     '''fungsi menampilkan template dashboard'''

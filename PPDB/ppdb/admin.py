@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import reverse
-from . models import TahunAjaran, Siswa, DataAyah, DataIbu, DataWali, Berkas
+from . models import TahunAjaran, Siswa, OrangTua, Wali, Berkas
 from django.utils.html import format_html
 from import_export.admin import ImportExportModelAdmin
 
@@ -15,14 +15,11 @@ class TahunAjaranAdmin(admin.ModelAdmin):
         ]
     
     
-class DataAyahAdmin(admin.StackedInline):
-    model = DataAyah
+class OrangTuaAdmin(admin.StackedInline):
+    model = OrangTua
 
-class DataIbuAdmin(admin.StackedInline):
-    model = DataIbu
-
-class DataWaliAdmin(admin.StackedInline):
-    model = DataWali
+class WaliAdmin(admin.StackedInline):
+    model = Wali
 
 class BerkasAdmin(admin.StackedInline):
     model = Berkas
@@ -38,9 +35,8 @@ class SiswaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_per_page = (4)
 
     inlines = [
-        DataAyahAdmin,
-        DataIbuAdmin,
-        DataWaliAdmin,
+        OrangTuaAdmin,
+        WaliAdmin,
         BerkasAdmin,
     ]
 

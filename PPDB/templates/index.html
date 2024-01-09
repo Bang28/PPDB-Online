@@ -329,11 +329,11 @@
                               <td>{{ p.asal_sekolah }}</td>
                               <td class="text-center">
                                 <div class="badge 
-                                  {% if p.Keterangan == "Pending" %} badge-secondary 
-                                  {% elif p.Keterangan == "Diterima" %} badge-success
+                                  {% if p.verifikasi == "Pending" %} badge-secondary 
+                                  {% elif p.verifikasi == "Diterima" %} badge-success
                                   {% else %} badge-danger
                                   {% endif %}" >
-                                    {{ p.Keterangan }}
+                                    {{ p.verifikasi }}
                                 </div>
                               </td>
                             </tr>
