@@ -31,10 +31,22 @@ def dashboard(request):
 
 
 # ============== FRONTEND ==============|
+def pendaftar(request):
+    '''fungsi menampilkan data pendaftar'''
+    
+    info_ppdb = TahunAjaran.objects.all().order_by('-pk').first()
+    peserta = Siswa.objects.all().order_by('-tgl_daftar')
+
+    context = {
+        'page_title': 'PPDB Online | SMP Miftahul Falah Gandrungmangu',
+        'peserta': peserta,
+        'ppdb': info_ppdb,
+    }
+    return render(request, 'pendaftar.html', context)
+
 def index(request):
     '''fungsi menampilkan halaman index'''
-
-    peserta = Siswa.objects.all().order_by('-tgl_daftar')
+    
     info_ppdb = TahunAjaran.objects.all().order_by('-pk').first()
 
     if request.method == "POST":
@@ -51,6 +63,5 @@ def index(request):
     context = {
         'page_title': 'PPDB Online | SMP Miftahul Falah Gandrungmangu',
         'ppdb': info_ppdb,
-        'peserta': peserta,
     }
     return render(request, 'index.html', context)

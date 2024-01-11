@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    {% include 'include/style.html' %}
+</head>
+<body data-spy="scroll" data-target="#menu" data-offset="100">
+
+    <div class="home-wraper" id="home">
+        <div class="home-header">
+            <div class="container p-0">
+                {% include 'include/navbar.html' %}
+            </div>
+        </div>
+
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+
+    {% include 'include/footer.html' %}
+
+    {% include 'include/scripts.html' %}
+    
+</body>
+</html>

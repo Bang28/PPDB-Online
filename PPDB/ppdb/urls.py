@@ -1,6 +1,7 @@
 from django.urls import path
 from .views.index import (
     index, 
+    pendaftar,
     dashboard,
 )
 from .views.adminViews import (
@@ -34,6 +35,7 @@ app_name = "ppdb"
 urlpatterns = [
     # ====== PATH TO FRONTEND ======|
     path('', index, name="index"),
+    path('pendaftar/', pendaftar, name="pendaftar"),
     
     # ====== PATH TO BACKEND ======|
     path('dashboard/', dashboard, name="dashboard"),

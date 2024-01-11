@@ -1,0 +1,95 @@
+{% extends 'base-home.html' %}
+
+{% load static %}
+
+{% block title %}{{page_title}}{% endblock title %}
+
+{% block content %}
+<div class="home-title">
+    <div class="container">
+    <h5 class="post-title" id="datadaftar">
+        <span class="fa fa-user"></span><span>Data Pendaftar</span>
+    </h5>
+    </div>
+</div>
+
+<div class="home-content-wrapper ">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card card-login bg-light">
+                    <div class="card-body">
+                        <form action="{% url 'users:login' %}" id="form-login">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <span class="fa fa-user"></span>
+                                <input type="text" onkeyup="this.value = this.value.toUpperCase()" class="form-control" name="username" placeholder="Masukkan NISN" required autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <span class="fa fa-key"></span>
+                                <input type="password" class="form-control" name="password" id="inputPassword4" placeholder="Password">
+                            </div>
+                            {% if ppdb.status == 'Dibuka' %}
+                            <button type="submit" class="btn btn-primary btn-block btn-login" id="btnsimpan">Masuk</button>
+                            {% else %}
+                            <button disabled type="submit" class="btn btn-primary btn-block btn-login" id="btnsimpan">Masuk</button>
+                            {% endif %}                                                 
+                        </form>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-lg-12">
+                        <div class="card-header text-black" >
+                            <h4>Data Pendaftar</h4>
+                        </div>
+                        <br>
+                        <table id="mytable" style="font-size: 12px" class="table table-striped table-sm table-bordered" cellspacing="0">
+                            <thead>
+                                <tr>
+                                <th class="text-center">NO</th>
+                                <th>NAMA</th>
+                                <th>NISN</th>
+                                <th>STATUS</th>
+                                <th>ASAL SEKOLAH</th>
+                                <th class="text-center">KETERANGAN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in peserta %}
+                                <tr>
+                                    <td class="text-center">{{ forloop.counter }}</td>
+                                    <td>{{ p.nama }}</td>
+                                    <td>{{ p.nisn }}</td>
+                                    <td>{{ p.status }}</td>
+                                    <td>{{ p.asal_sekolah }}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm
+                                            {% if p.verifikasi == "Pending" %} btn-warning 
+                                            {% elif p.verifikasi == "Diterima" %} btn-success
+                                            {% else %} btn-danger
+                                            {% endif %}" >
+                                            {% if p.verifikasi == "Pending" %} Sedang diverifikasi
+                                            {% elif p.verifikasi == "Diterima" %} Pendaftar Diterima
+                                            {% else %} Pendaftar ditolak
+                                            {% endif %}
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+				</div>
+    			<hr>
+		    </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
