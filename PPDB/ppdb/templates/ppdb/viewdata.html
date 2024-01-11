@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% load crispy_forms_tags %}
+
 {% block page_title %}
   {{ page_title }}
 {% endblock %}
@@ -10,48 +12,65 @@
   {% include 'alert/messages.html' %}
   <div>
     <div class="row">
+      {% if siswa.verifikasi == "Diterima" %}
       <div class="col-lg-12">
         <div class="card">
           <div class="card-body">
             <div class="d-flex flex-wrap align-items-center justify-content-between">
               <div class="d-flex flex-wrap align-items-center">
                   <div class="profile-img position-relative me-3 mb-3 mb-lg-0 profile-logo profile-logo1">
-                    <img src="{{peserta.foto.url}}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
+                    <img src="{{siswa.instance.foto.url}}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
                   </div>
                   <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
-                    <h4 class="me-2 h4">{{peserta.nama}}</h4>
-                    <span> - {{peserta.status}}</span>
+                    <h4 class="me-2 h4">{{siswa.nama}}</h4>
+                    <span> - {{siswa.status}}</span>
                   </div>
               </div>
               <ul class="d-flex nav nav-pills mb-0 text-center">
-                {% if peserta.Keterangan == "Pending" %}
                 <li class="nav-item">
-                  <a class="nav-link bg-warning text-light">{{peserta.Keterangan}}</a>
+                  <a class="nav-link bg-warning text-light">{{siswa.verifikasi}}</a>
                 </li>
-                {% elif peserta.Keterangan == "Ditolak" %}
                 <li class="nav-item">
-                  <a class="nav-link bg-danger text-light">{{peserta.Keterangan}}</a>
+                  <a class="nav-link bg-warning text-light"><i class="fa-solid fa-envelope"></i></a>
                 </li>
-                {% else %}
-                <li class="nav-item">
-                  <a class="nav-link bg-success text-light">{{peserta.Keterangan}}</a>
-                </li>
-                {% endif %}
               </ul>
             </div>
           </div>
         </div>
       </div>
+      {% elif siswa.verifikasi == "Ditolak" %}
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+              <div class="d-flex flex-wrap align-items-center">
+                  <div class="profile-img position-relative me-3 mb-3 mb-lg-0 profile-logo profile-logo1">
+                    <img src="{{siswa.instance.foto.url}}" alt="User-Profile" class="theme-color-default-img img-fluid rounded-pill avatar-100">
+                  </div>
+                  <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
+                    <h4 class="me-2 h4">{{siswa.nama}}</h4>
+                    <span> - {{siswa.status}}</span>
+                  </div>
+              </div>
+              <ul class="d-flex nav nav-pills mb-0 text-center">
+                <li class="nav-item">
+                  <a class="nav-link bg-warning text-light"><i class="fa-solid fa-envelope"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
       <div class="col-sm-12 col-lg-12">
         <div class="card" data-aos="fade-up" data-aos-delay="600">
           <div class="card-header d-flex justify-content-between">
             <div class="header-title">
-              <h4 class="card-title">Data Pendaftar</h4>
+              <h4 class="card-title">Detail Data Pendaftar</h4>
             </div>
           </div>
           <div class="card-body">
-            <form action="{% url 'ppdb:terima' %}" method="POST" id="form-wizard1" class="mt-3 text-center" enctype="multipart/form-data">
-              {% csrf_token %}
+            <form action="{% url 'ppdb:verif' %}" method="POST" id="form-wizard1" class="mt-3 text-center" enctype="multipart/form-data">
               <ul id="top-tab-list" class="p-0 row list-inline">
                 <li class="mb-2 col-lg-3 col-md-6 text-start active" id="datadiri">
                   <a href="javascript:void(0);">
@@ -63,24 +82,14 @@
                     <span class="dark-wizard">Data Diri</span>
                   </a>
                 </li>
-                <li id="ayah" class="mb-2 col-lg-3 col-md-6 text-start">
+                <li id="ortu" class="mb-2 col-lg-3 col-md-6 text-start">
                   <a href="javascript:void(0);">
                     <div class="iq-icon me-3">
                       <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <span class="dark-wizard">Data Ayah</span>
-                  </a>
-                </li>
-                <li id="ibu" class="mb-2 col-lg-3 col-md-6 text-start">
-                  <a href="javascript:void(0);">
-                    <div class="iq-icon me-3">
-                      <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">Data Ibu</span>
+                    <span class="dark-wizard">Orang Tua</span>
                   </a>
                 </li>
                 <li id="wali" class="mb-2 col-lg-3 col-md-6 text-start">
@@ -90,7 +99,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <span class="dark-wizard">Data wali</span>
+                    <span class="dark-wizard">Wali</span>
                   </a>
                 </li>
                 <li id="berkas" class="mb-2 col-lg-3 col-md-6 text-start">
@@ -104,16 +113,6 @@
                     <span class="dark-wizard">Berkas</span>
                   </a>
                 </li>
-                <li id="confirm" class="mb-2 col-lg-3 col-md-6 text-start">
-                  <a href="javascript:void(0);">
-                    <div class="iq-icon me-3">
-                      <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">Selesai</span>
-                  </a>
-                </li>
               </ul>
               <!-- fieldsets -->
               <fieldset>
@@ -123,385 +122,23 @@
                       <h3 class="mb-4">Data Diri:</h3>
                     </div>
                     <div class="col-5">
-                      <h4 class="steps">Step 1 - 6</h4>
+                      <h4 class="steps">Step 1 - 5</h4>
                     </div>
                   </div>
-                  <input type="hidden" value="{{peserta.id}}" name="id">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">No Pendaftaran</span>
-                        <input type="text" class="form-control" value="{{peserta.no_pendaftaran}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Keterangan</span>
-                        <input type="text" class="form-control" value="{{peserta.Keterangan}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">NISN</span>
-                        <input type="text" class="form-control" value="{{peserta.nisn}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Tahun Ajaran</span>
-                        <input type="text" class="form-control" value="{{peserta.thn_ajaran}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Status</span>
-                        <input type="text" class="form-control" value="{{peserta.status}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Asal Sekolah</span>
-                        <input type="text" class="form-control" value="{{peserta.asal_sekolah}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Nama</span>
-                        <input type="text" class="form-control" value="{{peserta.nama}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">NIK</span>
-                        <input type="text" class="form-control" value="{{peserta.nik}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">No Tlp/WA</span>
-                        <input type="text" class="form-control" value="{{peserta.no_hp}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Email</span>
-                        <input type="text" class="form-control" value="{{peserta.email}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Jenis Kelamin</span>
-                        <input type="text" class="form-control" value="{{peserta.jenis_kelamin}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Agama</span>
-                        <input type="text" class="form-control" value="{{peserta.agama}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Tempat Lahir</span>
-                        <input type="text" class="form-control" value="{{peserta.tempat_lahir}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Tanggal Lahir</span>
-                        <input type="text" class="form-control" value="{{peserta.tgl_lahir}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Anak ke</span>
-                        <input type="text" class="form-control" value="{{peserta.anak_ke}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Jumlah Saudara</span>
-                        <input type="text" class="form-control" value="{{peserta.saudara}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Jarak Tempuh</span>
-                        <input type="text" class="form-control" value="{{peserta.jarak}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Transportasi</span>
-                        <input type="text" class="form-control" value="{{peserta.transportasi}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Waktu Tempuh</span>
-                        <input type="text" class="form-control" value="{{peserta.waktu}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Pra Sekolah</span>
-                        <input type="text" class="form-control" value="{{peserta.pra_sekolah}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Golongan Darah</span>
-                        <input type="text" class="form-control" value="{{peserta.gol_darah}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Biaya Sekolah</span>
-                        <input type="text" class="form-control" value="{{peserta.biaya_sekolah}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Status Tinggal</span>
-                        <input type="text" class="form-control" value="{{peserta.status_tinggal_siswa}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Kebutuhan Disabilitas</span>
-                        <input type="text" class="form-control" value="{{peserta.keb_disabilitas}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Penerima KIP</span>
-                        <input type="text" class="form-control" value="{{peserta.kip}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-8">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Nomor KIP</span>
-                        <input type="text" class="form-control" value="{{peserta.no_kip}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Penerima PKH</span>
-                        <input type="text" class="form-control" value="{{peserta.pkh_kks}}" readonly>
-                      </div>
-                    </div>
-                    <div class="col-md-8">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Nomor PKH</span>
-                        <input type="text" class="form-control" value="{{peserta.no_pkh_kks}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Kode POS</span>
-                        <input type="text" class="form-control" value="{{peserta.kodepos_siswa}}" readonly>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="input-group mb-2">
-                      <span class="input-group-text justify-content-center">Alamat</span>
-                      <input type="text" class="form-control" value="{{peserta.alamat_siswa}}" readonly>
-                    </div>
-                  </div>
-                </div>
+                  {{siswa|crispy}}
                 <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">Next</button>
               </fieldset>
               <fieldset>
                 <div class="form-card text-start">
                   <div class="row">
                     <div class="col-7">
-                      <h3 class="mb-4">Data Ayah:</h3>
+                      <h3 class="mb-4">Data Orang Tua:</h3>
                     </div>
                     <div class="col-5">
-                      <h4 class="steps">Step 2 - 6</h4>
+                      <h4 class="steps">Step 2 - 5</h4>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="input-group mb-2">
-                        <span class="input-group-text justify-content-center">Nama Ayah</span>
-                        <input type="text" class="form-control" value="{{peserta.nama_ayah}}" readonly>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Status</span>
-                          <input type="text" class="form-control" value="{{peserta.status_ayah}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">NIK</span>
-                          <input type="text" class="form-control" value="{{peserta.nik_ayah}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">No Telp/WA</span>
-                          <input type="text" class="form-control" value="{{peserta.no_hp_ayah}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Tempat Lahir</span>
-                          <input type="text" class="form-control" value="{{peserta.tempat_lahir_ayah}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Tanggal Lahir</span>
-                          <input type="text" class="form-control" value="{{peserta.tanggal_lahir_ayah}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Pendidikan</span>
-                          <input type="text" class="form-control" value="{{peserta.pendidikan_ayah}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Pekerjaan</span>
-                          <input type="text" class="form-control" value="{{peserta.pekerjaan_ayah}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Penghasilan</span>
-                          <input type="text" class="form-control" value="{{peserta.penghasilan_ayah}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Status Tempat Tinggal</span>
-                          <input type="text" class="form-control" value="{{peserta.status_tmp_tinggal_ayah}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">Next</button>
-                <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-1" value="Previous">Previous</button>
-              </fieldset>
-              <fieldset>
-                <div class="form-card text-start">
-                  <div class="row">
-                    <div class="col-7">
-                      <h3 class="mb-4">Data Ibu:</h3>
-                    </div>
-                    <div class="col-5">
-                      <h4 class="steps">Step 3 - 6</h4>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Nama Ibu</span>
-                          <input type="text" class="form-control" value="{{peserta.nama_ibu}}" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Status</span>
-                          <input type="text" class="form-control" value="{{peserta.status_ibu}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">NIK</span>
-                          <input type="text" class="form-control" value="{{peserta.nik_ibu}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">No Telp/WA</span>
-                          <input type="text" class="form-control" value="{{peserta.no_hp_ibu}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Tempat Lahir</span>
-                          <input type="text" class="form-control" value="{{peserta.tempat_lahir_ibu}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Tanggal Lahir</span>
-                          <input type="text" class="form-control" value="{{peserta.tgl_lahir_ibu}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Pendidikan</span>
-                          <input type="text" class="form-control" value="{{peserta.pendidikan_ibu}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Pekerjaan</span>
-                          <input type="text" class="form-control" value="{{peserta.pekerjaan_ibu}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Penghasilan</span>
-                          <input type="text" class="form-control" value="{{peserta.penghasilan_ibu}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  {{ortu|crispy}}
                 </div>
                 <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">Next</button>
                 <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-1" value="Previous">Previous</button>
@@ -513,73 +150,10 @@
                       <h3 class="mb-4">Data Wali:</h3>
                     </div>
                     <div class="col-5">
-                      <h4 class="steps">Step 4 - 6</h4>
+                      <h4 class="steps">Step 3 - 5</h4>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Nama Wali</span>
-                          <input type="text" class="form-control" value="{{peserta.nama_wali}}" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Status</span>
-                          <input type="text" class="form-control" value="{{peserta.status_wali}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">NIK</span>
-                          <input type="text" class="form-control" value="{{peserta.nik_wali}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">No Telp/WA</span>
-                          <input type="text" class="form-control" value="{{peserta.no_hp_wali}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Tempat Lahir</span>
-                          <input type="text" class="form-control" value="{{peserta.tempat_lahir_wali}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Tanggal Lahir</span>
-                          <input type="text" class="form-control" value="{{peserta.tgl_lahir_wali}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Pendidikan</span>
-                          <input type="text" class="form-control" value="{{peserta.pendidikan_wali}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Pekerjaan</span>
-                          <input type="text" class="form-control" value="{{peserta.pekerjaan_wali}}" readonly>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">Penghasilan</span>
-                          <input type="text" class="form-control" value="{{peserta.penghasilan_wali}}" readonly>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  {{wali|crispy}}
                 </div>
                 <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">Next</button>
                 <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-1" value="Previous">Previous</button>
@@ -588,68 +162,13 @@
                 <div class="form-card text-start">
                   <div class="row">
                     <div class="col-7">
-                      <h3 class="mb-4">Berkas:</h3>
+                      <h3 class="mb-4">Data Berkas:</h3>
                     </div>
                     <div class="col-5">
-                      <h4 class="steps">Step 5 - 6</h4>
+                      <h4 class="steps">Step 4 - 5</h4>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File KIP</span>
-                          <input type="text" class="form-control" value="{{peserta.file_kip}}" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File PKH</span>
-                          <input type="text" class="form-control" value="{{peserta.file_pkh}}" readonly>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File KK</span>
-                          <input type="text" class="form-control" value="{{peserta.file_kk}}" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File Akta</span>
-                          <input type="text" class="form-control" value="{{peserta.file_akte}}" readonly>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File Raport</span>
-                          <input type="text" class="form-control" value="{{peserta.file_raport}}" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File SKL</span>
-                          <input type="text" class="form-control" value="{{peserta.file_skl}}" readonly>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File SKHUN</span>
-                          <input type="text" class="form-control" value="{{peserta.file_skhun}}" readonly>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="input-group mb-2">
-                          <span class="input-group-text justify-content-center">File Ijazah</span>
-                          <input type="text" class="form-control" value="{{peserta.file_ijazah}}" readonly>
-                        </div>
-                    </div>
-                  </div>
+                  {{berkas|crispy}}
                 </div>
                 <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">Next</button>
                 <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-1" value="Previous">Previous</button>
@@ -658,17 +177,17 @@
                 <div class="form-card text-start">
                   <div class="row">
                     <div class="col-7">
-                      <h3 class="mb-4 text-left">Selesai:</h3>
+                      <h3 class="mb-4 text-left">Verifikasi:</h3>
                     </div>
                     <div class="col-5">
-                      <h4 class="steps">Step 6 - 6</h4>
+                      <h4 class="steps">Step 5 - 5</h4>
                     </div>
                   </div>
                   <br />
                   <div class="row justify-content-center">
                     <div class="col-md-12 col-lg-8">
-                      {% if peserta.Keterangan == "Pending" %}
-                      <input type="hidden" class="form-control txt-sm" name="Keterangan" value="Diterima">
+                      {% if peserta.verifikasi == "Pending" %}
+                      <input type="hidden" class="form-control txt-sm" name="verifikasi" value="Diterima">
                       {% endif %}
                     </div>
                   </div>
@@ -680,8 +199,8 @@
                 <div class="row">
                   <div class="col-md-12">
                     <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-start me-1" value="Previous">Previous</button>
-                    <button type="submit" class="btn btn-success float-end">Terima</button>
-                    <button type="button" class="btn btn-danger float-end me-1">Tolak</button>
+                    <a data-bs-toggle="modal" data-bs-target="#terimaModal{{siswa.id_siswa}}" class="btn btn-success float-end">Terima</a>
+                    <a data-bs-toggle="modal" data-bs-target="#tolakModal{{siswa.id_siswa}}" class="btn btn-danger float-end me-1">Tolak</a>
                   </div>
                 </div>
               </fieldset>

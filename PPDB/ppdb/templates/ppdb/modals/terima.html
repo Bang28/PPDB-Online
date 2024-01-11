@@ -1,20 +1,31 @@
 <!-- Modal -->
-<div class="modal fade" id="terimaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" {% block modal-id %}id="terimaModal{{siswa.id_siswa}}"{% endblock modal-id %} tabindex="-1" aria-labelledby="terimaModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-user-check"></i>&nbsp;&nbsp;Verif Data</h5>
+        <h5 class="modal-title" id="terimaModalLabel">
+          {% block modal-title %}
+            <i class="fas fa-user-check"></i>&nbsp;&nbsp;Verif Data
+          {% endblock modal-title %}
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="text-center text-success txt-sm"><i class="fas fa-user-check fa-5x mb-4 mt-2"></i></div>
-        <div class="text-center text-success txt-sm">
-            <span>Terima pengajuan pendaftaran?</span>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-        <button type="button" class="btn btn-primary">Ya</button>
+        {% block form %}
+              <div class="text-center text-success txt-sm"><i class="fas fa-user-check fa-5x mb-4 mt-2"></i></div>
+              <div class="text-center text-success txt-sm"><span>Terima pengajuan pendaftaran?</span></div>
+              <div style="display: none;">
+                <input type="text" name="verifikasi" value="Diterima">
+              </div>
+              <div class="mt-4 float-end">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                  {% block btn-action %}
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="fas fa-user-check"></i>&nbsp;&nbsp;Ya
+                  </button>
+                  {% endblock btn-action %}
+              </div>
+        {% endblock form %}
       </div>
     </div>
   </div>

@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from ppdb.forms.adminForms import EmailForm, TahunAjaranForm
-from ppdb.models import Siswa,TahunAjaran
+from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, ViewOrangTuaForm, ViewWaliForm, ViewBerkasForm
+from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm
+from ppdb.models import Siswa,TahunAjaran, OrangTua
 from ppdb.decorators import user_is_superuser
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL SISWA) ==============|
@@ -38,7 +39,7 @@ def email(request):
         form = EmailForm()
         return render(request, {'form': form})       
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def hapusData(request, id):
@@ -49,46 +50,60 @@ def hapusData(request, id):
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:data-pendaftar")
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
-def tolakForm(request):
-    '''fungsi menginput nilai dari template viewData'''
+def verifikasiTolak(request):
+    '''fungsi verifikasi data siswa'''
 
     if request.method == "POST":
         peserta = Siswa.objects.get(id = request.POST.get('id'))
         if peserta != None:
-            peserta.Keterangan = request.POST.get('Keterangan')
+            peserta.verifikasi = request.POST.get('verifikasi')
             peserta.save()
-            messages.success(request, "Siswa ditolak, silahkan kirim balasan ke peserta")
+            messages.success(request, "Siswa ditolak, silahkan kirim email untuk intruksi selanjutnya!")
             return redirect("ppdb:view-data")
         
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
-def terimaForm(request):
-    '''fungsi menginput nilai dari template viewData'''
+def verifikasiSiswa(request):
+    '''fungsi verifikasi data siswa'''
 
+    # verif data
     if request.method == "POST":
-        peserta = Siswa.objects.get(id = request.POST.get('id'))
-        if peserta != None:
-            peserta.Keterangan = request.POST.get('Keterangan')
-            peserta.save()
-            messages.success(request, "Siswa diterima, silahkan kirim balasan ke peserta")
-            return redirect("ppdb:data-diterima")
+        siswa = Siswa.objects.get(id_siswa=Siswa.objects.get('id_siswa'))
+        if siswa != None:
+            siswa.verifikasi = request.POST.get('verifikasi')
+            siswa.save()
+            messages.success(request, "Siswa terverifikasi, silahkan kirim email untuk interuksi selanjutnya")
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_is_superuser
-def viewData(request, id):
+# @user_is_superuser
+def viewData(request, id_siswa):
     '''fungsi menampilkan detail data peserta'''
 
-    peserta = Siswa.objects.get(id=id)
-    if peserta != None:
-        return render(request, 'ppdb/viewData.html', {'peserta': peserta})
+    # get data with reverse queryset
+    siswa = Siswa.objects.filter(id_siswa=id_siswa).first()
+    ortu = siswa.ortu
+    wali = siswa.wali
+    berkas = siswa.berkas
 
 
-@login_required(login_url="ppdb:login")
+    siswa = ViewSiswaForm(instance=siswa)
+    ortu = ViewOrangTuaForm(instance=ortu)
+    wali = ViewWaliForm(instance=wali)
+    berkas = ViewBerkasForm(instance=berkas)
+    context = {
+        'siswa': siswa,
+        'ortu': ortu,
+        'wali': wali,
+        'berkas': berkas,
+    }
+    return render(request, 'ppdb/viewData.html', context)   
+
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def dataDiterima(request):
@@ -100,8 +115,7 @@ def dataDiterima(request):
     }
     return render(request, 'ppdb/tables/dataDiterima.html', context)
 
-
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def dataPendaftar(request):
@@ -113,7 +127,7 @@ def dataPendaftar(request):
     }
     return render(request, 'ppdb/tables/dataPendaftar.html', context)
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def hapusDataPPDB(request, periode_id):
@@ -126,7 +140,7 @@ def hapusDataPPDB(request, periode_id):
 
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL TAHUN AJARAN) ==============|
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def editPeriode(request, periode_id):
@@ -143,7 +157,7 @@ def editPeriode(request, periode_id):
             messages.success(request, "Data Periode berhasil diperbarui!")   
             return redirect("ppdb:periode-ppdb")
     
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def tambahPeriode(request):
@@ -165,7 +179,7 @@ def tambahPeriode(request):
     else:
         return render(request, 'ppdb/modals/tambahPeriode.html')
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def tahunAjaran(request):

@@ -1,5 +1,5 @@
 from django import forms
-from ppdb.models import TahunAjaran
+from ppdb.models import TahunAjaran, Siswa, OrangTua, Wali, Berkas
 
 # ============== BACKEND FORMS ADMIN ==============|
 class EmailForm(forms.Form):
@@ -27,3 +27,35 @@ class TahunAjaranForm(forms.ModelForm):
             'tanggal_mulai': forms.DateInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
             'tanggal_selesai': forms.DateInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
         }
+
+class ModelAllDisabledFormMixin(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        '''This mixin to ModelForm disables all fields. Useful to have detail view based on model'''
+        super().__init__(*args, **kwargs)
+        form_fields = self.fields
+        for key in form_fields.keys():
+            form_fields[key].disabled = True
+
+class ViewSiswaForm(ModelAllDisabledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Siswa
+        fields = '__all__'
+
+        widgets = {
+            'alamat': forms.Textarea(attrs={'rows':'2'}),
+        }
+
+class ViewOrangTuaForm(ModelAllDisabledFormMixin, forms.ModelForm):
+    class Meta:
+        model = OrangTua
+        fields = '__all__'
+
+class ViewWaliForm(ModelAllDisabledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Wali
+        fields = '__all__'
+
+class ViewBerkasForm(ModelAllDisabledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Berkas
+        fields = '__all__'

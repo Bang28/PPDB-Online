@@ -9,8 +9,8 @@ from .views.adminViews import (
     dataDiterima,
     viewData,
     hapusData,
-    terimaForm,
-    tolakForm,
+    verifikasiSiswa,
+    verifikasiTolak,
     email,
     # tahun ajaran
     tahunAjaran,
@@ -47,10 +47,10 @@ urlpatterns = [
     # ****Peserta PPDB****
     path('data_pendaftar/', dataPendaftar, name="data-pendaftar"),
     path('data_diterima/', dataDiterima, name="data-diterima"),
-    path('lihat_data/<id>', viewData, name="view-data"),
+    path('lihat_data/<id_siswa>', viewData, name="view-data"),
     path('hapus_data/<id>', hapusData, name="hapus-data"),
-    path('terima_formulir/', terimaForm, name="terima"),
-    path('tolak_formulir/', tolakForm, name="tolak"),
+    path('verifikasi_siswa/', verifikasiSiswa, name="verif"),
+    path('tolak_formulir/', verifikasiTolak, name="tolak"),
     path('email', email, name="email"),
 
     # ****Formulir Peserta (create)****
