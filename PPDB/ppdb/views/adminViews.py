@@ -7,8 +7,38 @@ from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, Vie
 from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm
 from ppdb.models import Siswa,TahunAjaran, OrangTua
 from ppdb.decorators import user_is_superuser
+import jinja2
+import pdfkit
+
+from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import A4
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL SISWA) ==============|
+def exportPDF(request, id_siswa):
+    siswa = Siswa.objects.filter(id_siswa=id_siswa).first()
+
+    buf = io.BytesIO()
+    # canvas
+    c = canvas.Canvas(buf, pagesize=A4, bottomup=0)
+    # text object
+    textob = c.beginText()
+    textob.setTextOrigin(inch, inch)
+    textob.setFont("Helvetica", 14)
+
+    c.drawText(textob)
+    c.showPage()
+    c.save()
+    buf.seek(0)
+
+    context = {
+        'siswa': siswa,
+    }
+    return FileResponse(buf, as_attachment=True, filename="")
+
+
 @login_required(login_url="login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
@@ -49,20 +79,6 @@ def hapusData(request, id):
     peserta.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:data-pendaftar")
-
-@login_required(login_url="users:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_is_superuser
-def verifikasiTolak(request):
-    '''fungsi verifikasi data siswa'''
-
-    if request.method == "POST":
-        peserta = Siswa.objects.get(id = request.POST.get('id'))
-        if peserta != None:
-            peserta.verifikasi = request.POST.get('verifikasi')
-            peserta.save()
-            messages.success(request, "Siswa ditolak, silahkan kirim email untuk intruksi selanjutnya!")
-            return redirect("ppdb:view-data")
         
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -72,11 +88,12 @@ def verifikasiSiswa(request):
 
     # verif data
     if request.method == "POST":
-        siswa = Siswa.objects.get(id_siswa=Siswa.objects.get('id_siswa'))
+        siswa = Siswa.objects.get(id_siswa=request.POST.get('id_siswa'))
         if siswa != None:
             siswa.verifikasi = request.POST.get('verifikasi')
             siswa.save()
             messages.success(request, "Siswa terverifikasi, silahkan kirim email untuk interuksi selanjutnya")
+            return redirect('ppdb:data-pendaftar')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -85,10 +102,12 @@ def viewData(request, id_siswa):
     '''fungsi menampilkan detail data peserta'''
 
     # get data with reverse queryset
-    siswa = Siswa.objects.filter(id_siswa=id_siswa).first()
+    siswa = Siswa.objects.get(id_siswa=id_siswa)
     ortu = siswa.ortu
     wali = siswa.wali
     berkas = siswa.berkas
+    if wali == None:
+        return redirect('ppdb:data-pendaftar') 
 
 
     siswa = ViewSiswaForm(instance=siswa)
@@ -133,7 +152,7 @@ def dataPendaftar(request):
 def hapusDataPPDB(request, periode_id):
     '''fungsi hapus data periode ppdb'''
 
-    pengaturan = TahunAjaran.objects.get(id_periode = periode_id)
+    pengaturan = TahunAjaran.objects.get(id_thn_ajaran = periode_id)
     pengaturan.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:periode-ppdb")
@@ -147,14 +166,14 @@ def editPeriode(request, periode_id):
     '''fungsi untuk merubah data periode ppdb'''
 
     if request.method == "POST":
-        periode = TahunAjaran.objects.get(id_periode = periode_id)
+        periode = TahunAjaran.objects.get(id_thn_ajaran = periode_id)
         if periode != None:
             periode.tahun_ajaran = request.POST.get('tahun_ajaran')
             periode.tanggal_mulai = request.POST.get('tanggal_mulai')
             periode.tanggal_selesai = request.POST.get('tanggal_selesai')
             periode.status = request.POST.get('status')
             periode.save()
-            messages.success(request, "Data Periode berhasil diperbarui!")   
+            messages.success(request, "Data Periode berhasil diperbarui!")
             return redirect("ppdb:periode-ppdb")
     
 @login_required(login_url="users:login")
@@ -187,18 +206,9 @@ def tahunAjaran(request):
 
     pengaturan = TahunAjaran.objects.all().order_by('-id_thn_ajaran')
 
-    if request.method == "POST":
-        form = TahunAjaranForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "PPDB periode berhasil ditambahkan.")
-            return redirect("ppdb:periode-ppdb")
-
-    form = TahunAjaranForm()
     context = {
         'pengaturan': pengaturan,
         'heading': 'Tambah Periode PPDB',
         'button': 'Tambah',
-        'form': form
     }
     return render(request, 'ppdb/tahunAjaran.html', context)

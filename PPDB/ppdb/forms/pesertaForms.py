@@ -5,6 +5,13 @@ from ppdb.models import Siswa, OrangTua, Wali, Berkas
 
 # ============== BACKEND FORMS PESERTA (UPDATE) ==============|
 class UpdateSiswaForm(forms.ModelForm):
+    # override field
+    nik = forms.CharField(
+        validators = [RegexValidator(r'^[\d]*$', message="Periksa kembali NIK anda!")],
+        widget = forms.TextInput(attrs={'maxlength':'16'}),
+        label= 'NIK',
+    )
+
     class Meta:
         model = Siswa
         fields = "__all__"
@@ -14,9 +21,13 @@ class UpdateSiswaForm(forms.ModelForm):
         }
 
         widgets = {
-            'verifikasi': forms.TextInput(attrs={'readonly':'readonly'}),
-            'no_pendaftaran': forms.TextInput(attrs={'readonly':'readonly'}),
-            'alamat_siswa': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
+            'verifikasi': forms.TextInput(attrs={'type':'hidden'}),
+            'no_pendaftaran': forms.TextInput(attrs={'type':'hidden'}),
+            'nisn': forms.TextInput(attrs={'type':'hidden'}),
+            'thn_ajaran': forms.TextInput(attrs={'type':'hidden'}),
+            'alamat': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
+            'jenis_kelamin': forms.RadioSelect(attrs={'class':'btn-check'}),
+            'tgl_lahir': forms.TextInput(attrs={'type':'date'}),
         }
 
 
@@ -66,8 +77,8 @@ class OrangTuaForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'tgl_lahir_ayah': forms.DateInput(attrs={'type':'date'}),
-            'tgl_lahir_ibu': forms.DateInput(attrs={'type':'date'}),
+            'tgl_lahir_ayah': forms.TextInput(attrs={'type':'date'}),
+            'tgl_lahir_ibu': forms.TextInput(attrs={'type':'date'}),
             'siswa': forms.TextInput(attrs={'type':'hidden'}),
         }
 
@@ -84,7 +95,7 @@ class WaliForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'tgl_lahir_wali': forms.DateInput(attrs={'type':'date'}),
+            'tgl_lahir_wali': forms.TextInput(attrs={'type':'date'}),
             'siswa': forms.TextInput(attrs={'type':'hidden'}),
         }
 

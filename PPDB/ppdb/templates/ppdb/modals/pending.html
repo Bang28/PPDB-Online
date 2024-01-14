@@ -1,0 +1,21 @@
+{% extends 'ppdb/modals/terima.html' %}
+
+{% block modal-id %}id=pendingModal{{p.id_siswa}}{% endblock modal-id %}
+
+{% block modal-title %}
+    <i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp;Peringatan!!!
+{% endblock modal-title %}
+
+{% block body-content %}
+<div class="text-center text-warning txt-sm"><i class="fa-solid fa-circle-exclamation fa-5x mb-4 mt-2"></i></div>
+<div class="text-center text-warning txt-sm"><span>Anda Akan Merubah Status Siswa</span></div>
+<div style="display: none;">
+<input type="text" name="verifikasi" value="Pending">
+</div>
+{% endblock body-content %}
+
+{% block btn-action %}
+<button type="submit" class="btn btn-primary btn-sm">
+<i class="fa-solid fa-circle-exclamation"></i>&nbsp;&nbsp;Ya
+</button>
+{% endblock btn-action %}

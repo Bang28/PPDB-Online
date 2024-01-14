@@ -21,6 +21,7 @@
         <th>NISN</th>
         <th>JK</th>
         <th>Keterangan</th>
+        <th>Asal Sekolah</th>
         <th>Status Pendaftaran</th>
         <th>Action</th>
     </tr>
@@ -33,20 +34,28 @@
             <td>{{p.nisn}}</td>
             <td>{{p.jenis_kelamin}}</td>
             <td>{{p.status}}</td>
+            <td>{{p.asal_sekolah}}</td>
             {% if p.verifikasi == "Pending" %}
-                <td class="text-warning text-center">{{p.verifikasi}}</td>
+                <td>
+                    <a  data-bs-toggle="modal" data-bs-target="#terimaModal{{p.id_siswa}}" class="btn btn-success btn-sm">Terima</a>
+                    <a  data-bs-toggle="modal" data-bs-target="#tolakModal{{p.id_siswa}}" class="btn btn-danger btn-sm">Tolak</a>
+                </td>
             {% elif p.verifikasi == "Diterima" %}
-                <td class="text-success text-center">{{p.verifikasi}}</td>
+                <td class="text-center"><a  data-bs-toggle="modal" data-bs-target="#pendingModal{{p.id_siswa}}" class="btn btn-success btn-sm">Diterima</a></td>
             {% else %}
-                <td class="text-danger text-center">{{p.verifikasi}}</td>
+                <td class="text-center"><a  data-bs-toggle="modal" data-bs-target="#pendingModal{{p.id_siswa}}" class="btn btn-danger btn-sm">Ditolak</a></td>
             {% endif %}
             <td>
-                <a href="{% url 'ppdb:view-data' p.id_siswa %}" class="btn btn-info btn-sm btn-icon" title="Detail data"><i class="fa-solid fa-eye"></i></a>
+                <a href="{% url 'ppdb:view-data' p.id_siswa %}" target="_blank" class="btn btn-info btn-sm btn-icon" title="Detail data"><i class="fa-solid fa-eye"></i></a>
                 <button class="btn btn-warning btn-sm btn-icon" title="Ubah data"><i class="fa solid fa-pen-to-square"></i></button>
                 <button data-bs-toggle="modal" data-bs-target="#hapusModal{{p.id_siswa}}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
             </td>
         </tr>
+        <!--include modals-->
         {% include 'modals/hapus.html' %}
+        {% include 'ppdb/modals/terima.html' %}
+        {% include 'ppdb/modals/tolak.html' %}
+        {% include 'ppdb/modals/pending.html' %}
         {% endfor %}
     </tbody>
 </table>

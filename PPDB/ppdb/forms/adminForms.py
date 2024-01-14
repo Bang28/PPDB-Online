@@ -9,6 +9,7 @@ class EmailForm(forms.Form):
     attach = forms.FileField(required=False, widget=forms.ClearableFileInput())
     message = forms.CharField(widget=forms.Textarea())
 
+# Forms for control tahun ajaran
 class TahunAjaranForm(forms.ModelForm):
     class Meta:
         model = TahunAjaran
@@ -24,10 +25,11 @@ class TahunAjaranForm(forms.ModelForm):
         widgets = {
             'tahun_ajaran': forms.TextInput(attrs={'class':'form-control form-control-sm', 'placeholder':'2024/2025'}),
             'status': forms.Select(attrs={'class':'form-control form-control-sm'}),
-            'tanggal_mulai': forms.DateInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
-            'tanggal_selesai': forms.DateInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
+            'tanggal_mulai': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
+            'tanggal_selesai': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
         }
 
+# Disable all field from models
 class ModelAllDisabledFormMixin(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         '''This mixin to ModelForm disables all fields. Useful to have detail view based on model'''
@@ -36,6 +38,7 @@ class ModelAllDisabledFormMixin(forms.ModelForm):
         for key in form_fields.keys():
             form_fields[key].disabled = True
 
+# Forms for control data siswa
 class ViewSiswaForm(ModelAllDisabledFormMixin, forms.ModelForm):
     class Meta:
         model = Siswa

@@ -1,26 +1,21 @@
 {% extends 'ppdb/modals/terima.html' %}
 
-{% block modal-id %}id=tolakModal{{siswa.id_siswa}}{% endblock modal-id %}
+{% block modal-id %}id=tolakModal{{p.id_siswa}}{% endblock modal-id %}
 
 {% block modal-title %}
     <i class="fa-solid fa-user-xmark"></i>&nbsp;&nbsp;Verif Data
 {% endblock modal-title %}
 
-{% block form %}
-    <form action="" method="POST">
-    {% csrf_token %}
-        <div class="text-center text-danger txt-sm"><i class="fa-solid fa-user-xmark fa-5x mb-4 mt-2"></i></div>
-        <div class="text-center text-danger txt-sm"><span>Tolak pengajuan pendaftaran?</span></div>
-        <div style="display: none;">
-        <input type="text" name="verifikasi" value="Ditolak">
-        </div>
-        <div class="mt-4 float-end">
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-            {% block btn-action %}
-            <button type="submit" class="btn btn-primary btn-sm">
-            <i class="fa-solid fa-user-xmark"></i>&nbsp;&nbsp;Ya
-            </button>
-            {% endblock btn-action %}
-        </div>
-    </form>
-{% endblock form %}
+{% block body-content %}
+<div class="text-center text-danger txt-sm"><i class="fa-solid fa-user-xmark fa-5x mb-4 mt-2"></i></div>
+<div class="text-center text-danger txt-sm"><span>Tolak pengajuan pendaftaran?</span></div>
+<div style="display: none;">
+<input type="text" name="verifikasi" value="Ditolak">
+</div>
+{% endblock body-content %}
+
+{% block btn-action %}
+<button type="submit" class="btn btn-primary btn-sm">
+<i class="fa-solid fa-user-xmark"></i>&nbsp;&nbsp;Ya
+</button>
+{% endblock btn-action %}

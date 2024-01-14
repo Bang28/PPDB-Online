@@ -61,6 +61,9 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # template pack bootstrap untuk crispy-forms
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
+# date format
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

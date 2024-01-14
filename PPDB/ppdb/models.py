@@ -29,7 +29,7 @@ class TahunAjaran(models.Model):
         ('Ditutup', 'Ditutup'),
     )
 
-    id_thn_ajaran   = models.SmallAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
+    id_thn_ajaran   = models.SmallAutoField(primary_key=True, unique=True, auto_created=True, blank=True)
     tahun_ajaran    = models.CharField(max_length=20) 
     status          = models.CharField(max_length=10, choices=STATUS_CHOICES)   
     tanggal_mulai   = models.DateField()
@@ -46,7 +46,7 @@ class Siswa(models.Model):
     def image_upload_to(instance, filename):
         ext = filename.split('.')[-1]
         filename = "%s_%s.%s" % (instance.no_pendaftaran, instance.nama, ext)
-        return os.path.join('formulir/foto siswa', filename)
+        return os.path.join('siswa/foto siswa', filename)
     
     # enum
     STATUS = (
@@ -105,7 +105,7 @@ class Siswa(models.Model):
         ('Diterima', 'Diterima'),
         ('Ditolak', 'Ditolak'),
     )
-    id_siswa                = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
+    id_siswa                = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True)
     no_pendaftaran          = models.CharField('No Pendaftaran', max_length=12, unique=True, blank=True, editable=False)
     status                  = models.CharField('Status', max_length=10, choices=STATUS, default=1)
     nama                    = models.CharField('Nama Lengkap', max_length=55)
@@ -223,7 +223,7 @@ STATUS_TINGGAL_ORTU = (
 
 
 class OrangTua(models.Model):
-    id_ortu                 = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
+    id_ortu                 = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True)
     nama_ayah               = models.CharField('Nama Lengkap Ayah', max_length=30, null=True, blank=True)
     status_ayah             = models.CharField('Status Ayah', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
     nik_ayah                = models.CharField('NIK Ayah', max_length=16, null=True, blank=True)
@@ -254,7 +254,7 @@ class OrangTua(models.Model):
 
 
 class Wali(models.Model):
-    id_wali             = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
+    id_wali             = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True)
     nama_wali           = models.CharField('Nama Wali', max_length=30, null=True, blank=True)
     nik_wali            = models.CharField('NIK Wali', max_length=16, null=True, blank=True)
     tempat_lahir_wali   = models.CharField('Tempat Lahir Wali', max_length=30, null=True, blank=True)
@@ -300,7 +300,7 @@ class Berkas(models.Model):
         filename = "%s_%s.%s" % (instance.siswa.no_pendaftaran, instance.siswa.nisn, ext)
         return os.path.join('siswa/berkas/skhun', filename)
     
-    id_berkas       = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True, editable=False)
+    id_berkas       = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True)
     file_kk         = models.FileField('Kartu Keluarga', max_length=255, upload_to=file_kk, validators=[file_extension, file_size], help_text='File bisa berupa gambar atau pdf')
     file_akta       = models.FileField('Akta Kelahiran', max_length=255, upload_to=file_akta, validators=[file_extension, file_size], help_text='File bisa berupa gambar atau pdf')
     file_raport     = models.FileField('Nilai Raport Terakhir', max_length=255, upload_to=file_raport, validators=[file_extension, file_size], help_text='File bisa berupa gambar atau pdf')

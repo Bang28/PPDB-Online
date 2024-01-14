@@ -11,13 +11,14 @@ from .views.adminViews import (
     viewData,
     hapusData,
     verifikasiSiswa,
-    verifikasiTolak,
     email,
     # tahun ajaran
     tahunAjaran,
     tambahPeriode,
     editPeriode,
     hapusDataPPDB,
+    # export
+    exportPDF,
 )
 from .views.pesertaViews import (
     dataDiri,
@@ -52,7 +53,6 @@ urlpatterns = [
     path('lihat_data/<id_siswa>', viewData, name="view-data"),
     path('hapus_data/<id>', hapusData, name="hapus-data"),
     path('verifikasi_siswa/', verifikasiSiswa, name="verif"),
-    path('tolak_formulir/', verifikasiTolak, name="tolak"),
     path('email', email, name="email"),
 
     # ****Formulir Peserta (create)****
@@ -65,4 +65,7 @@ urlpatterns = [
     path('formulir/<id_siswa>/update_data_orang_tua', updateOrangtua, name="update-data-ortu"),
     path('formulir/<id_siswa>/update_data_wali', updateWali, name="update-data-wali"),
     path('formulir/<id_siswa>/update_data_berkas', updateBerkas, name="update-berkas"),
+
+    # ****Export PDF****
+    path('export_pdf/<id_siswa>', exportPDF, name="export-pdf")
 ]

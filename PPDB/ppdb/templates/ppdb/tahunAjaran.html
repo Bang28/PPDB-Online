@@ -34,8 +34,8 @@
                             <td>{{forloop.counter}}</td>
                             <td>{{p.tahun_ajaran}}</td>
                             <td>{{p.status}}</td>
-                            <td>{{p.tanggal_mulai}}</td>
-                            <td>{{p.tanggal_selesai}}</td>
+                            <td>{{p.tanggal_mulai|date:'d/m/Y'}}</td>
+                            <td>{{p.tanggal_selesai|date:'d/m/Y'}}</td>
                             <td>
                                 <a data-bs-toggle="modal" data-bs-target="#editModal{{p.id_thn_ajaran}}" class="btn btn-warning btn-sm btn-icon" title="Edit data"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <a data-bs-toggle="modal" data-bs-target="#hapusModal{{p.id_thn_ajaran}}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></a>

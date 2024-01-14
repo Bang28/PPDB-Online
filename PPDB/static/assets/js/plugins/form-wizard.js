@@ -35,12 +35,6 @@
             document.getElementById("ortu").classList.add("done");
             document.getElementById("wali").classList.add("done");
             document.getElementById("berkas").classList.add("active");
-            document.getElementById("berkas").classList.remove("done");
-        }
-        if(n==4){
-            document.getElementById("datadiri").classList.add("done");
-            document.getElementById("ortu").classList.add("done");
-            document.getElementById("wali").classList.add("done");
             document.getElementById("berkas").classList.add("done");
         }
     } 

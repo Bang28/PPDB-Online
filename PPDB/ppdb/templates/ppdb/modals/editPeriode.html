@@ -20,4 +20,6 @@
 <!--tanggal selesai-->
 {% block Value-tgl-selesai %} value="{{p.tanggal_selesai}}" {% endblock Value-tgl-selesai %}
 <!--status-->
-{% block status %} value="{{p.status}}" {% endblock status %}
+{% block status %}
+<option>{{p.status}}</option>
+{% endblock status %}

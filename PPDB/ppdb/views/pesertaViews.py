@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from ppdb.models import TahunAjaran, Siswa, OrangTua, Wali, Berkas
-from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm
+from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm, UpdateSiswaForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
@@ -132,7 +132,7 @@ def updateDatadiri(request, id_siswa):
     ortu = OrangTua.objects.filter(siswa=data).first()
     
     if request.method == "POST":
-        form = SiswaForm(request.POST, request.FILES, instance=data)
+        form = UpdateSiswaForm(request.POST, request.FILES, instance=data)
         if form.is_valid():
             form.save()
             messages.success(request, "Data diperbarui, silahkan perbarui data berikut jika diperlukan!")
@@ -142,7 +142,7 @@ def updateDatadiri(request, id_siswa):
                 messages.error(request, error)
             return redirect('ppdb:update-data-diri')
     
-    form = SiswaForm(instance=data)
+    form = UpdateSiswaForm(instance=data)
     context = {
         'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
         'form': form,
