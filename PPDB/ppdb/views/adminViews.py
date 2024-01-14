@@ -7,38 +7,9 @@ from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, Vie
 from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm
 from ppdb.models import Siswa,TahunAjaran, OrangTua
 from ppdb.decorators import user_is_superuser
-import jinja2
-import pdfkit
 
-from django.http import FileResponse
-import io
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import A4
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL SISWA) ==============|
-def exportPDF(request, id_siswa):
-    siswa = Siswa.objects.filter(id_siswa=id_siswa).first()
-
-    buf = io.BytesIO()
-    # canvas
-    c = canvas.Canvas(buf, pagesize=A4, bottomup=0)
-    # text object
-    textob = c.beginText()
-    textob.setTextOrigin(inch, inch)
-    textob.setFont("Helvetica", 14)
-
-    c.drawText(textob)
-    c.showPage()
-    c.save()
-    buf.seek(0)
-
-    context = {
-        'siswa': siswa,
-    }
-    return FileResponse(buf, as_attachment=True, filename="")
-
-
 @login_required(login_url="login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
@@ -69,7 +40,8 @@ def email(request):
         form = EmailForm()
         return render(request, {'form': form})       
 
-@login_required(login_url="users:login")
+
+@login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def hapusData(request, id):
@@ -79,7 +51,7 @@ def hapusData(request, id):
     peserta.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:data-pendaftar")
-        
+
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
@@ -122,7 +94,46 @@ def viewData(request, id_siswa):
     }
     return render(request, 'ppdb/viewData.html', context)   
 
-@login_required(login_url="users:login")
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def tolakForm(request):
+    '''fungsi menginput nilai dari template viewData'''
+
+    if request.method == "POST":
+        peserta = Siswa.objects.get(id = request.POST.get('id'))
+        if peserta != None:
+            peserta.Keterangan = request.POST.get('Keterangan')
+            peserta.save()
+            messages.success(request, "Siswa ditolak, silahkan kirim balasan ke peserta")
+            return redirect("ppdb:view-data")
+        
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def terimaForm(request):
+    '''fungsi menginput nilai dari template viewData'''
+
+    if request.method == "POST":
+        peserta = Siswa.objects.get(id = request.POST.get('id'))
+        if peserta != None:
+            peserta.Keterangan = request.POST.get('Keterangan')
+            peserta.save()
+            messages.success(request, "Siswa diterima, silahkan kirim balasan ke peserta")
+            return redirect("ppdb:data-diterima")
+
+@login_required(login_url="ppdb:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def viewData(request, id):
+    '''fungsi menampilkan detail data peserta'''
+
+    peserta = Siswa.objects.get(id=id)
+    if peserta != None:
+        return render(request, 'ppdb/viewData.html', {'peserta': peserta})
+
+
+@login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def dataDiterima(request):
@@ -134,7 +145,8 @@ def dataDiterima(request):
     }
     return render(request, 'ppdb/tables/dataDiterima.html', context)
 
-@login_required(login_url="users:login")
+
+@login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def dataPendaftar(request):
@@ -146,20 +158,22 @@ def dataPendaftar(request):
     }
     return render(request, 'ppdb/tables/dataPendaftar.html', context)
 
-@login_required(login_url="users:login")
+@login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def hapusDataPPDB(request, periode_id):
     '''fungsi hapus data periode ppdb'''
 
     pengaturan = TahunAjaran.objects.get(id_thn_ajaran = periode_id)
+
     pengaturan.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:periode-ppdb")
 
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL TAHUN AJARAN) ==============|
-@login_required(login_url="users:login")
+
+@login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def editPeriode(request, periode_id):
@@ -167,6 +181,7 @@ def editPeriode(request, periode_id):
 
     if request.method == "POST":
         periode = TahunAjaran.objects.get(id_thn_ajaran = periode_id)
+
         if periode != None:
             periode.tahun_ajaran = request.POST.get('tahun_ajaran')
             periode.tanggal_mulai = request.POST.get('tanggal_mulai')
@@ -176,7 +191,7 @@ def editPeriode(request, periode_id):
             messages.success(request, "Data Periode berhasil diperbarui!")
             return redirect("ppdb:periode-ppdb")
     
-@login_required(login_url="users:login")
+@login_required(login_url="ppdb:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def tambahPeriode(request):
@@ -206,9 +221,18 @@ def tahunAjaran(request):
 
     pengaturan = TahunAjaran.objects.all().order_by('-id_thn_ajaran')
 
+    if request.method == "POST":
+        form = TahunAjaranForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "PPDB periode berhasil ditambahkan.")
+            return redirect("ppdb:periode-ppdb")
+
+    form = TahunAjaranForm()
     context = {
         'pengaturan': pengaturan,
         'heading': 'Tambah Periode PPDB',
         'button': 'Tambah',
+        'form': form
     }
     return render(request, 'ppdb/tahunAjaran.html', context)

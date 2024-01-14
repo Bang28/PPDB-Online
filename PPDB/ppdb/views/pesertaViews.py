@@ -204,7 +204,7 @@ def wali(request):
     # siswa = Siswa.objects.filter(nisn=request.user).get(nisn=request.user.id)
     if Wali.objects.filter(siswa__nisn=request.user.id).exists():
         return redirect('ppdb:data-berkas')
-
+    
     siswa = Siswa.objects.filter(nisn=request.user).first()
     
     if request.method == "POST":

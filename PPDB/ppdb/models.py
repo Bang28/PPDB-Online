@@ -227,6 +227,7 @@ class OrangTua(models.Model):
     nama_ayah               = models.CharField('Nama Lengkap Ayah', max_length=30, null=True, blank=True)
     status_ayah             = models.CharField('Status Ayah', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
     nik_ayah                = models.CharField('NIK Ayah', max_length=16, null=True, blank=True)
+    status_ibu              = models.CharField('Status Ibu', max_length=30, choices=STATUS_ORTU, null=True, blank=True)
     tempat_lahir_ayah       = models.CharField('Tempat Lahir Ayah', max_length=20, null=True, blank=True)
     tgl_lahir_ayah          = models.DateField('Tanggal Lahir Ayah', null=True, blank=True)
     pendidikan_ayah         = models.CharField('Pendidikan Ayah', max_length=25, choices=PENDIDIKAN_ORTU, null=True, blank=True)

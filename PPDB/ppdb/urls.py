@@ -17,8 +17,6 @@ from .views.adminViews import (
     tambahPeriode,
     editPeriode,
     hapusDataPPDB,
-    # export
-    exportPDF,
 )
 from .views.pesertaViews import (
     dataDiri,
@@ -65,7 +63,4 @@ urlpatterns = [
     path('formulir/<id_siswa>/update_data_orang_tua', updateOrangtua, name="update-data-ortu"),
     path('formulir/<id_siswa>/update_data_wali', updateWali, name="update-data-wali"),
     path('formulir/<id_siswa>/update_data_berkas', updateBerkas, name="update-berkas"),
-
-    # ****Export PDF****
-    path('export_pdf/<id_siswa>', exportPDF, name="export-pdf")
 ]

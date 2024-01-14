@@ -62,3 +62,4 @@ class ViewBerkasForm(ModelAllDisabledFormMixin, forms.ModelForm):
     class Meta:
         model = Berkas
         fields = '__all__'
+
