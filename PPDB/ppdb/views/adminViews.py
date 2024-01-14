@@ -41,7 +41,7 @@ def email(request):
         return render(request, {'form': form})       
 
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def hapusData(request, id):
@@ -69,18 +69,15 @@ def verifikasiSiswa(request):
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# @user_is_superuser
+@user_is_superuser
 def viewData(request, id_siswa):
     '''fungsi menampilkan detail data peserta'''
 
     # get data with reverse queryset
-    siswa = Siswa.objects.get(id_siswa=id_siswa)
+    siswa = Siswa.objects.filter(id_siswa=id_siswa).first()
     ortu = siswa.ortu
     wali = siswa.wali
     berkas = siswa.berkas
-    if wali == None:
-        return redirect('ppdb:data-pendaftar') 
-
 
     siswa = ViewSiswaForm(instance=siswa)
     ortu = ViewOrangTuaForm(instance=ortu)
@@ -94,46 +91,7 @@ def viewData(request, id_siswa):
     }
     return render(request, 'ppdb/viewData.html', context)   
 
-@login_required(login_url="ppdb:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_is_superuser
-def tolakForm(request):
-    '''fungsi menginput nilai dari template viewData'''
-
-    if request.method == "POST":
-        peserta = Siswa.objects.get(id = request.POST.get('id'))
-        if peserta != None:
-            peserta.Keterangan = request.POST.get('Keterangan')
-            peserta.save()
-            messages.success(request, "Siswa ditolak, silahkan kirim balasan ke peserta")
-            return redirect("ppdb:view-data")
-        
-@login_required(login_url="ppdb:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_is_superuser
-def terimaForm(request):
-    '''fungsi menginput nilai dari template viewData'''
-
-    if request.method == "POST":
-        peserta = Siswa.objects.get(id = request.POST.get('id'))
-        if peserta != None:
-            peserta.Keterangan = request.POST.get('Keterangan')
-            peserta.save()
-            messages.success(request, "Siswa diterima, silahkan kirim balasan ke peserta")
-            return redirect("ppdb:data-diterima")
-
-@login_required(login_url="ppdb:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_is_superuser
-def viewData(request, id):
-    '''fungsi menampilkan detail data peserta'''
-
-    peserta = Siswa.objects.get(id=id)
-    if peserta != None:
-        return render(request, 'ppdb/viewData.html', {'peserta': peserta})
-
-
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def dataDiterima(request):
@@ -146,7 +104,7 @@ def dataDiterima(request):
     return render(request, 'ppdb/tables/dataDiterima.html', context)
 
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def dataPendaftar(request):
@@ -158,7 +116,7 @@ def dataPendaftar(request):
     }
     return render(request, 'ppdb/tables/dataPendaftar.html', context)
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def hapusDataPPDB(request, periode_id):
@@ -173,7 +131,7 @@ def hapusDataPPDB(request, periode_id):
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL TAHUN AJARAN) ==============|
 
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def editPeriode(request, periode_id):
@@ -191,7 +149,7 @@ def editPeriode(request, periode_id):
             messages.success(request, "Data Periode berhasil diperbarui!")
             return redirect("ppdb:periode-ppdb")
     
-@login_required(login_url="ppdb:login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def tambahPeriode(request):
