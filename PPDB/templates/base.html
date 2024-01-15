@@ -38,7 +38,6 @@
     <!--modals include-->
     {% include 'ppdb/modals/tambahPeriode.html' %}
     {% include 'users/modals/logout.html' %}
-    {% include 'users/modals/tambah.html' %}
     </main>
     
     
@@ -145,6 +144,19 @@
          $('#search').keyup(function(){
             newSearch.search($(this).val()).draw();
          })
+    </script>
+
+    <!--Format Nomor Telepon-->
+    <script>
+        $(document).ready(function () {
+            $(".phone").inputmask("(08) 99-9999-9999", {
+                onincomplete: function () {
+                    alert("Opps !", "Incomplete phone. Please review !", "info");
+                    $(".phone").val("");
+                    return false;
+                },
+            });
+        });
     </script>
 
 </body>

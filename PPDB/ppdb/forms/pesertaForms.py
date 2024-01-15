@@ -57,6 +57,7 @@ class SiswaForm(forms.ModelForm):
             'thn_ajaran': forms.TextInput(attrs={'type':'hidden'}),
             'alamat': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
             'jenis_kelamin': forms.RadioSelect(attrs={'class':'btn-check'}),
+            'no_hp': forms.TextInput(attrs={'class':'phone'})
         }
 
 class OrangTuaForm(forms.ModelForm):

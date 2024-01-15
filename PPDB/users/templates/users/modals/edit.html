@@ -1,36 +1,38 @@
 {% extends 'users/modals/tambah.html' %}
 
-{% block modal-id %} id="editModal{{p.pk}}" {% endblock modal-id %}
+{% block modal-id %} id="editModal{{p.id}}" {% endblock modal-id %}
 
-{% block modal-title %} <i class="fa-solid fa-user-plus"></i>&nbsp;&nbsp;Edit Pengguna {% endblock modal-title %}
+{% block modal-title %} <i class="fa-solid fa-user-pen"></i>&nbsp;&nbsp;Edit Pengguna {% endblock modal-title %}
 
 {% block modal-body %}
-<form method="POST" {% block action %} action="{% url 'users:edit-pengguna' p.pk %}" {% endblock action %}>
+<form method="POST" {% block action %} action="{% url 'users:edit-pengguna' %}" {% endblock action %}>
     {% csrf_token %}
     <div class="from-group">
         <div class="mb-3">
+        <label for="id_username" class="form-label">User ID</label>
+        <input type="text" class="form-control form-control-sm" value="{{p.id}}" id="id_username" name="username" readonly>
+        </div>
+    </div>
+    <div class="from-group">
+        <div class="mb-3">
         <label for="id_username" class="form-label">Username</label>
-        <input type="text" class="form-control form-control-sm" value="{{pengguna.username}}" id="id_username" name="username" required>
+        <input type="text" class="form-control form-control-sm" value="{{p.username}}" id="id_username" name="username" required>
         </div>
     </div>
     <div class="from-group">
         <div class="mb-3">
         <label for="id_email" class="form-label">Email</label>
-        <input type="email" class="form-control form-control-sm" value="{{pengguna.email}}" id="id_email" name="email" placeholder="example@gmail.com" required>
+        <input type="email" class="form-control form-control-sm" value="{{p.email}}" id="id_email" name="email" placeholder="example@gmail.com" required>
         </div>
     </div>
     <div class="from-group">
-        <input type="checkbox" name="is_active" class="checkboxinput form-check-input" value="{{pengguna.is_active}}" id="id_active"> 
-        <label for="id_active" class="form-check-label">Peserta</label>
-    </div>
-    <div class="from-group">
-        <input type="checkbox" name="is_superuser" class="checkboxinput form-check-input" value="{{pengguna.is_superuser}}" id="id_superuser"> 
+        <input type="checkbox" name="is_superuser" class="checkboxinput form-check-input" value="{{p.is_superuser}}" {% if p.is_superuser %}checked{% endif %} id="id_superuser"> 
         <label for="id_superuser" class="form-check-label">Admin</label>
     </div>
     <div class="mt-4 float-end">
         <button type="button" class="btn btn-secondary btn-sm mb-3" data-bs-dismiss="modal">Tutup</button>
         <button type="submit" class="btn btn-primary btn-sm mb-3">
-        <i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp; Edit data
+        <i class="fa-solid fa-user-pen"></i>&nbsp;&nbsp; Simpan data
         </button>
     </div>
 </form>

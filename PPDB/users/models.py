@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
+from django.utils.html import mark_safe
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -14,3 +15,10 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+    # preview image/file
+    def profile(self):
+        try:
+            return mark_safe(f'<img src = "{self.image.url}" width = "55"/>')
+        except:
+            pass
