@@ -12,6 +12,7 @@ from .views.adminViews import (
     hapusData,
     verifikasiSiswa,
     email,
+    exportPDF,
     # tahun ajaran
     tahunAjaran,
     tambahPeriode,
@@ -52,6 +53,7 @@ urlpatterns = [
     path('hapus_data/<id>', hapusData, name="hapus-data"),
     path('verifikasi_siswa/', verifikasiSiswa, name="verif"),
     path('email', email, name="email"),
+    path('pdf/<id_siswa>', exportPDF, name="pdf"),
 
     # ****Formulir Peserta (create)****
     path('formulir/data_diri', dataDiri, name="data-diri"),

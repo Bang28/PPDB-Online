@@ -7,9 +7,39 @@ from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, Vie
 from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm
 from ppdb.models import Siswa,TahunAjaran, OrangTua
 from ppdb.decorators import user_is_superuser
+from django.http import Http404
+from ppdb.renderers import render_to_pdf
+import datetime
 
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL SISWA) ==============|
+def exportPDF(request, id_siswa):
+    siswa = Siswa.objects.get(id_siswa=id_siswa)
+    ortu = siswa.ortu 
+    wali = siswa.wali
+    context = {
+        'siswa': siswa,
+        'ortu': ortu,
+        'wali': wali,
+    }
+    response =  render_to_pdf('ppdb/export/pdf.html', context)
+    if response.status_code == 404:
+        raise Http404("Invoice not found")
+
+    filename = f"Formulir_{siswa.nama}.pdf"
+    """
+    Tell browser to view inline (default)
+    """
+    content = f"inline; filename={filename}"
+    download = request.GET.get("download")
+    if download:
+        """
+        Tells browser to initiate download
+        """
+        content = f"attachment; filename={filename}"
+    response["Content-Disposition"] = content
+    return response
+
 @login_required(login_url="login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser

@@ -62,7 +62,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # date format
-DATE_INPUT_FORMATS = ['%d-%m-%Y']
+# DATE_INPUT_FORMATS = ['%d-%m-%Y']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

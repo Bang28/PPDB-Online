@@ -1,106 +1,356 @@
-<p style="text-align: center;">SMP Miftahul Falah Gandrungmangu<br />PPDB Online Tahun Ajaran 2024/2025</p>
+{% load static %}
+
+{% include 'snippets/style.html' %}
+
+<p style="text-align: center;">
+    <strong class="h3">SMP MIFTAHUL FALAH GANDRUNGMANGU</strong><br/>
+    Pengampiran Kidul, Karanganyar, Kec. Gandrungmangu, Kabupaten Cilacap, Jawa Tengah 53254
+</p>
 <hr />
-<p style="text-align: justify;">No Pendaftaran : {{siswa.no_pendaftaran}}<br />Tanggal Daftar&nbsp; : {{siswa.tgl_daftar}}<br />Status&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : {{siswa.status}}</p>
-<hr />
-<p style="text-align: justify;"><span style="color: #000000;"><strong>DATA DIRI</strong></span></p>
-<table style="height: 288px; width: 100%; border-collapse: collapse; border-style: none;" border="0">
-<tbody>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">1.</td>
-<td style="width: 35.9581%; height: 18px;">Nama Lengkap</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.nama}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">2.</td>
-<td style="width: 35.9581%; height: 18px;">Jenis Kelamin</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.jenis_kelamin}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">3.</td>
-<td style="width: 35.9581%; height: 18px;">NiSN</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.nisn}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">4.</td>
-<td style="width: 35.9581%; height: 18px;">Tempat Lahir</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.tempat_lahir}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">5.</td>
-<td style="width: 35.9581%; height: 18px;">Tanggal Lahir</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.tgl_lahir}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">6.</td>
-<td style="width: 35.9581%; height: 18px;">Agama</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.agama}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">7.</td>
-<td style="width: 35.9581%; height: 18px;">Bekebutuhan Khusus</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.keb_disabilitas}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">8.</td>
-<td style="width: 35.9581%; height: 18px;">Alamat</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.alamat}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">9.</td>
-<td style="width: 35.9581%; height: 18px;">Kode POS</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.kode_pos}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">10.</td>
-<td style="width: 35.9581%; height: 18px;">Mode Transportasi</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.transportasi}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">11.</td>
-<td style="width: 35.9581%; height: 18px;">Anak Keberapa</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.anak_ke}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">12.</td>
-<td style="width: 35.9581%; height: 18px;">Jumlah Saudara</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.saudara}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">13.</td>
-<td style="width: 35.9581%; height: 18px;">Asal Sekolah</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.asal_sekolah}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">14.</td>
-<td style="width: 35.9581%; height: 18px;">Biaya Sekolah</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.biaya_sekolah}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">15.</td>
-<td style="width: 35.9581%; height: 18px;">No Telepon/WA</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.no_hp}}</td>
-</tr>
-<tr style="height: 2px;">
-<td style="width: 5.44623%; height: 18px;">16.</td>
-<td style="width: 35.9581%; height: 18px;">Email</td>
-<td style="width: 3.60883%; height: 18px;">:</td>
-<td style="width: 54.9869%; height: 18px;">{{siswa.email}}</td>
-</tr>
-</tbody>
+<p style="text-align: center;">
+    <strong>FORMULIR PENDAFTARAN ONLINE</strong><br/>
+    <strong>TAHUN AJARAN {{siswa.thn_ajaran}}</strong>
+</p>
+<table class="table table-striped-columns table-sm border border-1 border-gray">
+    <tbody>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;"><strong>A.</strong></td>
+            <td style="width: 5.31496%; height: 18px;" colspan="4"><strong>KETERANGAN DATA REGISTRASI</strong></td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">1.</td>
+            <td style="width: 33.6614%; height: 18px;">No Pendaftaran</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.no_pendaftaran}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">2.</td>
+            <td style="width: 33.6614%; height: 18px;">Tanggal Daftar</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.tgl_daftar}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">3.</td>
+            <td style="width: 33.6614%; height: 18px;">Status&nbsp;</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.status}}</td>
+        </tr>
+        <!--======= Data Diri =======-->
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;"><strong>B.</strong></td>
+            <td style="width: 5.31496%; height: 18px;" colspan="4"><strong>KETERANGAN DATA DIRI</strong></td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">4.</td>
+            <td style="width: 33.6614%; height: 18px;">Nama Lengkap</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.nama}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">5.</td>
+            <td style="width: 33.6614%; height: 18px;">Jenis Kelamin</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.jenis_kelamin}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">6.</td>
+            <td style="width: 33.6614%; height: 18px;">NiSN</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.nisn}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">7.</td>
+            <td style="width: 33.6614%; height: 18px;">Tempat Lahir</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.tempat_lahir}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">8.</td>
+            <td style="width: 33.6614%; height: 18px;">Tanggal Lahir</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.tgl_lahir}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">9.</td>
+            <td style="width: 33.6614%; height: 18px;">Agama</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.agama}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">10.</td>
+            <td style="width: 33.6614%; height: 18px;">Bekebutuhan Khusus</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.keb_disabilitas}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">11.</td>
+            <td style="width: 33.6614%; height: 18px;">Alamat</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.alamat}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">12.</td>
+            <td style="width: 33.6614%; height: 18px;">Kode POS</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.kodepos}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">13.</td>
+            <td style="width: 33.6614%; height: 18px;">Mode Transportasi</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.transportasi}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">14.</td>
+            <td style="width: 33.6614%; height: 18px;">Anak Keberapa</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.anak_ke}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">15.</td>
+            <td style="width: 33.6614%; height: 18px;">Jumlah Saudara</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.saudara}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">16.</td>
+            <td style="width: 33.6614%; height: 18px;">Asal Sekolah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.asal_sekolah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">17.</td>
+            <td style="width: 33.6614%; height: 18px;">Biaya Sekolah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.biaya_sekolah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">18.</td>
+            <td style="width: 33.6614%; height: 18px;">No Telepon/WA</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.no_hp}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">19.</td>
+            <td style="width: 33.6614%; height: 18px;">Email</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{siswa.email}}</td>
+        </tr>
+
+
+        <!--======= Data Orang Tua =======-->
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;"><strong>B.</strong></td>
+            <td style="width: 5.31496%; height: 18px;" colspan="4"><strong>KETERANGAN DATA ORANG TUA</strong></td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">20.</td>
+            <td style="width: 33.6614%; height: 18px;">Nama Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.nama_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">21.</td>
+            <td style="width: 33.6614%; height: 18px;">Status Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.status_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">22.</td>
+            <td style="width: 33.6614%; height: 18px;">NIK Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.nik_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">23.</td>
+            <td style="width: 33.6614%; height: 18px;">Tempat Lahir Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.tempat_lahir_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">24.</td>
+            <td style="width: 33.6614%; height: 18px;">Tanggal Lahir Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.tgl_lahir_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">25.</td>
+            <td style="width: 33.6614%; height: 18px;">Pendidikan Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.pendidikan_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">26.</td>
+            <td style="width: 33.6614%; height: 18px;">Pekerjaan Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.pekerjaan_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">27.</td>
+            <td style="width: 33.6614%; height: 18px;">Penghasilan Ayah</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.penghasilan_ayah}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">28.</td>
+            <td style="width: 33.6614%; height: 18px;">Nama Lengkap Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.nama_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">29.</td>
+            <td style="width: 33.6614%; height: 18px;">Status Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.status_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">30.</td>
+            <td style="width: 33.6614%; height: 18px;">NIK Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.nik_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">31.</td>
+            <td style="width: 33.6614%; height: 18px;">Tempat Lahir Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.tempat_lahir_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">32.</td>
+            <td style="width: 33.6614%; height: 18px;">Tanggal Lahir Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.tgl_lahir_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">33.</td>
+            <td style="width: 33.6614%; height: 18px;">Pendidikan Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.pendidikan_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">34.</td>
+            <td style="width: 33.6614%; height: 18px;">Pekerjaan Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.pekerjaan_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">35.</td>
+            <td style="width: 33.6614%; height: 18px;">Penghasilan Ibu</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.penghasilan_ibu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">36.</td>
+            <td style="width: 33.6614%; height: 18px;">No Hp Orang Tua</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.no_hp_ortu}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">37.</td>
+            <td style="width: 33.6614%; height: 18px;">Status Tempat Tinggal Orang Tua</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{ortu.status_tmp_tinggal_ortu}}</td>
+        </tr>
+        
+        <!--======= Data Wali =======-->
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;"><strong>B.</strong></td>
+            <td style="width: 5.31496%; height: 18px;" colspan="4"><strong>KETERANGAN DATA WALI</strong></td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">38.</td>
+            <td style="width: 33.6614%; height: 18px;">Nama Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.nama_wali}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">39.</td>
+            <td style="width: 33.6614%; height: 18px;">NIK Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.nik_wali}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">40.</td>
+            <td style="width: 33.6614%; height: 18px;">Tempat Lahir Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.tempat_lahir_wali}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">41.</td>
+            <td style="width: 33.6614%; height: 18px;">Tanggal Lahir Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.tgl_lahir_wali}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">42.</td>
+            <td style="width: 33.6614%; height: 18px;">Pendidikan Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.pendidikan_wali}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">43.</td>
+            <td style="width: 33.6614%; height: 18px;">Pekerjaan Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.pekerjaan_wali}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">44.</td>
+            <td style="width: 33.6614%; height: 18px;">Penghasilan Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.penghasilan_wali}}</td>
+        </tr>
+        <tr style="height: 18px;">
+            <td style="width: 4.72441%; height: 18px;">&nbsp;</td>
+            <td style="width: 5.31496%; height: 18px;">45.</td>
+            <td style="width: 33.6614%; height: 18px;">No Hp Wali</td>
+            <td style="width: 3.34646%; height: 18px;">:</td>
+            <td style="width: 52.5591%; height: 18px;">{{wali.no_hp_wali}}</td>
+        </tr>
+    </tbody>
 </table>
-<p><strong>DATA AYAH</strong></p>
+
+{% include 'snippets/scripts.html' %}
