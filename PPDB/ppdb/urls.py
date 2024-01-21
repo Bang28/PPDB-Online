@@ -1,4 +1,6 @@
-from django.urls import path
+from django.conf import settings
+from django.views.static import serve
+from django.urls import path, re_path
 from .views.index import (
     index, 
     pendaftar,
@@ -13,6 +15,8 @@ from .views.adminViews import (
     verifikasiSiswa,
     email,
     exportPDF,
+    unduhFile,
+    lihatFile,
     # tahun ajaran
     tahunAjaran,
     tambahPeriode,
@@ -54,6 +58,10 @@ urlpatterns = [
     path('verifikasi_siswa/', verifikasiSiswa, name="verif"),
     path('email', email, name="email"),
     path('pdf/<id_siswa>', exportPDF, name="pdf"),
+
+    # *****Peserta File*****
+    re_path(r'^download/(?P<path>.*)$', unduhFile, name="unduh"),
+    re_path(r'^lihat_file/(?P<path>.*)$', lihatFile, name='lihat-file'),
 
     # ****Formulir Peserta (create)****
     path('formulir/data_diri', dataDiri, name="data-diri"),

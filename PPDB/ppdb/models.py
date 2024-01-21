@@ -278,7 +278,7 @@ class Berkas(models.Model):
     # manage upload + rename file berkas
     def file_kk(instance, filename):
         ext = filename.split('.')[-1]
-        filename = "%s.%s" % (instance.siswa.no_pendaftaran, ext)
+        filename = "%s_%s.%s" % (instance.siswa.no_pendaftaran, instance.siswa.nisn, ext)
         return os.path.join('siswa/berkas/kk', filename)
     def file_akta(instance, filename):
         ext = filename.split('.')[-1]

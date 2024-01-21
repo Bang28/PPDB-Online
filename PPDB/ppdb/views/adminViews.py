@@ -4,15 +4,43 @@ from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, ViewOrangTuaForm, ViewWaliForm, ViewBerkasForm
-from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm
-from ppdb.models import Siswa,TahunAjaran, OrangTua
+from ppdb.models import Siswa,TahunAjaran,Berkas
 from ppdb.decorators import user_is_superuser
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from ppdb.renderers import render_to_pdf
-import datetime
+import os
+from django.conf import settings
 
 
 # ============== BACKEND VIEWS ADMIN (CONTROL MODEL SISWA) ==============|
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def lihatFile(request, *args, **kwargs):
+    path = str(kwargs['path'])
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def unduhFile(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
 def exportPDF(request, id_siswa):
     siswa = Siswa.objects.get(id_siswa=id_siswa)
     ortu = siswa.ortu 
@@ -40,7 +68,7 @@ def exportPDF(request, id_siswa):
     response["Content-Disposition"] = content
     return response
 
-@login_required(login_url="login")
+@login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def email(request):
@@ -119,7 +147,7 @@ def viewData(request, id_siswa):
         'wali': wali,
         'berkas': berkas,
     }
-    return render(request, 'ppdb/viewData.html', context)   
+    return render(request, 'ppdb/forms/viewData.html', context)   
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -223,4 +251,4 @@ def tahunAjaran(request):
         'button': 'Tambah',
         'form': form
     }
-    return render(request, 'ppdb/tahunAjaran.html', context)
+    return render(request, 'ppdb/tables/tahunAjaran.html', context)
