@@ -34,8 +34,19 @@ def dashboard(request):
 def pendaftar(request):
     '''fungsi menampilkan data pendaftar'''
     
-    info_ppdb = TahunAjaran.objects.all().order_by('-pk').first()
+    info_ppdb = TahunAjaran.objects.last()
     peserta = Siswa.objects.all().order_by('-tgl_daftar')
+
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"Hello {user.first_name} {user.last_name}, selamat datang didashboard PPDB")
+            return redirect('ppdb:dashboard')
+        else:
+            messages.error(request, 'Login gagal, silahkan periksa username & password anda')
 
     context = {
         'page_title': 'PPDB Online | SMP Miftahul Falah Gandrungmangu',
@@ -47,7 +58,8 @@ def pendaftar(request):
 def index(request):
     '''fungsi menampilkan halaman index'''
     
-    info_ppdb = TahunAjaran.objects.all().order_by('-pk').first()
+    info_ppdb = TahunAjaran.objects.last()
+    print(info_ppdb)
 
     if request.method == "POST":
         username = request.POST['username']

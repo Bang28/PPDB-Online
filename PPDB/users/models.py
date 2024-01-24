@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 import os
 from django.utils.html import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class CustomUser(AbstractUser):
@@ -12,6 +13,15 @@ class CustomUser(AbstractUser):
 
     email       = models.EmailField(unique=True)
     image       = models.ImageField("Foto Profil", default='default/user.png', upload_to=image_upload_to)    
+    is_superuser = models.BooleanField(
+        _('superuser status'),
+        default=False,
+        null=True,
+        help_text=_(
+            'Designates that this user has all permissions without '
+            'explicitly assigning them.'
+        ),
+    )
 
     def __str__(self):
         return self.username

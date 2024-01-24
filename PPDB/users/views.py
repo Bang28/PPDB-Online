@@ -23,9 +23,9 @@ def userProfile(request, username):
             user_form = form.save()
             messages.success(request, f"{user_form.username}, Profil anda berhasil diperbarui!")
             return redirect('users:profile', user_form.username)
-        
-        for error in list(form.errors.values()):
-            messages.error(request, error)
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
 
     user = get_user_model().objects.filter(username=username).first()
     if user:
@@ -78,8 +78,8 @@ def tambahPengguna(request):
             pengguna.save()
             messages.success(request, "Pengguna baru berhasil ditambahan!")
             return redirect('users:pengguna')
-    else:
-        return render(request, 'users/modals/tambah.html')
+        
+    return render(request, 'users/modals/tambah.html')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -102,6 +102,30 @@ def logoutUser(request):
 
 
 # ============== FRONTEND ==============|
+def loginAdmin(request):
+    '''fungsi login admin'''
+
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if user.is_superuser == 1:
+                login(request, user)
+                messages.success(request, f"Hello {user.first_name} {user.last_name}, selamat datang didashboard PPDB")
+                return redirect('ppdb:dashboard')
+            else:
+                messages.error(request, 'Login gagal, anda tidak diizinkan!')
+        else:
+            messages.error(request, 'Login gagal, silahkan periksa username & password anda')
+                
+    context = {
+        'page_title': 'Login Admin | SMP Miftahul Falah Gandrungmangu',
+        'sub_title': 'PPDB Online | SMP Miftahul Falah Gandrungmangu',
+        'heading': 'Halaman Login Admin',
+    }
+    return render(request, 'users/auth.html', context)
+
 def loginUser(request):
     '''fungsi login user'''
 

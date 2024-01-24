@@ -75,7 +75,7 @@
                     {% endif %}
                   </center>
                   <!-- end messages -->
-                  {% if request.resolver_match.url_name == 'login' %}
+                  {% if request.resolver_match.url_name == 'login' or 'admin' %}
                     <!-- form login -->
                     <div class="card-body">
                       <div class="input-group mb-3">
@@ -137,9 +137,7 @@
       </div>
     </div>
     <!-- scripts -->
-    <script src="{% static 'ppdb/jquery/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'ppdb/jquery/bootstrap.min.js' %}"></script>
-    <script src="{% static 'ppdb/jquery/popper.min.js' %}"></script>
+    {% include 'include/scripts.html' %}  
     <!-- end scripts -->
   </body>
 </html>

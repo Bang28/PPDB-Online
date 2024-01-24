@@ -47,7 +47,7 @@ class UserRegistraionForm(UserCreationForm):
         return user
     
 
-class UserProfileForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm): 
     email = forms.EmailField()
     
     class Meta:

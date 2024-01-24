@@ -1,4 +1,5 @@
 /env/
 /.vscode/
+staticfiles-cdn/
 *.pyc
 *.txt

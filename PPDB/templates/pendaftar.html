@@ -19,11 +19,11 @@
             <div class="col-sm-3">
                 <div class="card card-login bg-light">
                     <div class="card-body">
-                        <form action="{% url 'users:login' %}" id="form-login">
+                        <form action="" method="POST" id="form-login">
                             {% csrf_token %}
                             <div class="form-group">
                                 <span class="fa fa-user"></span>
-                                <input type="text" onkeyup="this.value = this.value.toUpperCase()" class="form-control" name="username" placeholder="Masukkan NISN" required autocomplete="off">
+                                <input type="text" class="form-control" name="username" placeholder="Masukkan NISN" required autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <span class="fa fa-key"></span>

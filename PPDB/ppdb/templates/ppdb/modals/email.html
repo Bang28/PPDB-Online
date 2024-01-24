@@ -1,6 +1,6 @@
 {% extends 'modals/baseModal.html' %}
 
-{% block modal-title %}Email Balasan{% endblock modal-title %}
+{% block modal-title %}Email Form{% endblock modal-title %}
 
 {% block modal-id %} id="emailModal{{p.id_siswa}}" {% endblock modal-id %}
 
@@ -11,7 +11,7 @@
     {% csrf_token %}
     <div class="modal-body">
         <div class="">
-            <strong>To: <span class="text-success">{{p.nama}}</span></strong>
+            <strong>Peserta: <span class="text-success">{{p.nama}}</span></strong>
         </div>
         <hr>
         <div class="form-group input-group-sm mb-3" style="display: none;">
