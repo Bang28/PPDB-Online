@@ -35,6 +35,9 @@ class TahunAjaran(models.Model):
     tanggal_mulai   = models.DateField()
     tanggal_selesai = models.DateField()
 
+    def __str__(self):
+        return self.tahun_ajaran
+
     class Meta:
         verbose_name_plural = "Tahun Ajaran"
 
@@ -148,6 +151,9 @@ class Siswa(models.Model):
         
             self.no_pendaftaran = "PPDB-" + str(year) + str(last_pk+1).zfill(3)
         super(Siswa, self).save()
+
+    def __str__(self):
+        return self.nama
 
     class Meta:
         verbose_name_plural = "Peserta PPDB"

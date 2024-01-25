@@ -128,7 +128,11 @@ def updateDatadiri(request, id_siswa):
         messages.info(request, f"Tidak ada data yang cocok, silahkan isi data terlebih dahulu di <b>Form Pendaftaran</b>")
         return redirect('ppdb:data-diri')
 
-    # get data ortu by filler
+    if data.verifikasi == "Diterima" or "Ditolak":
+        messages.info(request, 'data yang sudah diverifikasi tidak dapat dirubah!')
+        return redirect('ppdb:dashboard')
+
+    # get data ortu by filter
     ortu = OrangTua.objects.filter(siswa=data).first()
     
     if request.method == "POST":

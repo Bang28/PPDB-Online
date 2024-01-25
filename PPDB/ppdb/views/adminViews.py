@@ -132,14 +132,31 @@ def viewData(request, id_siswa):
     '''fungsi menampilkan detail data peserta'''
 
     # get data with reverse queryset
-    siswa = Siswa.objects.filter(id_siswa=id_siswa).first()
-    ortu = siswa.ortu
-    wali = siswa.wali
-    berkas = siswa.berkas
+    siswa = Siswa.objects.get(id_siswa=id_siswa)
+    ortu = siswa.ortu if hasattr(siswa, 'ortu') else None
+    wali = siswa.wali if hasattr(siswa, 'wali') else None
+    berkas = siswa.berkas if hasattr(siswa, 'berkas') else None
+    # try:
+    #     ortu = siswa.ortu
+    # except Siswa._meta.model.related_field.RelatedObjectDoesNotExist:
+    #     ortu = None
+    #     messages.info(request, 'data belum lengkap')
+    #     return redirect('ppdb:data-pendaftar')
 
-    if ortu == None:
-        messages.info(request, 'data siswa belum lengkap')
-        return redirect("ppdb:data-pendaftar")
+    # try:
+    #     wali = siswa.wali
+    # except Siswa._meta.model.related_field.RelatedObjectDoesNotExist:
+    #     wali = None
+    #     messages.info(request, 'data belum lengkap')
+    #     return redirect('ppdb:data-pendaftar')
+    
+    # try:
+    #     berkas = siswa.berkas
+    # except Siswa._meta.model.related_field.RelatedObjectDoesNotExist:
+    #     berkas = None
+    #     messages.info(request, 'data belum lengkap')
+    #     return redirect('ppdb:data-pendaftar')
+
 
     siswa = ViewSiswaForm(instance=siswa)
     ortu = ViewOrangTuaForm(instance=ortu)
