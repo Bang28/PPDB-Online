@@ -9,25 +9,25 @@
     {% csrf_token %}
     <div class="from-group">
         <div class="mb-3">
-        <label for="id_username" class="form-label">User ID</label>
-        <input type="text" class="form-control form-control-sm" value="{{p.id}}" id="id_username" name="id" readonly>
+        <label for="id" class="form-label">User ID</label>
+        <input type="text" class="form-control form-control-sm" value="{{p.id}}" id="id" name="id" readonly>
         </div>
     </div>
     <div class="from-group">
         <div class="mb-3">
-        <label for="id_username" class="form-label">Username</label>
-        <input type="text" class="form-control form-control-sm" value="{{p.username}}" id="id_username" name="username" required>
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control form-control-sm" value="{{p.username}}" id="username" name="username" required>
         </div>
     </div>
     <div class="from-group">
         <div class="mb-3">
-        <label for="id_email" class="form-label">Email</label>
-        <input type="email" class="form-control form-control-sm" value="{{p.email}}" id="id_email" name="email" placeholder="example@gmail.com" required>
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control form-control-sm" value="{{p.email}}" id="email" name="email" placeholder="example@gmail.com" required>
         </div>
     </div>
     <div class="from-group">
-        <input type="checkbox" name="is_superuser" class="checkboxinput form-check-input" value="{{p.is_superuser}}" {% if p.is_superuser %}checked{% endif %} id="id_superuser"> 
-        <label for="id_superuser" class="form-check-label">Admin</label>
+        <input type="checkbox" name="is_superuser" class="checkboxinput form-check-input" value="True" {% if p.is_superuser %}checked{% endif %} id="superuser"> 
+        <label for="superuser" class="form-check-label">Admin</label>
     </div>
     <div class="mt-4 float-end">
         <button type="button" class="btn btn-secondary btn-sm mb-3" data-bs-dismiss="modal">Tutup</button>
