@@ -10,10 +10,6 @@ urlpatterns = [
 
     # ====== PATH TO DJANGO ADMIN ======|
     path('admin/', admin.site.urls),
-
-    # ====== PATH JET THEME ======|
-    # path(r'jet/', include('jet.urls', 'jet')),
-    # path(r'jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
 ] 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

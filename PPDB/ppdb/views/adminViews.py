@@ -137,6 +137,10 @@ def viewData(request, id_siswa):
     wali = siswa.wali
     berkas = siswa.berkas
 
+    if ortu == None:
+        messages.info(request, 'data siswa belum lengkap')
+        return redirect("ppdb:data-pendaftar")
+
     siswa = ViewSiswaForm(instance=siswa)
     ortu = ViewOrangTuaForm(instance=ortu)
     wali = ViewWaliForm(instance=wali)
@@ -197,7 +201,6 @@ def editPeriode(request, periode_id):
 
     if request.method == "POST":
         periode = TahunAjaran.objects.get(id_thn_ajaran = periode_id)
-
         if periode != None:
             periode.tahun_ajaran = request.POST.get('tahun_ajaran')
             periode.tanggal_mulai = request.POST.get('tanggal_mulai')
@@ -206,7 +209,7 @@ def editPeriode(request, periode_id):
             periode.save()
             messages.success(request, "Data Periode berhasil diperbarui!")
             return redirect("ppdb:periode-ppdb")
-    
+            
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
@@ -226,8 +229,6 @@ def tambahPeriode(request):
             periode.save()
             messages.success(request, "Data Periode berhasil ditambahkan!")
             return redirect("ppdb:periode-ppdb")
-    else:
-        return render(request, 'ppdb/modals/tambahPeriode.html')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

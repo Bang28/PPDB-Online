@@ -35,9 +35,6 @@ class TahunAjaran(models.Model):
     tanggal_mulai   = models.DateField()
     tanggal_selesai = models.DateField()
 
-    def __str__(self):
-        return self.tahun_ajaran
-
     class Meta:
         verbose_name_plural = "Tahun Ajaran"
 
@@ -152,9 +149,6 @@ class Siswa(models.Model):
             self.no_pendaftaran = "PPDB-" + str(year) + str(last_pk+1).zfill(3)
         super(Siswa, self).save()
 
-    def __str__(self):
-        return self.no_pendaftaran
-
     class Meta:
         verbose_name_plural = "Peserta PPDB"
 
@@ -247,9 +241,6 @@ class OrangTua(models.Model):
     # kata kunci asing
     siswa                   = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='ortu')
 
-    def __str__(self):
-        return self.nama_ayah
-
     class Meta:
         verbose_name_plural = "Data Ayah Siswa"
 
@@ -267,9 +258,6 @@ class Wali(models.Model):
 
     # kata kunci asing
     siswa               = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='wali')
-
-    def __str__(self):
-        return self.nama_wali
 
     class Meta:
         verbose_name_plural = "Data Wali Siswa"
