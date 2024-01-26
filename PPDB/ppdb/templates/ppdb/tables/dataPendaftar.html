@@ -46,7 +46,7 @@
                 <td class="text-center"><a  data-bs-toggle="modal" data-bs-target="#pendingModal{{p.id_siswa}}" class="btn btn-danger btn-sm">Ditolak</a></td>
             {% endif %}
             <td>
-                <a href="{% url 'ppdb:view-data' p.id_siswa %}" target="_blank" class="btn btn-info btn-sm btn-icon" title="Detail data"><i class="fa-solid fa-eye"></i></a>
+                <a href="{% url 'ppdb:view-data' p.id_siswa %}" class="btn btn-info btn-sm btn-icon" title="Detail data"><i class="fa-solid fa-eye"></i></a>
                 <button class="btn btn-warning btn-sm btn-icon" title="Ubah data"><i class="fa solid fa-pen-to-square"></i></button>
                 <button data-bs-toggle="modal" data-bs-target="#hapusModal{{p.id_siswa}}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
             </td>

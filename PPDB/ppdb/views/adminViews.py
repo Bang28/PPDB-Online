@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, ViewOrangTuaForm, ViewWaliForm, ViewBerkasForm
-from ppdb.models import Siswa,TahunAjaran,Berkas
+from ppdb.models import Siswa,TahunAjaran
 from ppdb.decorators import user_is_superuser
 from django.http import Http404, HttpResponse
 from ppdb.renderers import render_to_pdf
@@ -133,31 +133,26 @@ def viewData(request, id_siswa):
 
     # get data with reverse queryset
     siswa = Siswa.objects.get(id_siswa=id_siswa)
-    ortu = siswa.ortu if hasattr(siswa, 'ortu') else None
-    wali = siswa.wali if hasattr(siswa, 'wali') else None
-    berkas = siswa.berkas if hasattr(siswa, 'berkas') else None
-    # try:
-    #     ortu = siswa.ortu
-    # except Siswa._meta.model.related_field.RelatedObjectDoesNotExist:
-    #     ortu = None
-    #     messages.info(request, 'data belum lengkap')
-    #     return redirect('ppdb:data-pendaftar')
-
-    # try:
-    #     wali = siswa.wali
-    # except Siswa._meta.model.related_field.RelatedObjectDoesNotExist:
-    #     wali = None
-    #     messages.info(request, 'data belum lengkap')
-    #     return redirect('ppdb:data-pendaftar')
+    # cek atribut objek
+    if hasattr(siswa, 'ortu'):
+        ortu = siswa.ortu 
+        if hasattr(siswa, 'wali'):
+            wali = siswa.wali
+            if hasattr(siswa, 'berkas'):
+                berkas = siswa.berkas 
+            else:
+                berkas = None
+                messages.info(request, 'Siswa belum melengkapi berkas!')
+                return redirect('ppdb:data-pendaftar')
+        else:
+            wali = None
+            messages.info(request, 'Siswa belum melengkapi data wali!')
+            return redirect('ppdb:data-pendaftar')
+    else:
+        ortu = None
+        messages.info(request, 'Siswa belum melengkapi data orangtua!')
+        return redirect('ppdb:data-pendaftar')
     
-    # try:
-    #     berkas = siswa.berkas
-    # except Siswa._meta.model.related_field.RelatedObjectDoesNotExist:
-    #     berkas = None
-    #     messages.info(request, 'data belum lengkap')
-    #     return redirect('ppdb:data-pendaftar')
-
-
     siswa = ViewSiswaForm(instance=siswa)
     ortu = ViewOrangTuaForm(instance=ortu)
     wali = ViewWaliForm(instance=wali)
