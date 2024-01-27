@@ -16,7 +16,6 @@ from .views.adminViews import (
     email,
     exportPDF,
     unduhFile,
-    lihatFile,
     # tahun ajaran
     tahunAjaran,
     tambahPeriode,
@@ -60,8 +59,8 @@ urlpatterns = [
     path('pdf/<id_siswa>', exportPDF, name="pdf"),
 
     # *****Peserta File*****
-    re_path(r'^download/(?P<path>.*)$', unduhFile, name="unduh"),
-    re_path(r'^lihat_file/(?P<path>.*)$', lihatFile, name='lihat-file'),
+    # re_path(r'^download/(?P<path>.*)/$', serve, {'document_root':settings.MEDIA_ROOT}),
+    re_path(r'^download/(?P<path>.*)/$', unduhFile, name="unduh"),
 
     # ****Formulir Peserta (create)****
     path('formulir/data_diri', dataDiri, name="data-diri"),

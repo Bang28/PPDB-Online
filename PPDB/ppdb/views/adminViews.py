@@ -6,7 +6,7 @@ from django.core.mail import EmailMessage
 from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, ViewOrangTuaForm, ViewWaliForm, ViewBerkasForm
 from ppdb.models import Siswa,TahunAjaran
 from ppdb.decorators import user_is_superuser
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, FileResponse
 from ppdb.renderers import render_to_pdf
 import os
 from django.conf import settings
@@ -16,27 +16,30 @@ from django.conf import settings
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
-def lihatFile(request, *args, **kwargs):
-    path = str(kwargs['path'])
-    file_path = os.path.join(settings.MEDIA_ROOT, path)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/pdf")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
-    raise Http404
-
-@login_required(login_url="users:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@user_is_superuser
 def unduhFile(request, path):
-    file_path = os.path.join(settings.MEDIA_ROOT, path)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/pdf")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
-            return response
-    raise Http404
+    # file_path = os.path.join(settings.MEDIA_ROOT, path)
+    # if os.path.exists(file_path):
+    #     with open(file_path, 'rb') as fh:
+    #         response = HttpResponse(fh.read(), content_type="application/pdf")
+    #         response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+    #         return response
+    # raise Http404
+    # ext = os.path.basename(path).split('.')[-1].lower()
+    # # cannot be used to download py, db and sqlite3 files.
+    # if ext not in ['py', 'db',  'sqlite3']:
+    #     response = FileResponse(open(path, 'rb'))
+    #     response['content_type'] = "application/octet-stream"
+    #     response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(path)
+    #     return response
+    # else:
+    #     raise Http404
+    try:
+        response = FileResponse(open(path, 'rb'))
+        response['content_type'] = "application/pdf"
+        response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(path)
+        return response
+    except Exception:
+        raise Http404
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

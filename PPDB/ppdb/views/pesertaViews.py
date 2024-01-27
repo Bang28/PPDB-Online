@@ -18,7 +18,7 @@ def updateBerkas(request, id_siswa):
         form = BerkasForm(request.POST, request.FILES, instance=berkas)
         if form.is_valid():
             form.save()
-            messages.success(request, "Data diperbarui, silahkan tunggu verifikasi data dari pihak sekolah!")
+            messages.success(request, "Data diperbarui, silahkan tunggu verifikasi data dari pihak sekolah & cek email anda untuk melihat hasil pendaftaran!")
             return redirect('ppdb:dashboard')
         else:
             for error in list(form.errors.values()):
@@ -127,8 +127,8 @@ def updateDatadiri(request, id_siswa):
         data = None
         messages.info(request, f"Tidak ada data yang cocok, silahkan isi data terlebih dahulu di <b>Form Pendaftaran</b>")
         return redirect('ppdb:data-diri')
-
-    if data.verifikasi == "Diterima" or "Ditolak":
+    
+    if data.verifikasi != "Pending":
         messages.info(request, 'data yang sudah diverifikasi tidak dapat dirubah!')
         return redirect('ppdb:dashboard')
 
@@ -177,7 +177,7 @@ def berkas(request):
         form = BerkasForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Data anda sudah lengkap, silahkan tunggu verifikasi data dari pihak sekolah!")
+            messages.success(request, "Data anda sudah lengkap, silahkan tunggu verifikasi data dari pihak sekolah! & cek email anda untuk melihat hasil pendaftaran")
             return redirect('ppdb:dashboard')
         else:
             for error in list(form.errors.values()):
