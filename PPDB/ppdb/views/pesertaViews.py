@@ -33,8 +33,7 @@ def updateBerkas(request, id_siswa):
         'step': 'Step 4 - 4',
         'dm_active': 'active',
         'datadiri': ['active', 'done'],
-        'ayah': ['active', 'done'],
-        'ibu': ['active', 'done'],
+        'ortu': ['active', 'done'],
         'wali': ['active', 'done'],
         'berkas': ['active', 'done'],
     }

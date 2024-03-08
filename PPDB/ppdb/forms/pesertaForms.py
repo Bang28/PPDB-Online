@@ -8,7 +8,6 @@ class UpdateSiswaForm(forms.ModelForm):
     # override field
     nik = forms.CharField(
         validators = [RegexValidator(r'^[\d]*$', message="Periksa kembali NIK anda!")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
         label= 'NIK',
     )
 

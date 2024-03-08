@@ -252,15 +252,21 @@ class OrangTua(models.Model):
 
 
 class Wali(models.Model):
+    STATUS_WALI = (
+        ('', 'Status Wali'),
+        ('Sama dengan Orangtua', 'Sama dengan Orangtua'),
+        ('Lainnya', 'Lainnya')
+    )
     id_wali             = models.BigAutoField(primary_key=True, unique=True, auto_created=True, blank=True)
     nama_wali           = models.CharField('Nama Wali', max_length=30, null=True, blank=True)
+    status_wali         = models.CharField('Status Wali', max_length=30, choices=STATUS_WALI)
     nik_wali            = models.CharField('NIK Wali', max_length=16, null=True, blank=True)
     tempat_lahir_wali   = models.CharField('Tempat Lahir Wali', max_length=30, null=True, blank=True)
     tgl_lahir_wali      = models.DateField('Tanggal Lahir Wali', null=True, blank=True)
     pendidikan_wali     = models.CharField('Pendidikan Wali', max_length=25, choices=PENDIDIKAN_ORTU, null=True, blank=True)
     pekerjaan_wali      = models.CharField('Pekerjaan Wali', max_length=30, choices=PEKERJAAN_ORTU, null=True, blank=True)
     penghasilan_wali    = models.CharField('Penghasilan Wali', max_length=25, choices=PENGHASILAN_ORTU, null=True, blank=True)
-    no_hp_wali          = models.CharField('No Telp/Wa Wali', max_length=15, null=True, blank=True)
+    no_hp_wali          = models.CharField('No Telp/Wa Wali', max_length=15, null=True, blank=True)     
 
     # kata kunci asing
     siswa               = models.OneToOneField(Siswa, on_delete=models.CASCADE, null=True, blank=True, related_name='wali')
