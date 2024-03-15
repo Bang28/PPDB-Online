@@ -1,5 +1,5 @@
 from django import forms
-from ppdb.models import TahunAjaran, Siswa, OrangTua, Wali, Berkas
+from ppdb.models import TahunAjaran, Peserta, Prestasi, NilaiRaport, Berkas
 
 # ============== BACKEND FORMS ADMIN ==============|
 class EmailForm(forms.Form):
@@ -38,24 +38,24 @@ class ModelAllDisabledFormMixin(forms.ModelForm):
         for key in form_fields.keys():
             form_fields[key].disabled = True
 
-# Forms for control data siswa
-class ViewSiswaForm(ModelAllDisabledFormMixin, forms.ModelForm):
+# Forms for control data Peserta
+class ViewPesertaForm(ModelAllDisabledFormMixin, forms.ModelForm):
     class Meta:
-        model = Siswa
+        model = Peserta
         fields = '__all__'
 
         widgets = {
             'alamat': forms.Textarea(attrs={'rows':'2'}),
         }
 
-class ViewOrangTuaForm(ModelAllDisabledFormMixin, forms.ModelForm):
+class ViewPrestasiForm(ModelAllDisabledFormMixin, forms.ModelForm):
     class Meta:
-        model = OrangTua
+        model = Prestasi
         fields = '__all__'
 
-class ViewWaliForm(ModelAllDisabledFormMixin, forms.ModelForm):
+class ViewNilaiRaportForm(ModelAllDisabledFormMixin, forms.ModelForm):
     class Meta:
-        model = Wali
+        model = NilaiRaport
         fields = '__all__'
 
 class ViewBerkasForm(ModelAllDisabledFormMixin, forms.ModelForm):

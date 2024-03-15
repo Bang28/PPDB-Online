@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from ppdb.models import TahunAjaran, Siswa, OrangTua, Wali, Berkas
-from ppdb.forms.pesertaForms import SiswaForm, OrangTuaForm, WaliForm, BerkasForm, UpdateSiswaForm
+from ppdb.models import TahunAjaran, Peserta, Prestasi, NilaiRaport, Berkas
+from ppdb.forms.pesertaForms import PesertaForm, PrestasiForm, NilaiRaportForm, BerkasForm, UpdatePesertaForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
@@ -8,11 +8,11 @@ from django.views.decorators.cache import cache_control
 # ============== BACKEND VIEWS PESERTA (UPDATE) ==============|
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def updateBerkas(request, id_siswa):
+def updateBerkas(request, id_peserta):
     '''fungsi update data berkas'''
         
     # get data berkas by id 
-    berkas = Berkas.objects.get(id_berkas=id_siswa)
+    berkas = Berkas.objects.get(id_berkas=id_peserta)
         
     if request.method == "POST":
         form = BerkasForm(request.POST, request.FILES, instance=berkas)
@@ -30,127 +30,90 @@ def updateBerkas(request, id_siswa):
         'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
         'form': form,
         'h3': 'Data Berkas:',
-        'step': 'Step 4 - 4',
+        'step': 'Step 3 - 3',
         'dm_active': 'active',
         'datadiri': ['active', 'done'],
         'ortu': ['active', 'done'],
         'wali': ['active', 'done'],
-        'berkas': ['active', 'done'],
+        'berkas': 'active',
     }
     return render(request, 'ppdb/forms/pesertaForm.html', context)
 
-@login_required(login_url="users:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def updateWali(request, id_siswa):
-    '''fungsi update data data wali'''
-
-    # cek data siswa
-    data = Siswa.objects.filter(nisn=request.user).get(nisn=request.user.id)
-    
-    # get data wali by id 
-    wali = Wali.objects.get(id_wali=id_siswa)
-    
-    # get data berkas by filler 
-    berkas = Berkas.objects.filter(siswa=data).first()
-    
-    if request.method == "POST":
-        form = WaliForm(request.POST, request.FILES, instance=wali)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Data diperbarui, silahkan perbarui data berikut jika diperlukan!")
-            return redirect('ppdb:update-berkas', id_siswa=berkas.id_berkas)
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
-            return redirect('ppdb:update-data-wali')
-    
-    form = WaliForm(instance=wali)
-    context = {
-        'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
-        'form': form,
-        'h3': 'Data Wali:',
-        'step': 'Step 3 - 4',
-        'dm_active': 'active',
-        'wali_active': 'active',
-        'datadiri': ['active', 'done'],
-        'ortu': ['active', 'done'],
-    }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def updateOrangtua(request, id_siswa):
+def updateNilaiRaport(request, id_peserta):
     '''fungsi update data data ortu'''
 
     # cek data siswa
-    data = Siswa.objects.filter(nisn=request.user).get(nisn=request.user.id)
+    data = Peserta.objects.filter(nisn=request.user).get(nisn=request.user.id)
 
     # get data ibu by id 
-    ortu = OrangTua.objects.get(id_ortu=id_siswa)
+    nilai = NilaiRaport.objects.get(id_nilai_raport=id_peserta)
     
-    # get data wali by filler
-    wali = Wali.objects.filter(siswa=data).first()
+    # get data berkas by filler 
+    berkas = Berkas.objects.filter(peserta=data).first()
     
     if request.method == "POST":
-        form = OrangTuaForm(request.POST, request.FILES, instance=ortu)
+        form = NilaiRaportForm(request.POST, request.FILES, instance=nilai)
         if form.is_valid():
             form.save()
             messages.success(request, "Data diperbarui, silahkan perbarui data berikut jika diperlukan!")
-            return redirect('ppdb:update-data-wali', id_siswa=wali.id_wali)
+            return redirect('ppdb:update-berkas', id_peserta=berkas.id_berkas)
         else:
             for error in list(form.errors.values()):
                 messages.error(request, error)
-            return redirect('ppdb:update-data-ortu')
+            return redirect('ppdb:update-data-nilai')
     
-    form = OrangTuaForm(instance=ortu)
+    form = NilaiRaportForm(instance=nilai)
     context = {
         'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
         'form': form,
-        'h3': 'Data Orang Tua:',
-        'step': 'Step 2 - 4',
+        'h3': 'Data Nilai Raport:',
+        'step': 'Step 2 - 3',
         'dm_active': 'active',
-        'ortu_active': 'active',
+        'nilai_active': 'active',
         'datadiri': ['active', 'done'],
     }
     return render(request, 'ppdb/forms/pesertaForm.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def updateDatadiri(request, id_siswa):
-    '''fungsi update data diri siswa'''
+def updatePeserta(request, id_peserta):
+    '''fungsi update data peserta'''
 
     # cek data siswa
     try:
-        data = Siswa.objects.filter(nisn=request.user).get(nisn=id_siswa)
-    except Siswa.DoesNotExist:
+        data = Peserta.objects.filter(nisn=request.user).get(nisn=id_peserta)
+    except Peserta.DoesNotExist:
         data = None
         messages.info(request, f"Tidak ada data yang cocok, silahkan isi data terlebih dahulu di <b>Form Pendaftaran</b>")
-        return redirect('ppdb:data-diri')
+        return redirect('ppdb:data-peserta')
     
     if data.verifikasi != "Pending":
         messages.info(request, 'data yang sudah diverifikasi tidak dapat dirubah!')
         return redirect('ppdb:dashboard')
 
     # get data ortu by filter
-    ortu = OrangTua.objects.filter(siswa=data).first()
+    nilai = NilaiRaport.objects.filter(peserta=data).first()
     
     if request.method == "POST":
-        form = UpdateSiswaForm(request.POST, request.FILES, instance=data)
+        form = UpdatePesertaForm(request.POST, request.FILES, instance=data)
         if form.is_valid():
             form.save()
             messages.success(request, "Data diperbarui, silahkan perbarui data berikut jika diperlukan!")
-            return redirect('ppdb:update-data-ortu', id_siswa=ortu.id_ortu)
+            return redirect('ppdb:update-data-nilai', id_peserta=nilai.id_nilai_raport)
         else:
             for error in list(form.errors.values()):
                 messages.error(request, error)
-            return redirect('ppdb:update-data-diri')
+            return redirect('ppdb:update-data-peserta')
     
-    form = UpdateSiswaForm(instance=data)
+    form = UpdatePesertaForm(instance=data)
     context = {
         'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
         'form': form,
-        'h3': 'Data Diri:',
-        'step': 'Step 1 - 4',
+        'h3': 'Form Peserta:',
+        'step': 'Step 1 - 3',
         'dm_active': 'active',
         'active': 'active',
     }
@@ -165,12 +128,12 @@ def berkas(request):
 
     # cek data siswa
     # siswa = Siswa.objects.filter(nisn=request.user).get(nisn=request.user.id)
-    if Berkas.objects.filter(siswa__nisn=request.user.id).exists():
+    if Berkas.objects.filter(peserta__nisn=request.user.id).exists():
         messages.info(request, 'Anda sudah terdaftar di PPDB tahun ini!')
         return redirect('ppdb:dashboard')
 
     # get data siswa by filter
-    siswa = Siswa.objects.filter(nisn=request.user).first()
+    peserta = Peserta.objects.filter(nisn=request.user).first()
     
     if request.method == "POST":
         form = BerkasForm(request.POST, request.FILES)
@@ -184,12 +147,12 @@ def berkas(request):
             return redirect('ppdb:data-berkas')
     
     # inisialisasi form
-    form = BerkasForm(initial={'siswa':siswa})
+    form = BerkasForm(initial={'peserta':peserta})
     context = {
         'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
         'form': form,
         'h3': 'Data Berkas:',
-        'step': 'Step 4 - 4',
+        'step': 'Step 3 - 3',
         'side_active': 'active',
         'berkas_active': 'active',
         'datadiri': ['active', 'done'],
@@ -200,107 +163,69 @@ def berkas(request):
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def wali(request):
-    '''fungsi menampilkan form data wali'''
+def nilaiRaport(request):
+    '''fungsi menampilkan form data nilai raport'''
 
     # cek data siswa
-    # siswa = Siswa.objects.filter(nisn=request.user).get(nisn=request.user.id)
-    if Wali.objects.filter(siswa__nisn=request.user.id).exists():
+    if NilaiRaport.objects.filter(peserta__nisn=request.user.id).exists():
         return redirect('ppdb:data-berkas')
-    
-    siswa = Siswa.objects.filter(nisn=request.user).first()
+
+    peserta = Peserta.objects.filter(nisn=request.user).first()
     
     if request.method == "POST":
-        form = WaliForm(request.POST, request.FILES)
+        form = NilaiRaportForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Data Wali disimpan, silahkan lanjut lengkapi data berikut!")
+            messages.success(request, "Data nilai Raport berhasil disimpan, silahkan lanjut lengkapi data berikut!")
             return redirect('ppdb:data-berkas')
         else:
             for error in list(form.errors.values()):
                 messages.error(request, error)
-            return redirect('ppdb:data-wali')
+            return redirect('ppdb:data-nilai')
     
     # inisialisasi form
-    form = WaliForm(initial={'siswa':siswa})
+    form = NilaiRaportForm(initial={'peserta':peserta})
     context = {
-        'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
+        'page_title': 'Peserta PPDB | SMP Miftahul Falah Gandrungmangu',
         'form': form,
-        'h3': 'Data Wali:',
-        'step': 'Step 3 - 4',
+        'h3': 'Data Nilai Raport:',
+        'step': 'Step 2 - 3',
         'side_active': 'active',
-        'wali_active': 'active',
-        'datadiri': ['active', 'done'],
-        'ortu': ['active', 'done'],
-    }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
-
-@login_required(login_url="users:login")
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def orangTua(request):
-    '''fungsi menampilkan form data ortu'''
-
-    # cek data siswa
-    # siswa = Siswa.objects.filter(nisn=request.user).get(nisn=request.user.id)
-    if OrangTua.objects.filter(siswa__nisn=request.user.id).exists():
-        return redirect('ppdb:data-wali')
-
-    siswa = Siswa.objects.filter(nisn=request.user).first()
-    
-    if request.method == "POST":
-        form = OrangTuaForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Data Orang Tua disimpan, silahkan lanjut lengkapi data berikut!")
-            return redirect('ppdb:data-wali')
-        else:
-            for error in list(form.errors.values()):
-                messages.error(request, error)
-            return redirect('ppdb:data-ortu')
-    
-    # inisialisasi form
-    form = OrangTuaForm(initial={'siswa':siswa})
-    context = {
-        'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
-        'form': form,
-        'h3': 'Data Orang Tua:',
-        'step': 'Step 2 - 4',
-        'side_active': 'active',
-        'ortu_active': 'active',
+        'nilai_active': 'active',
         'datadiri': ['active', 'done'],
     }
     return render(request, 'ppdb/forms/pesertaForm.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def dataDiri(request):
-    '''fungsi menampilkan data diri'''
+def peserta(request):
+    '''fungsi menampilkan form data peserta'''
 
     # cek data siswa
-    if Siswa.objects.filter(nisn=request.user).exists():
-        return redirect('ppdb:data-ortu')
+    if Peserta.objects.filter(nisn=request.user).exists():
+        return redirect('ppdb:data-nilai')
 
     nisn = request.user 
     thn = TahunAjaran.objects.filter(status="Dibuka").last()
 
     if request.method == "POST":
-        form = SiswaForm(request.POST, request.FILES)
+        form = PesertaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Datadiri disimpan, silahkan lanjut lengkapi data berikut!")
-            return redirect('ppdb:data-ortu')
+            messages.success(request, "Data peserta berhasil disimpan, silahkan lanjut lengkapi data berikut!")
+            return redirect('ppdb:data-nilai')
         else:
             for error in list(form.errors.values()):
                 messages.error(request, error)
-            return redirect('ppdb:data-diri')
+            return redirect('ppdb:data-peserta')
     
     # inisialisasi form
-    form = SiswaForm(initial={'nisn':nisn, 'thn_ajaran':thn})
+    form = PesertaForm(initial={'nisn':nisn, 'thn_ajaran':thn})
     context = {
-        'page_title': 'Siswa PPDB | SMP Miftahul Falah Gandrungmangu',
+        'page_title': 'Peserta PPDB | SMP Miftahul Falah Gandrungmangu',
         'form': form,
-        'h3': 'Data Diri:',
-        'step': 'Step 1 - 4',
+        'h3': 'Data Peserta:',
+        'step': 'Step 1 - 3',
         'side_active': 'active',
         'active': 'active',
     }

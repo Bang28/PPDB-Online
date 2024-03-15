@@ -18,8 +18,8 @@
             document.getElementById("ortu").classList.remove("done");
             document.getElementById("wali").classList.remove("active");
             document.getElementById("wali").classList.remove("done");
-            document.getElementById("berkas").classList.remove("done");
             document.getElementById("berkas").classList.remove("active");
+            document.getElementById("berkas").classList.remove("done");
 
         }
         if(n==2){

@@ -23,37 +23,34 @@
             <form action="" method="POST" id="form-wizard1" class="mt-3 text-center" enctype="multipart/form-data">
               {% csrf_token %}
               <ul id="top-tab-list" class="p-0 row list-inline">
-                <li class="mb-2 col-lg-3 col-md-6 text-start {{active}} {% for i in datadiri %} {{i}} {% endfor %}" id="datadiri">
+                <li class="mb-2 col-lg-4 col-md-6 text-start {{ active }} {% for i in datadiri %}
+                    {{ i }}
+                  {% endfor %}"
+                  id="datadiri">
                   <a href="javascript:void(0);">
                     <div class="iq-icon me-3">
                       <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <span class="dark-wizard">Data Diri</span>
+                    <span class="dark-wizard">Form Peserta</span>
                   </a>
                 </li>
-                <li id="ayah" class="mb-2 col-lg-3 col-md-6 text-start {{ortu_active}} {% for i in ortu %} {{i}} {% endfor %}">
+                <li id="ayah"
+                  class="mb-2 col-lg-4 col-md-6 text-start {{ nilai_active }} {% for i in ortu %}
+                    {{ i }}
+                  {% endfor %}">
                   <a href="javascript:void(0);">
                     <div class="iq-icon me-3">
                       <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                     </div>
-                    <span class="dark-wizard">Orang Tua</span>
+                    <span class="dark-wizard">Nilai Raport</span>
                   </a>
                 </li>
-                <li id="wali" class="mb-2 col-lg-3 col-md-6 text-start {{wali_active}} {% for i in wali %} {{i}} {% endfor %}">
-                  <a href="javascript:void(0);">
-                    <div class="iq-icon me-3">
-                      <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">Wali</span>
-                  </a>
-                </li>
-                <li id="berkas" class="mb-2 col-lg-3 col-md-6 text-start {{berkas_active}} {% for i in berkas %} {{i}} {% endfor %}">
+                <li id="berkas"
+                  class="mb-2 col-lg-4 col-md-6 text-start {{ berkas }}">
                   <a href="javascript:void(0);">
                     <div class="iq-icon me-3">
                       <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,13 +67,13 @@
                 <div class="form-card text-start">
                   <div class="row">
                     <div class="col-7">
-                      <h3 class="mb-4">{{h3}}</h3>
+                      <h3 class="mb-4">{{ h3 }}</h3>
                     </div>
                     <div class="col-5">
-                      <h4 class="steps">{{step}}</h4>
+                      <h4 class="steps">{{ step }}</h4>
                     </div>
                   </div>
-                  {{form|crispy}}
+                  {{ form|crispy }}
                 </div>
                 <button type="submit" class="btn btn-primary float-end">Simpan</button>
               </fieldset>

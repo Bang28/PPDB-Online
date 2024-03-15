@@ -1,18 +1,12 @@
 from django import forms
 from django.core.validators import RegexValidator
-from ppdb.models import Siswa, OrangTua, Wali, Berkas
+from ppdb.models import Peserta, Prestasi, NilaiRaport, Berkas
 
 
 # ============== BACKEND FORMS PESERTA (UPDATE) ==============|
-class UpdateSiswaForm(forms.ModelForm):
-    # override field
-    nik = forms.CharField(
-        validators = [RegexValidator(r'^[\d]*$', message="Periksa kembali NIK anda!")],
-        label= 'NIK',
-    )
-
+class UpdatePesertaForm(forms.ModelForm):
     class Meta:
-        model = Siswa
+        model = Peserta
         fields = "__all__"
 
         labels = {
@@ -31,16 +25,9 @@ class UpdateSiswaForm(forms.ModelForm):
 
 
 # ============== BACKEND FORMS PESERTA (CREATE) ==============|
-class SiswaForm(forms.ModelForm):
-    # override field
-    nik = forms.CharField(
-        validators = [RegexValidator(r'^[\d]*$', message="Periksa kembali NIK anda!")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
-        label= 'NIK',
-    )
-
+class PesertaForm(forms.ModelForm):
     class Meta:
-        model = Siswa
+        model = Peserta
         fields = '__all__'
 
         labels = {
@@ -56,49 +43,27 @@ class SiswaForm(forms.ModelForm):
             'thn_ajaran': forms.TextInput(attrs={'type':'hidden'}),
             'alamat': forms.Textarea(attrs={'rows':'2', 'placeholder':'Alamat lengkap tempat tinggal sekarang', 'class':'col-md-12'}),
             'jenis_kelamin': forms.RadioSelect(attrs={'class':'btn-check'}),
-            'no_hp': forms.TextInput(attrs={'class':'phone'}),
+            'tlp_peserta': forms.TextInput(attrs={'class':'phone'}),
             'anak_ke': forms.TextInput(attrs={'type':'number'}),
-            'saudara': forms.TextInput(attrs={'type':'number'}),
         }
 
-class OrangTuaForm(forms.ModelForm):
-    nik_ayah = forms.CharField(
-        required=False,
-        validators = [RegexValidator(r'^[\d]*$', message="Periksa kembali NIK Ayah anda!")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
-        label= 'NIK Ayah',
-    )
-    nik_ibu = forms.CharField(
-        required=False,
-        validators = [RegexValidator(r'^[\d]*$', message="Periksa kembali NIK Ibu anda!")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
-        label= 'NIK Ibu',
-    )
+class PrestasiForm(forms.ModelForm):
     class Meta:
-        model = OrangTua
+        model = Prestasi
         fields = '__all__'
 
         widgets = {
-            'tgl_lahir_ayah': forms.TextInput(attrs={'type':'date'}),
-            'tgl_lahir_ibu': forms.TextInput(attrs={'type':'date'}),
-            'siswa': forms.TextInput(attrs={'type':'hidden'}),
+            'peserta': forms.TextInput(attrs={'type':'hidden'}),
         }
 
 
-class WaliForm(forms.ModelForm):
-    nik_wali = forms.CharField(
-        required=False,
-        validators = [RegexValidator(r'^[\d]*$', message="Periksa kembali NIK Wali anda!")],
-        widget = forms.TextInput(attrs={'maxlength':'16'}),
-        label= 'NIK',
-    )
+class NilaiRaportForm(forms.ModelForm):
     class Meta:
-        model = Wali
+        model = NilaiRaport
         fields = '__all__'
 
         widgets = {
-            'tgl_lahir_wali': forms.TextInput(attrs={'type':'date'}),
-            'siswa': forms.TextInput(attrs={'type':'hidden'}),
+            'peserta': forms.TextInput(attrs={'type':'hidden'}),
         }
 
 class BerkasForm(forms.ModelForm):
@@ -107,5 +72,5 @@ class BerkasForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'siswa': forms.TextInput(attrs={'type':'hidden'}),
+            'peserta': forms.TextInput(attrs={'type':'hidden'}),
         }

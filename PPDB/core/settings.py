@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ppdb-online',
+        'NAME': 'ppdb-revisi',
         'USER': 'postgres',
         'PASSWORD': '12345678',
         'HOST': 'localhost',

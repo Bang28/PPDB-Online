@@ -23,14 +23,12 @@ from .views.adminViews import (
     hapusDataPPDB,
 )
 from .views.pesertaViews import (
-    dataDiri,
-    orangTua,
-    wali,
+    peserta,
+    nilaiRaport,
     berkas,
     # update data
-    updateDatadiri,
-    updateOrangtua,
-    updateWali,
+    updatePeserta,
+    updateNilaiRaport,
     updateBerkas,
 )
 
@@ -52,24 +50,22 @@ urlpatterns = [
     # ****Peserta PPDB****
     path('data_pendaftar/', dataPendaftar, name="data-pendaftar"),
     path('data_diterima/', dataDiterima, name="data-diterima"),
-    path('lihat_data/<id_siswa>', viewData, name="view-data"),
+    path('lihat_data/<id_peserta>', viewData, name="view-data"),
     path('hapus_data/<id>', hapusData, name="hapus-data"),
     path('verifikasi_siswa/', verifikasiSiswa, name="verif"),
     path('email', email, name="email"),
-    path('pdf/<id_siswa>', exportPDF, name="pdf"),
+    path('pdf/<id_peserta>', exportPDF, name="pdf"),
 
     # *****Peserta File*****
     # re_path(r'^download/(?P<path>.*)/$', serve, {'document_root':settings.MEDIA_ROOT}),
     re_path(r'^download/(?P<path>.*)/$', unduhFile, name="unduh"),
 
     # ****Formulir Peserta (create)****
-    path('formulir/data_diri', dataDiri, name="data-diri"),
-    path('formulir/data_orang_tua', orangTua, name="data-ortu"),
-    path('formulir/data_wali', wali, name="data-wali"),
-    path('formulir/berkas', berkas, name="data-berkas"),
+    path('formulir/form_peserta', peserta, name="data-peserta"),
+    path('formulir/form_nilai_raport', nilaiRaport, name="data-nilai"),
+    path('formulir/form_berkas', berkas, name="data-berkas"),
     # ****Formulir Peserta (UPDATE)****
-    path('formulir/<id_siswa>/update_data_diri', updateDatadiri, name="update-data-diri"),
-    path('formulir/<id_siswa>/update_data_orang_tua', updateOrangtua, name="update-data-ortu"),
-    path('formulir/<id_siswa>/update_data_wali', updateWali, name="update-data-wali"),
-    path('formulir/<id_siswa>/update_data_berkas', updateBerkas, name="update-berkas"),
+    path('formulir/<id_peserta>/update_data_peserta', updatePeserta, name="update-data-peserta"),
+    path('formulir/<id_peserta>/update_data_nilai', updateNilaiRaport, name="update-data-nilai"),
+    path('formulir/<id_peserta>/update_data_berkas', updateBerkas, name="update-berkas"),
 ]

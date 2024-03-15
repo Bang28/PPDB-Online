@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from ppdb.models import Siswa, TahunAjaran
+from ppdb.models import Peserta, TahunAjaran
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
@@ -13,11 +13,11 @@ from django.contrib import messages
 def dashboard(request):
     '''fungsi menampilkan template dashboard'''
 
-    total = Siswa.objects.all().count()
-    terima = Siswa.objects.filter(verifikasi="Diterima").count()
-    pending = Siswa.objects.filter(verifikasi="Pending").count()
+    total = Peserta.objects.all().count()
+    terima = Peserta.objects.filter(verifikasi="Diterima").count()
+    pending = Peserta.objects.filter(verifikasi="Pending").count()
     date = datetime.now().date()
-    hari = Siswa.objects.filter(tgl_daftar__gt = date)
+    hari = Peserta.objects.filter(tgl_daftar__gt = date)
 
 
     context = {
@@ -35,7 +35,7 @@ def pendaftar(request):
     '''fungsi menampilkan data pendaftar'''
     
     info_ppdb = TahunAjaran.objects.last()
-    peserta = Siswa.objects.all().order_by('-tgl_daftar')
+    peserta = Peserta.objects.all().order_by('-tgl_daftar')
 
     if request.method == "POST":
         username = request.POST['username']

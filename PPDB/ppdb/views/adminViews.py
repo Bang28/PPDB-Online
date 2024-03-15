@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewSiswaForm, ViewOrangTuaForm, ViewWaliForm, ViewBerkasForm
-from ppdb.models import Siswa,TahunAjaran
+from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewPesertaForm, ViewPrestasiForm, ViewNilaiRaportForm, ViewBerkasForm
+from ppdb.models import Peserta,TahunAjaran
 from ppdb.decorators import user_is_superuser
 from django.http import Http404, HttpResponse, FileResponse
 from ppdb.renderers import render_to_pdf
@@ -45,7 +45,7 @@ def unduhFile(request, path):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
 def exportPDF(request, id_siswa):
-    siswa = Siswa.objects.get(id_siswa=id_siswa)
+    siswa = Peserta.objects.get(id_siswa=id_siswa)
     ortu = siswa.ortu 
     wali = siswa.wali
     context = {
@@ -108,7 +108,7 @@ def email(request):
 def hapusData(request, id):
     '''fungsi hapus data peserta ppdb'''
 
-    peserta = Siswa.objects.get(id_siswa=id)
+    peserta = Peserta.objects.get(id_siswa=id)
     peserta.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:data-pendaftar")
@@ -121,7 +121,7 @@ def verifikasiSiswa(request):
 
     # verif data
     if request.method == "POST":
-        siswa = Siswa.objects.get(id_siswa=request.POST.get('id_siswa'))
+        siswa = Peserta.objects.get(id_siswa=request.POST.get('id_siswa'))
         if siswa != None:
             siswa.verifikasi = request.POST.get('verifikasi')
             siswa.save()
@@ -135,7 +135,7 @@ def viewData(request, id_siswa):
     '''fungsi menampilkan detail data peserta'''
 
     # get data with reverse queryset
-    siswa = Siswa.objects.get(id_siswa=id_siswa)
+    siswa = Peserta.objects.get(id_siswa=id_siswa)
     # cek atribut objek
     if hasattr(siswa, 'ortu'):
         ortu = siswa.ortu 
@@ -156,9 +156,9 @@ def viewData(request, id_siswa):
         messages.info(request, 'Siswa belum melengkapi data orangtua!')
         return redirect('ppdb:data-pendaftar')
     
-    siswa = ViewSiswaForm(instance=siswa)
-    ortu = ViewOrangTuaForm(instance=ortu)
-    wali = ViewWaliForm(instance=wali)
+    siswa = ViewPesertaForm(instance=siswa)
+    ortu = ViewPrestasiForm(instance=ortu)
+    wali = ViewNilaiRaportForm(instance=wali)
     berkas = ViewBerkasForm(instance=berkas)
     context = {
         'siswa': siswa,
@@ -174,7 +174,7 @@ def viewData(request, id_siswa):
 def dataDiterima(request):
     '''fungsi menampilkan data peserta berdasarkan data peserta diterima'''
 
-    peserta = Siswa.objects.filter(verifikasi="Diterima").order_by('-tgl_daftar')
+    peserta = Peserta.objects.filter(verifikasi="Diterima").order_by('-tgl_daftar')
     context = {
         'peserta': peserta,
     }
@@ -187,7 +187,7 @@ def dataDiterima(request):
 def dataPendaftar(request):
     '''fungsi menampilkan semua data pendaftar'''
 
-    peserta = Siswa.objects.all().order_by('-tgl_daftar')
+    peserta = Peserta.objects.all().order_by('-tgl_daftar')
     context = {
         'peserta': peserta,
     }
