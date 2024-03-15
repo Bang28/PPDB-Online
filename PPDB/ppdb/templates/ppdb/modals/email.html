@@ -1,12 +1,12 @@
 {% extends 'modals/baseModal.html' %}
 
-{% block modal-title %}Email Form{% endblock modal-title %}
+{% block modal_title %}Email Form{% endblock modal_title %}
 
-{% block modal-id %} id="emailModal{{p.id_siswa}}" {% endblock modal-id %}
+{% block modal-id %} id="emailModal{{p.id_peserta}}" {% endblock modal-id %}
 
 {% block modal-width %}modal-xl{% endblock modal-width %}
 
-{% block modal-body %}
+{% block modal_body %}
 <form action="{% url 'ppdb:email' %}" method="POST" class="was-validated" enctype="multipart/form-data"> 
     {% csrf_token %}
     <div class="modal-body">
@@ -38,6 +38,6 @@
         </div>
     </div>
 </form>
-{% endblock modal-body %}
+{% endblock modal_body %}
 
-{% block btn-close %}{% endblock btn-close %}
+{% block btn_close %}{% endblock btn_close %}

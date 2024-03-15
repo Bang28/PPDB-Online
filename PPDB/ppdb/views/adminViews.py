@@ -44,8 +44,8 @@ def unduhFile(request, path):
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
-def exportPDF(request, id_siswa):
-    siswa = Peserta.objects.get(id_siswa=id_siswa)
+def exportPDF(request, id_peserta):
+    siswa = Peserta.objects.get(id_peserta=id_peserta)
     ortu = siswa.ortu 
     wali = siswa.wali
     context = {
@@ -108,7 +108,7 @@ def email(request):
 def hapusData(request, id):
     '''fungsi hapus data peserta ppdb'''
 
-    peserta = Peserta.objects.get(id_siswa=id)
+    peserta = Peserta.objects.get(id_peserta=id)
     peserta.delete()
     messages.success(request, "Data berhasil dihapus")
     return redirect("ppdb:data-pendaftar")
@@ -121,7 +121,7 @@ def verifikasiSiswa(request):
 
     # verif data
     if request.method == "POST":
-        siswa = Peserta.objects.get(id_siswa=request.POST.get('id_siswa'))
+        siswa = Peserta.objects.get(id_peserta=request.POST.get('id_peserta'))
         if siswa != None:
             siswa.verifikasi = request.POST.get('verifikasi')
             siswa.save()
@@ -131,39 +131,31 @@ def verifikasiSiswa(request):
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
-def viewData(request, id_siswa):
+def viewData(request, id_peserta):
     '''fungsi menampilkan detail data peserta'''
 
     # get data with reverse queryset
-    siswa = Peserta.objects.get(id_siswa=id_siswa)
+    peserta = Peserta.objects.get(id_peserta=id_peserta)
     # cek atribut objek
-    if hasattr(siswa, 'ortu'):
-        ortu = siswa.ortu 
-        if hasattr(siswa, 'wali'):
-            wali = siswa.wali
-            if hasattr(siswa, 'berkas'):
-                berkas = siswa.berkas 
-            else:
-                berkas = None
-                messages.info(request, 'Siswa belum melengkapi berkas!')
-                return redirect('ppdb:data-pendaftar')
+    if hasattr(peserta, 'raport'):
+        raport = peserta.raport 
+        if hasattr(peserta, 'berkas'):
+            berkas = peserta.berkas 
         else:
-            wali = None
-            messages.info(request, 'Siswa belum melengkapi data wali!')
+            berkas = None
+            messages.info(request, 'peserta belum melengkapi berkas!')
             return redirect('ppdb:data-pendaftar')
     else:
-        ortu = None
-        messages.info(request, 'Siswa belum melengkapi data orangtua!')
+        raport = None
+        messages.info(request, 'peserta belum melengkapi data orangtua!')
         return redirect('ppdb:data-pendaftar')
     
-    siswa = ViewPesertaForm(instance=siswa)
-    ortu = ViewPrestasiForm(instance=ortu)
-    wali = ViewNilaiRaportForm(instance=wali)
+    peserta = ViewPesertaForm(instance=peserta)
+    raport = ViewNilaiRaportForm(instance=raport)
     berkas = ViewBerkasForm(instance=berkas)
     context = {
-        'siswa': siswa,
-        'ortu': ortu,
-        'wali': wali,
+        'peserta': peserta,
+        'raport': raport,
         'berkas': berkas,
     }
     return render(request, 'ppdb/forms/viewData.html', context)   

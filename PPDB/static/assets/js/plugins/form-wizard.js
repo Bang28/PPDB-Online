@@ -16,8 +16,6 @@
             document.getElementById("datadiri").classList.add("done");
             document.getElementById("ortu").classList.add("active");
             document.getElementById("ortu").classList.remove("done");
-            document.getElementById("wali").classList.remove("active");
-            document.getElementById("wali").classList.remove("done");
             document.getElementById("berkas").classList.remove("active");
             document.getElementById("berkas").classList.remove("done");
 
@@ -25,15 +23,6 @@
         if(n==2){
             document.getElementById("datadiri").classList.add("done");
             document.getElementById("ortu").classList.add("done");
-            document.getElementById("wali").classList.add("active");
-            document.getElementById("wali").classList.remove("done");
-            document.getElementById("berkas").classList.remove("done");
-            document.getElementById("berkas").classList.remove("active");
-        }
-        if(n==3){
-            document.getElementById("datadiri").classList.add("done");
-            document.getElementById("ortu").classList.add("done");
-            document.getElementById("wali").classList.add("done");
             document.getElementById("berkas").classList.add("active");
             document.getElementById("berkas").classList.add("done");
         }

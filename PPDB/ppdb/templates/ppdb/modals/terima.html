@@ -1,34 +1,36 @@
 <!-- Modal -->
-<div class="modal fade" {% block modal-id %}id="terimaModal{{p.id_siswa}}"{% endblock modal-id %} tabindex="-1" aria-labelledby="terimaModalLabel" aria-hidden="true">
+<div class="modal fade" {% block modal_id %}id="terimaModal{{p.id_peserta}}"{% endblock modal_id %} tabindex="-1" aria-labelledby="terimaModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="terimaModalLabel">
-          {% block modal-title %}
-            <i class="fas fa-user-check"></i>&nbsp;&nbsp;Verif Data
-          {% endblock modal-title %}
+          {% block modal_title %}
+            <i class="fa-solid fa-file-circle-check"></i>&nbsp;&nbsp;Verif Data
+          {% endblock %}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="{% url 'ppdb:verif' %}" method="POST">
           {% csrf_token %}
-            <input type="hidden" name="id_siswa" value="{{p.id_siswa}}">
-            {% block body-content %}
-            <div class="text-center text-success txt-sm"><i class="fas fa-user-check fa-5x mb-4 mt-2"></i></div>
-            <div class="text-center text-success txt-sm"><span>Terima pengajuan pendaftaran?</span></div>
+          <input type="hidden" name="id_peserta" value="{{ p.id_peserta }}" />
+          {% block body_content %}
+            <div class="text-center text-success txt-sm">
+              <i class="fa-solid fa-file-circle-check fa-5x mb-4 mt-2"></i>
+            </div>
+            <div class="text-center text-success txt-sm">
+              <span>Status kelengkapan dokumen akan dinyatakan lengkap?</span>
+            </div>
             <div style="display: none;">
-              <input type="text" name="verifikasi" value="Diterima">
+              <input type="text" name="verifikasi" value="Diterima" />
             </div>
-            {% endblock body-content %}
-            <div class="mt-4 float-end">
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                {% block btn-action %}
-                <button type="submit" class="btn btn-primary btn-sm">
-                  <i class="fas fa-user-check"></i>&nbsp;&nbsp;Ya
-                </button>
-                {% endblock btn-action %}
-            </div>
+          {% endblock %}
+          <div class="mt-4 float-end">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+            {% block btn_action %}
+              <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-circle-check"></i>&nbsp;&nbsp;Ya</button>
+            {% endblock %}
+          </div>
         </form>
       </div>
     </div>

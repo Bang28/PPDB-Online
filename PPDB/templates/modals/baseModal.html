@@ -4,16 +4,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
-          {% block modal-title %}{% endblock modal-title %}
+          {% block modal_title %}{% endblock modal_title %}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {% block modal-body %}{% endblock modal-body %}
+        {% block modal_body %}{% endblock modal_body %}
       </div>
       <div class="modal-footer">
-        {% block btn-close %}<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tidak</button>{% endblock btn-close %}
-        {% block modal-footer %}{% endblock modal-footer %}
+        {% block btn_close %}<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tidak</button>{% endblock btn_close %}
+        {% block modal_footer %}{% endblock modal_footer %}
       </div>
     </div>
   </div>

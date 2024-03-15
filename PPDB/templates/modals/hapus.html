@@ -1,54 +1,59 @@
 {% extends 'modals/baseModal.html' %}
 
-{% block modal-id %} 
-{% if request.resolver_match.url_name == "periode-ppdb" %}
-    id="hapusModal{{p.id_thn_ajaran}}" 
-{% elif request.resolver_match.url_name == "data-pendaftar" %}
-    id="hapusModal{{p.id_siswa}}" 
-{% elif request.resolver_match.url_name == "data-diterima" %}
-    id="hapusModal{{p.id_siswa}}" 
+{% block modal_id %}
+{% if request.resolver_match.url_name == 'periode-ppdb' %}
+  id="hapusModal{{ p.id_thn_ajaran }}"
+{% elif request.resolver_match.url_name == 'data-pendaftar' %}
+  id="hapusModal{{ p.id_peserta }}"
+{% elif request.resolver_match.url_name == 'data-diterima' %}
+  id="hapusModal{{ p.id_peserta }}"
 {% else %}
-    id="hapusModal{{p.id}}" 
+  id="hapusModal{{ p.id }}"
 {% endif %}
-    
-{% endblock modal-id %}
 
-{% block modal-title %}
-<i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Hapus Data
-{% endblock modal-title %}
+{% endblock modal_id %}
 
-{% block modal-body %}
-<div class="text-center text-danger txt-sm"><i class="far fa-trash-alt fa-5x mb-4 mt-2"></i></div>
+{% block modal_title %}
+<i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Hapus Data{% endblock modal_title %}
+
+{% block modal_body %}
 <div class="text-center text-danger txt-sm">
-    <span>Data akan dihapus, apakah anda yakin?</span>
-    {% if request.resolver_match.url_name == "data-pendaftar" %}
-    <div class="text-dark mt-3 mb-2">Peserta: 
-        <strong>{{p.nama}}</strong>
-    </div>
-    {% elif request.resolver_match.url_name == "data-diterima" %}
-    <div class="text-dark mt-3 mb-2">Peserta: 
-        <strong>{{p.nama}}</strong>
-    </div>
-    {% elif request.resolver_match.url_name == "periode-ppdb" %}
-    <div class="text-dark mt-3 mb-2">Tahun Ajaran: 
-        <strong>{{p.tahun_ajaran}}</strong>
-    </div>
-    {% elif request.resolver_match.url_name == "pengguna" %}
-    <div class="text-dark mt-3 mb-2">Pengguna: 
-        <strong>{{p.username}}</strong>
-    </div>
-    {% endif %}
+  <i class="far fa-trash-alt fa-5x mb-4 mt-2"></i>
 </div>
-{% endblock modal-body %}
+<div class="text-center text-danger txt-sm">
+  <span>Data akan dihapus, apakah anda yakin?</span>
+  {% if request.resolver_match.url_name == 'data-pendaftar' %}
+    <div class="text-dark mt-3 mb-2">
+      Peserta:
+      <strong>{{ p.nama }}</strong>
+    </div>
+  {% elif request.resolver_match.url_name == 'data-diterima' %}
+    <div class="text-dark mt-3 mb-2">
+      Peserta:
+      <strong>{{ p.nama }}</strong>
+    </div>
+  {% elif request.resolver_match.url_name == 'periode-ppdb' %}
+    <div class="text-dark mt-3 mb-2">
+      Tahun Ajaran:
+      <strong>{{ p.tahun_ajaran }}</strong>
+    </div>
+  {% elif request.resolver_match.url_name == 'pengguna' %}
+    <div class="text-dark mt-3 mb-2">
+      Pengguna:
+      <strong>{{ p.username }}</strong>
+    </div>
+  {% endif %}
+</div>
+{% endblock modal_body %}
 
-{% block modal-footer %}
-{% if request.resolver_match.url_name == "data-pendaftar" %}
-<a href="{% url 'ppdb:hapus-data' p.id_siswa %}" type="button" class="btn btn-primary btn-sm">Ya</a>
-{% elif request.resolver_match.url_name == "data-diterima" %}
-<a href="{% url 'ppdb:hapus-data' p.id_siswa %}" type="button" class="btn btn-primary btn-sm">Ya</a>
-{% elif request.resolver_match.url_name == "periode-ppdb" %}
-<a href="{% url 'ppdb:hapus-periode-ppdb' p.id_thn_ajaran %}" type="button" class="btn btn-primary btn-sm">Ya</a>
-{% elif request.resolver_match.url_name == "pengguna" %}
-<a href="{% url 'users:hapus-pengguna' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% block modal_footer %}
+{% if request.resolver_match.url_name == 'data-pendaftar' %}
+  <a href="{% url 'ppdb:hapus-data' p.id_peserta %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% elif request.resolver_match.url_name == 'data-diterima' %}
+  <a href="{% url 'ppdb:hapus-data' p.id_peserta %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% elif request.resolver_match.url_name == 'periode-ppdb' %}
+  <a href="{% url 'ppdb:hapus-periode-ppdb' p.id_thn_ajaran %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% elif request.resolver_match.url_name == 'pengguna' %}
+  <a href="{% url 'users:hapus-pengguna' p.id %}" type="button" class="btn btn-primary btn-sm">Ya</a>
 {% endif %}
-{% endblock modal-footer %}
+{% endblock modal_footer %}

@@ -105,7 +105,7 @@
                     </svg>
                   </i>
                   <i class="sidenav-mini-icon fa-regular fa-circle-right" title="Semua Pendaftar"></i>
-                  <span class="item-name">Semua Pendaftar</span>
+                  <span class="item-name">Semua Peserta</span>
                 </a>
               </li>
               <li class="nav-item">
@@ -118,7 +118,20 @@
                     </svg>
                   </i>
                   <i class="sidenav-mini-icon fa-regular fa-circle-right" title="Pendaftar Diterima"></i>
-                  <span class="item-name">Pendaftar Diterima</span>
+                  <span class="item-name">Peserta Diverifikasi</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'data-diterima' %}{% endif %} " href="{% url 'ppdb:data-diterima' %}">
+                  <i class="icon">
+                    <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
+                      <g>
+                        <circle cx="12" cy="12" r="8" fill="currentColor"></circle>
+                      </g>
+                    </svg>
+                  </i>
+                  <i class="sidenav-mini-icon fa-regular fa-circle-right" title="Pendaftar Diterima"></i>
+                  <span class="item-name">Prestasi Peserta</span>
                 </a>
               </li>
             </ul>
