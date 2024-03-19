@@ -1,0 +1,43 @@
+{% extends 'tables/baseTable.html' %}
+
+{% block table_title %}
+  Prestasi
+{% endblock %}
+
+{% block table_content %}
+  <div class="row mb-3">
+    <div class="col-xs-6 col-md-6 col-sm-6">
+      <a data-bs-toggle="modal" data-bs-target="#tambahPoint" class="btn btn-success btn-sm"><i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;Tambah Prestasi</a>
+    </div>
+  </div>
+  <table id="tbprestasi" class="table table-striped-columns table-sm">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Tingkat</th>
+        <th>Kategori</th>
+        <th>Peringkat</th>
+        <th>Point Prestasi</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in point_prestasi %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ p.tingkat }}</td>
+          <td>{{ p.kategori }}</td>
+          <td>{{ p.juara }}</td>
+          <td>{{ p.skor_prestasi|safe }}</td>
+          <td>
+            <a data-bs-toggle="modal" data-bs-target="#editPoint{{ p.id_prestasi }}" class="btn btn-warning btn-sm btn-icon" title="Edit data"><i class="fa-solid fa-pen-to-square"></i></a>
+            <button data-bs-toggle="modal" data-bs-target="#hapusModal{{ p.id_prestasi }}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
+          </td>
+        </tr>
+        <!-- include modals -->
+        {% include 'modals/hapus.html' %}
+        {% include 'ppdb/admin/modals/editPrestasi.html' %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

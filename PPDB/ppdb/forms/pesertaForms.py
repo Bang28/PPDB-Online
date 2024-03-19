@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from ppdb.models import Peserta, Prestasi, NilaiRaport, Berkas
+from ppdb.models import Peserta, Prestasi, NilaiRaport, Berkas, PrestasiPeserta
 
 
 # ============== BACKEND FORMS PESERTA (UPDATE) ==============|
@@ -73,4 +73,19 @@ class BerkasForm(forms.ModelForm):
 
         widgets = {
             'peserta': forms.TextInput(attrs={'type':'hidden'}),
+        }
+
+class PrestasiPesertaForm(forms.ModelForm):
+    class Meta:
+        model = PrestasiPeserta
+        fields = (
+            'nama_prestasi', 'jenis', 'tahun', 'penyelenggara', 'prestasi', 'peserta'
+        )
+        widgets = {
+            'nama_prestasi': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'jenis': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'tahun': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'penyelenggara': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'prestasi': forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'peserta': forms.TextInput(attrs={'class':'form-control form-control-sm', 'hidden':'true'}),
         }

@@ -1,0 +1,80 @@
+{% extends 'tables/baseTable.html' %}
+
+{% block page_title %}
+  Peserta Diverifikasi | SMP Miftahul Falah Gandrungmangu
+{% endblock %}
+
+{% block table_title %}
+  Peserta Diverifikasi
+{% endblock %}
+
+{% block search %}
+  <div class="d-flex" style="margin-right: 25px;">
+    <div class="input-group">
+      <input type="search" class="form-control" id="search" placeholder="Search..." aria-label="search" />
+    </div>
+  </div>
+{% endblock %}
+
+{% block table_content %}
+  <table id="mytable" class="table table-striped-columns table-sm">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>No Pendaftaran</th>
+        <th>NISN</th>
+        <th>JK</th>
+        <th>Nama Lengkap</th>
+        <th>Nomer HP/WA</th>
+        <th>Asal Sekolah</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in peserta %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ p.no_pendaftaran }}</td>
+          <td>{{ p.nisn }}</td>
+          <td>{{ p.jenis_kelamin }}</td>
+          <td>{{ p.nama }}</td>
+          <td>
+            <a class="text-success" href="https://wa.me/{{ p.tlp_peserta }}" target="_blank"><i class="fa-brands fa-whatsapp"></i>&nbsp;{{ p.tlp_peserta }}</a>
+          </td>
+          <td>{{ p.asal_sekolah }}</td>
+          <td>
+            <a data-bs-toggle="modal" data-bs-target="#emailModal{{ p.id_peserta }}" class="btn btn-sm btn-success btn-icon" title="Kirim email balasan" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fa-solid fa-envelope"></i></a>
+            <a href="{% url 'ppdb:view-data' p.id_peserta %}" target="_blank" class="btn btn-info btn-sm btn-icon" title="Lihat Data" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fa-solid fa-eye"></i></a>
+            <a href="{% url 'ppdb:pdf' p.id_peserta %}" class="btn btn-secondary btn-sm btn-icon" title="Export data" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fa-solid fa-file-pdf"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#hapusModal{{ p.id_peserta }}" class="btn btn-danger btn-sm btn-icon" title="Hapus data" data-bs-toggle="tooltip" data-bs-placement="top"><i class="fa-solid fa-trash-can"></i></a>
+          </td>
+        </tr>
+        {% include 'modals/hapus.html' %}
+        {% include 'ppdb/admin/modals/email.html' %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <style>
+    /*------------------- 
+            # DATATABLES
+            ---------------------*/
+    /* pagination */
+    .dataTables_paginate {
+      margin-top: -20px !important;
+    }
+    /* input search */
+    .dataTables_filter {
+      display: none;
+    }
+    /* show entries */
+    .dataTables_length {
+      float: right !important;
+      margin-bottom: 10px !important;
+    }
+    /* group buttons */
+    .dt-buttons {
+      margin-bottom: 10px !important;
+    }
+  </style>
+{% endblock %}

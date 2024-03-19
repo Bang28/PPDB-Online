@@ -1,23 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
+  <div class="row">
     <div class="col-sm-12">
-        {% include 'alert/messages.html' %}
-        <div class="card">
+      {% include 'alert/messages.html' %}
+      <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <div class="header-title">
-                <h4 class="card-title">{% block table_title %}{% endblock table_title %}</h4>
-            </div>
-            {% block search %}{% endblock search %}
+          <div class="header-title">
+            <h4 class="card-title">
+              {% block table_title %}
+              {% endblock %}
+            </h4>
+          </div>
+          {% block search %}
+          {% endblock %}
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                {% block table_content %}
-                {% endblock table_content %}
-            </div>
+          {% block button %}
+          {% endblock %}
+          <div class="table-responsive">
+            {% block table_content %}
+
+            {% endblock %}
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-</div>
-{% endblock content %}
+  </div>
+{% endblock %}

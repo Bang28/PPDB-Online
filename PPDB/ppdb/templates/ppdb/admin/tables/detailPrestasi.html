@@ -1,0 +1,57 @@
+{% extends 'tables/baseTable.html' %}
+
+{% block table_title %}
+  Detail Prestasi Peserta
+{% endblock %}
+
+{% block table_content %}
+  <table class="table table-sm">
+    <tbody>
+      <tr>
+        <td>No Pendaftaran</td>
+        <td>
+          <span class="badge bg-success">{{ prestasi.peserta.no_pendaftaran }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Nama Peserta</td>
+        <td>{{ prestasi.peserta.nama }}</td>
+      </tr>
+      <tr>
+        <td>Jenis</td>
+        <td>{{ prestasi.jenis }}</td>
+      </tr>
+      <tr>
+        <td>Nama Prestasi</td>
+        <td>{{ prestasi.nama_prestasi }}</td>
+      </tr>
+      <tr>
+        <td>Tahun</td>
+        <td>{{ prestasi.tahun }}</td>
+      </tr>
+      <tr>
+        <td>Penyelenggara</td>
+        <td>{{ prestasi.penyelenggara }}</td>
+      </tr>
+      <tr>
+        <td>Tingkat</td>
+        <td>{{ prestasi.prestasi.tingkat }}</td>
+      </tr>
+      <tr>
+        <td>Kategori</td>
+        <td>{{ prestasi.prestasi.kategori }}</td>
+      </tr>
+      <tr>
+        <td>Peringkat</td>
+        <td>{{ prestasi.prestasi.juara }}</td>
+      </tr>
+      <tr>
+        <td>Poin Prestasi</td>
+        <td>{{ prestasi.prestasi.skor_prestasi }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <a href="{% url 'ppdb:list-prestasi-peserta' %}" class="btn btn-success btn-sm">Kembali</a>
+  </div>
+{% endblock %}

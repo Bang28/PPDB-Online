@@ -1,19 +1,24 @@
 <!-- Modal -->
-<div class="modal fade" {% block modal-id %}{% endblock modal-id %} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog {% block modal-width %}{% endblock modal-width %} ">
+<div class="modal fade"{% block modal_id %}{% endblock %} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog {% block modal_width %}{% endblock modal_width %} ">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
-          {% block modal_title %}{% endblock modal_title %}
+          {% block modal_title %}
+          {% endblock %}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        {% block modal_body %}{% endblock modal_body %}
+        {% block modal_body %}
+        {% endblock %}
       </div>
       <div class="modal-footer">
-        {% block btn_close %}<button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tidak</button>{% endblock btn_close %}
-        {% block modal_footer %}{% endblock modal_footer %}
+        {% block btn_close %}
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tidak</button>
+        {% endblock %}
+        {% block modal_footer %}
+        {% endblock %}
       </div>
     </div>
   </div>

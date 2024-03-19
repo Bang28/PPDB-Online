@@ -1,0 +1,49 @@
+<!-- Modal -->
+<div class="modal fade" {% block modal_id %} id="tambahModal" {% endblock modal_id %} tabindex="-1" aria-labelledby="tambahModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="tambahModalLabel">
+                {% block modal_title %} <i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;Tambah Data Periode {% endblock modal_title %}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST" {% block action %} action="{% url 'ppdb:tambah-periode' %}" {% endblock action %}>
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="tahun_ajaran" class="form-label">Tahun Ajaran</label>
+                    <input type="text" class="form-control" name="tahun_ajaran" id="tahun_ajaran" maxlength="20" placeholder="2024/2025" required {% block Value_thn_ajaran %}{% endblock Value_thn_ajaran %}>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggal_mulai" class="form-label">Tanggal Mulai</label>
+                    <input type="date" class="form-control" name="tanggal_mulai" id="tanggal_mulai" required {% block Value_tgl_mulai %}{% endblock Value_tgl_mulai %}>
+                </div>
+                <div class="mb-3">
+                    <label for="tanggal_selesai" class="form-label">Tanggal Selesai</label>
+                    <input type="date" class="form-control" name="tanggal_selesai" id="tanggal_selesai" required {% block Value_tgl_selesai %}{% endblock Value_tgl_selesai %}>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status Periode</label>                    
+                    <select name="status" id="status" class="form-select" required>
+                    {% block status %}
+                    <option selected>Pilih Status</option>
+                    {% endblock status %}
+                    <option disabled></option>
+                    <option value="Dibuka">Dibuka</option>
+                    <option value="Ditutup">Ditutup</option>
+                    </select>
+                </div>
+                <div class="mt-4 float-end">
+                    <button type="button" class="btn btn-secondary btn-sm mb-3" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary btn-sm mb-3">
+                    {% block btn_action %}
+                    <i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp; Tambah Data
+                    {% endblock btn_action %}
+                    </button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

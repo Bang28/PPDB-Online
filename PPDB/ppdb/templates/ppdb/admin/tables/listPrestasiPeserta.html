@@ -1,0 +1,45 @@
+{% extends 'tables/baseTable.html' %}
+
+{% block table_title %}
+  Prestasi Peserta
+{% endblock %}
+
+{% block table_content %}
+  <table id="tbprestasi" class="table table-striped-columns table-sm">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>No Pendaftaran</th>
+        <th>Nama</th>
+        <th>Jenis</th>
+        <th>Prestasi</th>
+        <th>Tingkat</th>
+        <th>Kategori</th>
+        <th>Peringkat</th>
+        <th>Point</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in list_prestasi %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ p.peserta.no_pendaftaran }}</td>
+          <td>{{ p.peserta.nama }}</td>
+          <td>{{ p.jenis }}</td>
+          <td>{{ p.nama_prestasi }}</td>
+          <td>{{ p.prestasi.tingkat }}</td>
+          <td>{{ p.prestasi.kategori }}</td>
+          <td>{{ p.prestasi.juara }}</td>
+          <td>{{ p.prestasi.skor_prestasi }}</td>
+          <td>
+            <a href="{% url 'ppdb:detail-prestasi' p.id %}" class="btn btn-info btn-sm btn-icon" title="Detail data"><i class="fa-solid fa-eye"></i></a>
+            <button data-bs-toggle="modal" data-bs-target="#hapusModal{{ p.id }}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
+          </td>
+        </tr>
+        <!-- include modals -->
+        {% include 'modals/hapus.html' %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

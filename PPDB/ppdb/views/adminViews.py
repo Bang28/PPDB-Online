@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_control
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from ppdb.forms.adminForms import EmailForm, TahunAjaranForm, ViewPesertaForm, ViewPrestasiForm, ViewNilaiRaportForm, ViewBerkasForm
-from ppdb.models import Peserta,TahunAjaran
+from ppdb.models import Peserta,TahunAjaran, NilaiRaport, Prestasi, PrestasiPeserta
 from ppdb.decorators import user_is_superuser
 from django.http import Http404, HttpResponse, FileResponse
 from ppdb.renderers import render_to_pdf
@@ -53,7 +53,7 @@ def exportPDF(request, id_peserta):
         'ortu': ortu,
         'wali': wali,
     }
-    response =  render_to_pdf('ppdb/export/pdf.html', context)
+    response =  render_to_pdf('ppdb/admin/export/pdf.html', context)
     if response.status_code == 404:
         raise Http404("Invoice not found")
 
@@ -71,6 +71,120 @@ def exportPDF(request, id_peserta):
     response["Content-Disposition"] = content
     return response
 
+
+# ============== BACKEND VIEWS ADMIN (CRUD) PENGATURAN PRESTASI ==============|
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def pengaturanDeletePrestasi(request, id_prestasi):
+    '''fungsi hapus data peserta ppdb'''
+
+    prestasi = Prestasi.objects.get(id_prestasi=id_prestasi)
+    prestasi.delete()
+    messages.success(request, "Data berhasil dihapus")
+    return redirect("ppdb:pengaturan-prestasi")
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def pengaturanEditPrestasi(request, id_prestasi):
+    '''fungsi update data point prestasi'''
+
+    if request.method == "POST":
+        point = Prestasi.objects.get(id_prestasi = id_prestasi)
+        if point != None:
+            point.tingkat = request.POST.get('tingkat')
+            point.kategori = request.POST.get('kategori')
+            point.juara = request.POST.get('juara')
+            point.skor_prestasi = request.POST.get('skor_prestasi')
+            point.save()
+            messages.success(request, "Point prestasi berhasil diperbarui!")
+            return redirect("ppdb:pengaturan-prestasi")
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def pengaturanAddPrestasi(request):
+    '''fungsi menambahkan data prestasi'''
+
+    if request.method == "POST":
+        if request.POST.get('tingkat') \
+            and request.POST.get('kategori') \
+            and request.POST.get('juara') \
+            or request.POST.get('skor_prestasi'):
+            point = Prestasi()
+            point.tingkat = request.POST.get('tingkat')
+            point.kategori = request.POST.get('kategori')
+            point.juara = request.POST.get('juara')
+            point.skor_prestasi = request.POST.get('skor_prestasi')
+            point.save()
+            messages.success(request, "Point prestasi berhasil ditambahkan!")
+            return redirect("ppdb:pengaturan-prestasi")
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def pengaturanPrestasi(request):
+    '''fungsi menampilkan data prestasi'''
+
+    context = {'point_prestasi': Prestasi.objects.all()}
+    return render(request, 'ppdb/admin/tables/pengaturanPrestasi.html', context)
+# ============== END BACKEND VIEWS ADMIN (CRUD) PENGATURAN PRESTASI ==============|
+
+
+# ============== BACKEND VIEWS ADMIN (CRUD & CALCULATE) POINT PRESTASI & NILAI RAPORT PESERTA ==============|
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def rekapNilaiPeserta(request):
+    '''fungsi menampilkan data rekap nilai peserta'''
+
+    context = {
+    }
+    return render(request, 'ppdb/admin/tables/rekapNilaiPeserta.html', context)
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def rekapPointPrestasi(request):
+    '''fungsi menampilkan data nilai peserta'''
+
+    context = {'nilai_peserta': Peserta.objects.all()}
+    return render(request, 'ppdb/admin/tables/rekapPointPrestasi.html', context)
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def listNilaiRaport(request):
+    '''fungsi menampilkan data nilai peserta'''
+    
+    context = {'nilai_peserta': Peserta.objects.all()}
+    return render(request, 'ppdb/admin/tables/listNilaiRaport.html', context)    
+# ============== END BACKEND VIEWS ADMIN (CRUD & CALCULATE) POINT PRESTASI & NILAI RAPORT PESERTA ==============|
+
+
+# ============== BACKEND VIEWS ADMIN (READ) PRESTASI PESERTA ==============|
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def detailPrestasi(request, id):
+    '''fungsi menampilkan detail data point prestasi'''
+
+    context = {'prestasi': PrestasiPeserta.objects.filter(id=id).first()}
+    return render(request, 'ppdb/admin/tables/detailPrestasi.html', context)
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@user_is_superuser
+def listPrestasiPeserta(request):
+    '''fungsi menampilkan list pertasi peserta'''
+
+    context = {'list_prestasi': PrestasiPeserta.objects.all()}
+    return render(request, 'ppdb/admin/tables/listPrestasiPeserta.html', context)
+# ============== BACKEND VIEWS ADMIN (READ) PRESTASI PESERTA ==============|
+
+
+# ============== BACKEND VIEWS ADMIN (MAILING) ==============|
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
@@ -100,8 +214,10 @@ def email(request):
     else:
         form = EmailForm()
         return render(request, {'form': form})       
+# ============== END BACKEND VIEWS ADMIN (MAILING) ==============|
 
 
+# ============== BACKEND VIEWS ADMIN (CRUD) PESERTA ==============|
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
@@ -126,7 +242,7 @@ def verifikasiSiswa(request):
             siswa.verifikasi = request.POST.get('verifikasi')
             siswa.save()
             messages.success(request, "Siswa terverifikasi, silahkan kirim email untuk interuksi selanjutnya")
-            return redirect('ppdb:data-pendaftar')
+            return redirect('ppdb:data-diterima')
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -158,7 +274,7 @@ def viewData(request, id_peserta):
         'raport': raport,
         'berkas': berkas,
     }
-    return render(request, 'ppdb/forms/viewData.html', context)   
+    return render(request, 'ppdb/admin/forms/detailPeserta.html', context)   
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -170,8 +286,7 @@ def dataDiterima(request):
     context = {
         'peserta': peserta,
     }
-    return render(request, 'ppdb/tables/dataDiterima.html', context)
-
+    return render(request, 'ppdb/admin/tables/dataDiterima.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -183,8 +298,11 @@ def dataPendaftar(request):
     context = {
         'peserta': peserta,
     }
-    return render(request, 'ppdb/tables/dataPendaftar.html', context)
+    return render(request, 'ppdb/admin/tables/dataPendaftar.html', context)
+# ============== END BACKEND VIEWS ADMIN (CRUD) PESERTA ==============|
 
+
+# ============== BACKEND VIEWS ADMIN (CRUD) TAHUN AJARAN ==============|
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @user_is_superuser
@@ -259,4 +377,5 @@ def tahunAjaran(request):
         'button': 'Tambah',
         'form': form
     }
-    return render(request, 'ppdb/tables/tahunAjaran.html', context)
+    return render(request, 'ppdb/admin/tables/tahunAjaran.html', context)
+# ============== END BACKEND VIEWS ADMIN (CRUD) TAHUN AJARAN ==============|

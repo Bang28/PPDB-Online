@@ -1,0 +1,55 @@
+{% extends 'tables/baseTable.html' %}
+
+{% block table_title %}
+  Prestasi Peserta
+{% endblock %}
+
+{% block search %}
+
+{% endblock %}
+
+{% block button %}
+  <div class="row mb-3">
+    <div class="col-xs-6 col-md-6 col-sm-6">
+      <a class="btn btn-success btn-flat btn-sm" href="{% url 'ppdb:create-prestasi' %}">
+        <i class="fas fa-square-plus"></i>
+        <span class="hidden-xs">&nbsp;&nbsp;Tambah Prestasi Akademik/Non Akademik</span>
+      </a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block table_content %}
+  <table id="tbprestasi" class="table table-striped-columns table-sm">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Nama Prestasi</th>
+        <th>Jenis</th>
+        <th>Tahun</th>
+        <th>Tingkat</th>
+        <th>Kategori</th>
+        <th>Peringkat</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in list_prestasi %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ p.nama_prestasi }}</td>
+          <td>{{ p.jenis }}</td>
+          <td>{{ p.tahun }}</td>
+          <td>{{ p.prestasi.tingkat }}</td>
+          <td>{{ p.prestasi.kategori }}</td>
+          <td>{{ p.prestasi.juara }}</td>
+          <td>
+            <a data-bs-toggle="modal" data-bs-target="#hapusModal{{ p.id }}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></a>
+          </td>
+        </tr>
+        <!-- include modals -->
+        {% include 'modals/hapus.html' %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

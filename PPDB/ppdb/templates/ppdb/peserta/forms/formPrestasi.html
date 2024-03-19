@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-12">
+      {% include 'alert/messages.html' %}
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <div class="header-title">
+            <h4 class="card-title">Tambah Prestasi Akademik/Non Akademik</h4>
+          </div>
+        </div>
+        <div class="card-body">
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-2">
+                <label for="{{ form.nama_prestasi.id_for_label }}">{{ form.nama_prestasi.label }}</label>
+                {{ form.nama_prestasi }}
+                {{ form.peserta }}
+              </div>
+              <div class="col-md-2">
+                <label for="{{ form.jenis.id_for_label }}">{{ form.jenis.label }}</label>
+                {{ form.jenis }}
+              </div>
+              <div class="col-md-2">
+                <label for="{{ form.tahun.id_for_label }}">{{ form.tahun.label }}</label>
+                {{ form.tahun }}
+              </div>
+              <div class="col-md-2">
+                <label for="{{ form.penyelenggara.id_for_label }}">{{ form.penyelenggara.label }}</label>
+                {{ form.penyelenggara }}
+              </div>
+              <div class="col-md-4">
+                <label for="{{ form.prestasi.id_for_label }}">Detail</label>
+                {{ form.prestasi }}
+              </div>
+            </div>
+            <div class="mt-4"></div>
+            <a href="{% url 'ppdb:prestasi-peserta' request.user.pk %}" type="button" class="btn btn-secondary btn-sm"><i class="fa-solid fa-reply"></i>&nbsp;Kembali</a>
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fa-regular fa-floppy-disk"></i>&nbsp;Simpan Prestasi</button>
+          </form>
+        </div>
+        <div class="card-footer">
+          <div class="alert alert-left alert-info">
+            <ul>
+              <li>Jenis Prestasi : Jenis prestasi yang pernah diraih oleh peserta didik (OSN, O2SN, FLS2N, lain-lain).</li>
+              <li>Nama Prestasi : Nama kegiatan/acara dari prestasi yang pernah diraih oleh peserta didik. Contoh: Lomba Cerdas Cermat Bahasa Indonesia Tingkat SD. Sesuaikan menurut piagam yang diperoleh.</li>
+              <li>Tahun Prestasi : Tahun prestasi yang pernah diraih oleh peserta didik.</li>
+              <li>Penyelenggara : Nama penyelenggara/panitia kegiatan dari prestasi yang pernah diraih oleh peserta didik. Contoh: Panitia O2SN dan FLS2N Kab. TUBABA. Sesuaikan menurut piagam yang diperoleh.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

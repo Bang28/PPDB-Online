@@ -1,0 +1,33 @@
+{% extends 'ppdb/admin/modals/tambahPrestasi.html' %}
+
+{% block modal_id %}
+  id="editPoint{{ p.id_prestasi }}"
+{% endblock %}
+
+{% block modal_title %}
+  <i class="fa-solid fa-ranking-star"></i>&nbsp;Edit Prestasi
+{% endblock %}
+
+{% block action %}
+  action="{% url 'ppdb:pengaturan-edit-prestasi' p.id_prestasi %}"
+{% endblock %}
+
+{% block tingkat %}
+  <option>{{ p.tingkat }}</option>
+{% endblock %}
+
+{% block kategori %}
+  <option>{{ p.kategori }}</option>
+{% endblock %}
+
+{% block peringkat %}
+  <option>{{ p.juara }}</option>
+{% endblock %}
+
+{% block value_point %}
+  value="{{ p.skor_prestasi|safe }}"
+{% endblock %}
+
+{% block btn_action %}
+  <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-pen-to-square"></i>&nbsp;&nbsp; Simpan</button>
+{% endblock %}

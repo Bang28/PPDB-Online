@@ -1,18 +1,20 @@
 {% extends 'modals/baseModal.html' %}
 
-{% block modal-id %} id="logoutModal" {% endblock modal-id %}
+{% block modal_id %}
+  id="logoutModal"
+{% endblock %}
 
-{% block modal-title %}
-<i class="fas fa-power-off"></i>&nbsp;&nbsp;Keluar
-{% endblock modal-title %}
+{% block modal_title %}
+  <i class="fas fa-power-off"></i>&nbsp;&nbsp;Keluar
+{% endblock %}
 
-{% block modal-body %}
-<div class="text-center">
+{% block modal_body %}
+  <div class="text-center">
     <span class="text-danger txt-sm2"><i class="fas fa-power-off fa-3x"></i></span>
-</div>
-<div class="text-danger text-center mb-3 mt-4">Lanjut untuk keluar aplikasi?</div>
-{% endblock modal-body %}
+  </div>
+  <div class="text-danger text-center mb-3 mt-4">Lanjut untuk keluar aplikasi?</div>
+{% endblock %}
 
-{% block modal-footer %}
-<a href="{% url 'users:logout' %}" type="button" class="btn btn-primary btn-sm">Ya</a>
-{% endblock modal-footer %}
+{% block modal_footer %}
+  <a href="{% url 'users:logout' %}" type="button" class="btn btn-primary btn-sm">Ya</a>
+{% endblock %}

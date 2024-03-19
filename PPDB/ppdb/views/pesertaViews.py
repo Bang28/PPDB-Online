@@ -1,11 +1,62 @@
 from django.shortcuts import render, redirect
-from ppdb.models import TahunAjaran, Peserta, Prestasi, NilaiRaport, Berkas
-from ppdb.forms.pesertaForms import PesertaForm, PrestasiForm, NilaiRaportForm, BerkasForm, UpdatePesertaForm
+from ppdb.models import TahunAjaran, Peserta, Prestasi, NilaiRaport, Berkas, PrestasiPeserta
+from ppdb.forms.pesertaForms import PesertaForm, PrestasiForm, NilaiRaportForm, BerkasForm, UpdatePesertaForm, PrestasiPesertaForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 
-# ============== BACKEND VIEWS PESERTA (UPDATE) ==============|
+
+# ============== BACKEND VIEWS PESERTA (CREATE, DELETE) FORM PRESTASI ==============|
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def deletePrestasi(request, id):
+    '''fungsi menghapus data prestasi peserta'''
+    
+    prestasi = PrestasiPeserta.objects.get(id=id)
+    prestasi.delete()
+    messages.success(request, 'Data prestasi berhasil dihapus!')
+    return redirect('ppdb:dashboard')
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def createPrestasi(request):
+    '''fungsi menambahkan prestasi peserta'''
+    
+    if request.method == "POST":
+        form = PrestasiPesertaForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Prestasi berhasil ditambahkan!")
+            return redirect('ppdb:create-prestasi')
+        else:
+            for error in list(form.errors.values()):
+                messages.error(request, error)
+                
+    user = request.user.pk
+    peserta = Peserta.objects.filter(nisn=user).get(nisn=user)
+    context = {'form': PrestasiPesertaForm(initial={'peserta': peserta})}
+    return render(request, 'ppdb/peserta/forms/formPrestasi.html', context)
+
+@login_required(login_url="users:login")
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def prestasiPeserta(request, pk):
+    '''fungsi menampilkan list prestasi peserta berdasarkan request user'''
+
+    try:
+        peserta = Peserta.objects.filter(nisn=request.user).get(nisn=pk)
+    except Peserta.DoesNotExist:
+        peserta = None
+        return redirect('ppdb:data-peserta')
+    
+    list_prestasi = PrestasiPeserta.objects.filter(peserta=peserta)
+    context = {
+        'list_prestasi': list_prestasi
+    }
+    return render(request, 'ppdb/peserta/tables/prestasiPeserta.html', context)
+# ============== END BACKEND VIEWS PESERTA (CREATE, DELETE) FORM PRESTASI ==============|
+
+
+# ============== BACKEND VIEWS PESERTA (UPDATE) FORM PENDAFTARAN ==============|
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def updateBerkas(request, id_peserta):
@@ -37,8 +88,7 @@ def updateBerkas(request, id_peserta):
         'wali': ['active', 'done'],
         'berkas': 'active',
     }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
-
+    return render(request, 'ppdb/peserta/forms/pesertaForm.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -48,7 +98,7 @@ def updateNilaiRaport(request, id_peserta):
     # cek data siswa
     data = Peserta.objects.filter(nisn=request.user).get(nisn=request.user.id)
 
-    # get data ibu by id 
+    # get data raport by id 
     nilai = NilaiRaport.objects.get(id_nilai_raport=id_peserta)
     
     # get data berkas by filler 
@@ -75,7 +125,7 @@ def updateNilaiRaport(request, id_peserta):
         'nilai_active': 'active',
         'datadiri': ['active', 'done'],
     }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
+    return render(request, 'ppdb/peserta/forms/pesertaForm.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -94,7 +144,7 @@ def updatePeserta(request, id_peserta):
         messages.info(request, 'data yang sudah diverifikasi tidak dapat dirubah!')
         return redirect('ppdb:dashboard')
 
-    # get data ortu by filter
+    # get data raport by filter
     nilai = NilaiRaport.objects.filter(peserta=data).first()
     
     if request.method == "POST":
@@ -117,10 +167,11 @@ def updatePeserta(request, id_peserta):
         'dm_active': 'active',
         'active': 'active',
     }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
+    return render(request, 'ppdb/peserta/forms/pesertaForm.html', context)
+# ============== END BACKEND VIEWS PESERTA (UPDATE) FORM PENDAFTARAN ==============|
 
 
-# ============== BACKEND VIEWS PESERTA (CREATE) ==============|
+# ============== BACKEND VIEWS PESERTA (CREATE) FORM PENDAFTARAN ==============|
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def berkas(request):
@@ -159,7 +210,7 @@ def berkas(request):
         'ortu': ['active', 'done'],
         'wali': ['active', 'done'],
     }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
+    return render(request, 'ppdb/peserta/forms/pesertaForm.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -194,7 +245,7 @@ def nilaiRaport(request):
         'nilai_active': 'active',
         'datadiri': ['active', 'done'],
     }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
+    return render(request, 'ppdb/peserta/forms/pesertaForm.html', context)
 
 @login_required(login_url="users:login")
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -229,4 +280,5 @@ def peserta(request):
         'side_active': 'active',
         'active': 'active',
     }
-    return render(request, 'ppdb/forms/pesertaForm.html', context)
+    return render(request, 'ppdb/peserta/forms/pesertaForm.html', context)
+# ============== END BACKEND VIEWS PESERTA (CREATE) FORM PENDAFTARAN ==============|

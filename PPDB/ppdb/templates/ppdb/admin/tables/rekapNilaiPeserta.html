@@ -1,0 +1,72 @@
+{% extends 'tables/baseTable.html' %}
+
+{% block table_title %}
+  Rekap Nilai Peserta
+{% endblock %}
+{% block search %}
+  <div class="d-flex" style="margin-right: 25px;">
+    <div class="input-group">
+      <input type="search" class="form-control" id="search" placeholder="Search..." aria-label="search" />
+    </div>
+  </div>
+{% endblock %}
+{% block table_content %}
+  <table id="mytable" class="table table-striped-columns table-sm">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>No Pendaftaran</th>
+        <th>Nama Peserta</th>
+        <th>Rerata Nilai Semester</th>
+        <th>Nilai Prestasi</th>
+        <th>Total Nilai</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in nilai_peserta %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ p.no_pendaftaran }}</td>
+          <td>{{ p.nama }}</td>
+          <td>{{ p.raport.smt_1 }}</td>
+          <td>{{ p.raport.smt_2 }}</td>
+          <td>{{ p.raport.smt_3 }}</td>
+          <td>{{ p.raport.smt_4 }}</td>
+          <td>{{ p.raport.smt_5 }}</td>
+          <td>
+            <button data-bs-toggle="modal" data-bs-target="#hapusModal{{ id.id_nilai_raport }}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
+          </td>
+        </tr>
+        <!-- include modals -->
+        {% comment %} {% include 'modals/hapus.html' %}
+        {% include 'ppdb/modals/terima.html' %}
+        {% include 'ppdb/modals/tolak.html' %}
+        {% include 'ppdb/modals/pending.html' %} {% endcomment %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <style>
+    /*------------------- 
+            # DATATABLES
+    ---------------------*/
+    /* pagination */
+    .dataTables_paginate {
+      margin-top: -20px !important;
+    }
+    /* input search */
+    .dataTables_filter {
+      display: none;
+    }
+    /* show entries */
+    .dataTables_length {
+      float: right !important;
+      margin-bottom: 10px !important;
+    }
+    /* group buttons */
+    .dt-buttons {
+      margin-bottom: 10px !important;
+    }
+  </style>
+{% endblock %}

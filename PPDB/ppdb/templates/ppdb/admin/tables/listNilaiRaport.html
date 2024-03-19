@@ -1,0 +1,47 @@
+{% extends 'tables/baseTable.html' %}
+
+{% block table_title %}
+  List Nilai Raport Peserta
+{% endblock %}
+{% block search %}
+
+{% endblock %}
+{% block table_content %}
+  <table id="tbraport" class="table table-striped-columns table-sm">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>No Pendaftaran</th>
+        <th>Nama Peserta</th>
+        <th>Semester 1</th>
+        <th>Semester 2</th>
+        <th>Semester 3</th>
+        <th>Semester 4</th>
+        <th>Semester 5</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for np in nilai_peserta %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ np.no_pendaftaran }}</td>
+          <td>{{ np.nama }}</td>
+          <td>{{ np.raport.smt_1|safe }}</td>
+          <td>{{ np.raport.smt_2|safe }}</td>
+          <td>{{ np.raport.smt_3|safe }}</td>
+          <td>{{ np.raport.smt_4|safe }}</td>
+          <td>{{ np.raport.smt_5|safe }}</td>
+          <td>
+            <button data-bs-toggle="modal" data-bs-target="#hapusModal{{ nilai.id_peserta }}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></button>
+          </td>
+        </tr>
+        <!-- include modals -->
+        {% comment %} {% include 'modals/hapus.html' %}
+        {% include 'ppdb/modals/terima.html' %}
+        {% include 'ppdb/modals/tolak.html' %}
+        {% include 'ppdb/modals/pending.html' %} {% endcomment %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -162,10 +162,24 @@ class Prestasi(models.Model):
     skor_prestasi   = models.FloatField('Skor Prestasi', max_length=255, blank=True, null=True)
 
     # kata kunci asing
-    peserta         = models.ManyToManyField(Peserta, blank=True, related_name='prestasi')
+    peserta         = models.ManyToManyField(Peserta, through='PrestasiPeserta', blank=True, related_name='prestasi')
+
+    def __str__(self) -> str:
+        return "Tingkat {} | Kategori {} | Peringkat {}".format(self.tingkat, self.kategori, self.juara)
 
     class Meta:
         verbose_name_plural = "Kategori Prestasi"
+
+
+class PrestasiPeserta(models.Model):
+    nama_prestasi   = models.CharField('Nama Prestasi' ,max_length=100)
+    jenis           = models.CharField('Jenis Prestasi', max_length=50)
+    tahun           = models.CharField('Tahun', max_length=4)
+    penyelenggara   = models.CharField('Penyelenggara', max_length=100)
+    # kata kunci asing
+    prestasi        = models.ForeignKey(Prestasi, on_delete=models.CASCADE, related_name='prestasi')
+    peserta         = models.ForeignKey(Peserta, on_delete=models.CASCADE, related_name='peserta')
+
 
 class Berkas(models.Model):
     # manage upload + rename file berkas

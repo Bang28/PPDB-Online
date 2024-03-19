@@ -1006,25 +1006,3 @@ div.dt-button-background {
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 8px
 }
-
-
-/*------------------- 
-# DATATABLES
----------------------*/
-/* pagination */
-.dataTables_paginate{
-    margin-top: -20px !important;
-}
-/* input search */
-.dataTables_filter{
-    display: none;
-}
-/* show entries */
-.dataTables_length{
-    float: right !important;
-    margin-bottom: 10px !important;
-}
-/* group buttons */
-.dt-buttons{
-    margin-bottom: 10px !important;
-}

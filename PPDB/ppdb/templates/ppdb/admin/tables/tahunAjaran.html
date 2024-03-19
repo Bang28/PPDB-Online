@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+  Periode PPDB | SMP Miftahul Falah Gandrungmangu
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-sm-12">
+      {% include 'alert/messages.html' %}
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <div class="header-title">
+            <h4 class="card-title">Periode PPDB</h4>
+          </div>
+          <a data-bs-toggle="modal" data-bs-target="#tambahModal" class="btn btn-success btn-sm"><i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp;Tambah Data</a>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="tbperiode" class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Tahun Ajaran</th>
+                  <th>Status</th>
+                  <th>Tanggal Mulai</th>
+                  <th>Tanggal Selesai</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in pengaturan %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ p.tahun_ajaran }}</td>
+                    <td>{{ p.status }}</td>
+                    <td>{{ p.tanggal_mulai|date:'d/m/Y' }}</td>
+                    <td>{{ p.tanggal_selesai|date:'d/m/Y' }}</td>
+                    <td>
+                      <a data-bs-toggle="modal" data-bs-target="#editModal{{ p.id_thn_ajaran }}" class="btn btn-warning btn-sm btn-icon" title="Edit data"><i class="fa-solid fa-pen-to-square"></i></a>
+                      <a data-bs-toggle="modal" data-bs-target="#hapusModal{{ p.id_thn_ajaran }}" class="btn btn-danger btn-sm btn-icon" title="Hapus data"><i class="fa-solid fa-trash-can"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- include modals -->
+                  {% include 'modals/hapus.html' %}
+                  {% include 'ppdb/admin/modals/editPeriode.html' %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

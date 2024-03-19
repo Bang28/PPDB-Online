@@ -1,0 +1,71 @@
+{% extends 'modals/baseModal.html' %}
+
+{% block modal_id %}
+  id="tambahPoint"
+{% endblock %}
+
+{% block modal_title %}
+  <i class="fa-solid fa-ranking-star"></i>&nbsp;Tambah Prestasi
+{% endblock %}
+
+{% block modal_body %}
+  <form {% block action %} action="{% url 'ppdb:pengaturan-add-prestasi' %}" {% endblock %} method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="tingkat" class="form-label">Tingkat</label>
+      <select name="tingkat" id="tingkat" class="form-select" required>
+        {% block tingkat %}
+          <option selected>Pilih Tingkat</option>
+        {% endblock %}
+        <option disabled></option>
+        <option value="Sekolah">Sekolah</option>
+        <option value="Kecamatan">Kecamatan</option>
+        <option value="Kabupaten">Kabupaten</option>
+        <option value="Provinsi">Provinsi</option>
+        <option value="Nasional">Nasional</option>
+        <option value="Internasional">Internasional</option>
+        <option value="Hafiz Al Qur'an">HafizAl Qur'an</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="kategori" class="form-label">Kategori</label>
+      <select name="kategori" id="kategori" class="form-select" required>
+        {% block kategori %}
+          <option selected>Pilih Kategori</option>
+        {% endblock %}
+        <option disabled></option>
+        <option value="Perorangan">Perorangan</option>
+        <option value="Beregu">Beregu</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="juara" class="form-label">Peringkat</label>
+      <select name="juara" id="juara" class="form-select" required>
+        {% block peringkat %}
+          <option selected>Pilih Peringkat</option>
+        {% endblock %}
+        <option disabled></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="skor_prestasi" class="form-label">Point Prestasi</label>
+      <input type="text" class="form-control" name="skor_prestasi" id="skor_prestasi" maxlength="5" placeholder="Point Prestasi" required {% block value_point %}{% endblock %} />
+    </div>
+    <div class="mb-3" style="float: right;">
+      <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tidak</button>
+      {% block btn_action %}
+      <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-square-plus"></i>&nbsp;&nbsp; Tambah Data</button>
+      {% endblock btn_action %}
+    </div>
+  </form>
+{% endblock %}
+
+{% block btn_close %}
+
+{% endblock %}
+
+{% block modal_footer %}
+{% endblock %}
